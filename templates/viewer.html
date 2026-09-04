@@ -960,6 +960,19 @@ body.waiting .stage,
 .waiting-sale-main{display:flex;align-items:center;gap:8px;min-width:0}.waiting-group-id{color:#ffe18a;font-weight:1000;font-size:clamp(10px,.65vw,14px);white-space:nowrap}.waiting-player-names{color:#dce6f0;font-size:clamp(10px,.66vw,14px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.waiting-sale-price{flex:0 0 auto;color:#fff;font-size:clamp(11px,.72vw,15px)}
 .waiting-empty{padding:16px 10px;border-radius:10px;background:rgba(255,255,255,.035);color:#8fa3b8;font-size:clamp(11px,.72vw,15px);font-style:italic}
 @media(max-width:720px){.waiting-stats{grid-template-columns:1fr 1fr 1fr}.waiting-team-card{border-radius:16px}.wait-title{font-size:clamp(34px,10vw,58px)!important}.wait-sub{font-size:clamp(14px,4vw,24px)!important}}
+
+/* MOBILE SCROLL FIX — keep desktop/TV fullscreen, allow mobile waiting screen scrolling */
+@media (max-width:700px){
+  html,body{height:auto!important;min-height:100%!important;overflow-x:hidden!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch!important}
+  body{position:static!important;touch-action:pan-y!important}
+  #app{height:auto!important;min-height:100vh!important;overflow:visible!important}
+  .waiting-overlay{position:fixed!important;inset:0!important;height:100dvh!important;max-height:100dvh!important;overflow-x:hidden!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;overscroll-behavior-y:contain!important}
+  .waiting-inner{height:auto!important;min-height:100%!important;overflow:visible!important;padding:20px 12px calc(30px + env(safe-area-inset-bottom))!important}
+  .waiting-teams{height:auto!important;max-height:none!important;overflow:visible!important;grid-template-columns:1fr!important}
+  .waiting-team-card{height:auto!important;min-height:0!important}
+  .waiting-sales-list{max-height:none!important;overflow:visible!important}
+}
+
 </style>
 </head>
 <body>
