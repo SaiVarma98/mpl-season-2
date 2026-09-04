@@ -1517,6 +1517,77 @@ body.waiting .stage,
 }
 
 </style>
+<style>
+/* ===== MOBILE TILE LAYOUT FIX =====
+   Keep squad tiles compact on phones instead of showing one oversized tile per row. */
+@media (max-width:700px){
+  .teams{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:10px !important;
+    height:auto !important;
+    min-height:0 !important;
+    overflow:visible !important;
+    margin-top:10px !important;
+  }
+  .team{
+    min-height:205px !important;
+    padding:10px !important;
+    border-radius:16px !important;
+  }
+  .team-top{align-items:flex-start !important;gap:9px !important;}
+  .team-logo{
+    width:58px !important;
+    height:58px !important;
+    min-width:58px !important;
+    min-height:58px !important;
+    max-width:58px !important;
+    max-height:58px !important;
+  }
+  .team-name{
+    font-size:clamp(17px,4.8vw,22px) !important;
+    line-height:1.08 !important;
+    overflow-wrap:anywhere !important;
+  }
+  .squad-count{font-size:11px !important;}
+  .team-purse{font-size:14px !important;margin-top:9px !important;}
+  .team-squad{font-size:13px !important;line-height:1.45 !important;}
+
+  /* Waiting lobby: show two team cards side-by-side on normal phones. */
+  .waiting-teams{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:10px !important;
+    padding-bottom:24px !important;
+  }
+  .waiting-team-card{padding:12px !important;}
+  .waiting-team-head{gap:9px !important;}
+  .waiting-team-logo{
+    width:52px !important;
+    height:52px !important;
+    flex:0 0 52px !important;
+  }
+  .waiting-team-title h3{
+    white-space:normal !important;
+    overflow:visible !important;
+    text-overflow:clip !important;
+    font-size:17px !important;
+    line-height:1.1 !important;
+    overflow-wrap:anywhere !important;
+  }
+  .waiting-owner{font-size:11px !important;}
+  .waiting-stats{gap:5px !important;margin:12px 0 7px !important;padding:9px 0 !important;}
+  .waiting-stats span{font-size:8px !important;}
+  .waiting-stats b{font-size:13px !important;}
+  .waiting-sales-list{max-height:none !important;}
+}
+
+/* Very narrow phones still need a readable one-column card layout. */
+@media (max-width:480px){
+  .teams,.waiting-teams{grid-template-columns:1fr !important;}
+  .team{min-height:175px !important;}
+}
+</style>
+
 </head>
 <body>
 <div id="app"><div class="status-ribbon"><span class="dot">●</span> LIVE AUCTION <span id="statusRound">ROUND 1</span> <span id="statusLot">LOT —</span></div>
@@ -1703,127 +1774,5 @@ body.waiting .stage,
 })();
 </script>
 </body>
+
 </html>
-<!-- FINAL SOLD SCREEN FIT FIX -->
-<style>
-/* Keep the SOLD presentation completely inside the available viewer height. */
-.sold-overlay{
-  align-items:flex-start !important;
-  padding:1.2vh 1.5vw 1.4vh !important;
-  overflow:hidden !important;
-}
-.sold-overlay .overlay-inner{
-  width:min(92vw,1180px) !important;
-  max-width:1180px !important;
-  height:calc(89vh - 2.6vh) !important;
-  max-height:calc(89vh - 2.6vh) !important;
-  margin:auto !important;
-  display:flex !important;
-  flex-direction:column !important;
-  align-items:center !important;
-  justify-content:flex-start !important;
-  overflow:hidden !important;
-}
-.sold-overlay .sold-title{
-  flex:0 0 auto !important;
-  margin:0 !important;
-  font-size:clamp(72px,7vw,140px) !important;
-  line-height:.78 !important;
-}
-.sold-overlay .sold-photos{
-  flex:0 0 auto !important;
-  margin:.8vh auto .35vh !important;
-  gap:clamp(8px,1vw,18px) !important;
-}
-.sold-overlay .sold-card{
-  width:clamp(115px,10.5vw,205px) !important;
-}
-.sold-overlay .sold-photo{
-  width:100% !important;
-  height:auto !important;
-  aspect-ratio:3 / 4 !important;
-  max-height:30vh !important;
-}
-.sold-overlay .sold-name{
-  min-height:0 !important;
-  margin-top:.35vh !important;
-  font-size:clamp(11px,.68vw,15px) !important;
-  line-height:1.15 !important;
-}
-.sold-overlay .sold-price{
-  flex:0 0 auto !important;
-  margin:.25vh 0 0 !important;
-  font-size:clamp(54px,4.9vw,96px) !important;
-  line-height:.9 !important;
-}
-.sold-overlay .sold-team{
-  flex:0 0 auto !important;
-  margin-top:.55vh !important;
-  padding:.32em .75em !important;
-  font-size:clamp(24px,2.25vw,46px) !important;
-  line-height:1 !important;
-}
-.sold-overlay .just-sold{
-  flex:0 0 auto !important;
-  margin-top:.65vh !important;
-  padding:.4vh .7vw !important;
-  font-size:clamp(9px,.52vw,12px) !important;
-}
-.sold-overlay .sold-summary-title{
-  flex:0 0 auto !important;
-  margin:.8vh 0 .4vh !important;
-  font-size:clamp(9px,.52vw,12px) !important;
-}
-.sold-overlay .sold-squad{
-  flex:0 1 auto !important;
-  width:min(94vw,1080px) !important;
-  margin:.2vh auto 0 !important;
-  gap:.45vw !important;
-}
-.sold-overlay .sold-team-mini{
-  padding:.45vh .45vw !important;
-  min-height:0 !important;
-  font-size:clamp(8px,.48vw,11px) !important;
-}
-.sold-overlay .sold-team-mini strong{
-  font-size:clamp(9px,.58vw,12px) !important;
-}
-.sold-overlay .sold-team-mini span{
-  font-size:clamp(8px,.45vw,10px) !important;
-  margin-top:.2vh !important;
-}
-
-/* Short-height displays: tighten the SOLD layout further rather than clipping it. */
-@media (max-height:820px){
-  .sold-overlay{padding:.7vh 1.2vw !important;}
-  .sold-overlay .overlay-inner{height:calc(89vh - 1.5vh) !important;max-height:calc(89vh - 1.5vh) !important;}
-  .sold-overlay .sold-title{font-size:clamp(58px,6.2vw,110px) !important;}
-  .sold-overlay .sold-photos{margin:.45vh auto .2vh !important;}
-  .sold-overlay .sold-card{width:clamp(100px,9vw,170px) !important;}
-  .sold-overlay .sold-photo{max-height:25vh !important;}
-  .sold-overlay .sold-price{font-size:clamp(46px,4.2vw,78px) !important;}
-  .sold-overlay .sold-team{font-size:clamp(20px,1.9vw,36px) !important;margin-top:.35vh !important;}
-  .sold-overlay .just-sold{margin-top:.35vh !important;}
-  .sold-overlay .sold-summary-title{margin:.45vh 0 .25vh !important;}
-}
-
-
-/* FINAL WAITING-LOBBY TITLE FIX — show full team names instead of truncating them. */
-.waiting-team-head{align-items:flex-start !important;}
-.waiting-team-title{flex:1 1 auto !important;min-width:0 !important;padding-top:2px;}
-.waiting-team-title h3{
-  white-space:normal !important;
-  overflow:visible !important;
-  text-overflow:clip !important;
-  overflow-wrap:anywhere !important;
-  word-break:normal !important;
-  line-height:1.12 !important;
-  min-height:2.24em !important;
-  display:block !important;
-}
-/* Keep short names visually aligned while allowing long names such as Tallavalasa Kings XI to wrap cleanly. */
-.waiting-team-card{min-height:0 !important;}
-@media(max-width:720px){
-  .waiting-team-title h3{min-height:0 !important;}
-}
-</style>
