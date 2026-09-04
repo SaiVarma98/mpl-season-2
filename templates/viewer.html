@@ -994,6 +994,528 @@ body.waiting .stage,
   .waiting-overlay { position:fixed !important; height:100dvh !important; overflow-y:auto !important; }
 }
 
+
+
+/* ================================================================
+   FINAL LOGO HEIGHT + SOLD PLAYER IMAGE FIT FIX
+   ================================================================ */
+/* Premium sponsor logo treatment:
+   larger landscape cards, clean white logo area, and generous breathing
+   room so transparent/odd-shaped sponsor marks look intentional. */
+.header{height:11vh !important;min-height:76px !important;}
+.sponsors{
+  align-items:center !important;
+  gap:clamp(7px,.7vw,14px) !important;
+  min-width:0 !important;
+}
+.sponsor{
+  width:clamp(82px,7vw,145px) !important;
+  height:clamp(38px,5.6vh,62px) !important;
+  min-width:82px !important;
+  min-height:38px !important;
+  flex:0 1 clamp(82px,7vw,145px) !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  box-sizing:border-box !important;
+  position:relative !important;
+  overflow:hidden !important;
+  padding:7px 10px !important;
+  border-radius:10px !important;
+  background:linear-gradient(180deg,#ffffff 0%,#f4f7fb 100%) !important;
+  border:1px solid rgba(255,255,255,.92) !important;
+  box-shadow:0 8px 22px rgba(0,0,0,.30), inset 0 1px 0 rgba(255,255,255,.9) !important;
+}
+.sponsor:after{
+  content:"" !important;
+  position:absolute !important;
+  left:9px !important;
+  right:9px !important;
+  bottom:3px !important;
+  height:2px !important;
+  border-radius:999px !important;
+  background:linear-gradient(90deg,transparent,rgba(246,198,79,.8),transparent) !important;
+  pointer-events:none !important;
+}
+.sponsor img{
+  width:100% !important;
+  height:100% !important;
+  max-width:100% !important;
+  max-height:100% !important;
+  display:block !important;
+  object-fit:contain !important;
+  object-position:center !important;
+  position:relative !important;
+  z-index:1 !important;
+  filter:none !important;
+}
+.sponsor span{
+  position:relative !important;
+  z-index:1 !important;
+  text-align:center !important;
+}
+@media(max-width:900px){
+  .sponsor{
+    width:clamp(66px,9vw,105px) !important;
+    height:clamp(34px,5vh,48px) !important;
+    min-width:0 !important;
+    padding:5px 7px !important;
+  }
+}
+.mpl-logo{
+  width:clamp(64px,5.1vw,94px) !important;
+  height:clamp(64px,5.1vw,94px) !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  max-width:none !important;
+  max-height:none !important;
+}
+.mpl-logo img{
+  width:100% !important;
+  height:100% !important;
+  max-width:100% !important;
+  max-height:100% !important;
+  object-fit:contain !important;
+  object-position:center !important;
+  padding:5px !important;
+}
+.team-logo{
+  width:clamp(30px,2.2vw,44px) !important;
+  height:clamp(30px,2.2vw,44px) !important;
+  min-width:clamp(30px,2.2vw,44px) !important;
+  min-height:clamp(30px,2.2vw,44px) !important;
+  max-width:clamp(30px,2.2vw,44px) !important;
+  max-height:clamp(30px,2.2vw,44px) !important;
+  display:block !important;
+  object-fit:contain !important;
+  object-position:center !important;
+}
+.waiting-team-logo{
+  width:clamp(54px,4.2vw,76px) !important;
+  height:clamp(54px,4.2vw,76px) !important;
+}
+.waiting-team-logo img{
+  width:100% !important;
+  height:100% !important;
+  display:block !important;
+  object-fit:contain !important;
+  object-position:center !important;
+  padding:5px !important;
+}
+
+/* SOLD PLAYER: larger portrait tile, full image always visible, never cropped. */
+.sold-photos{
+  display:flex !important;
+  flex-wrap:wrap !important;
+  align-items:flex-start !important;
+  justify-content:center !important;
+  gap:clamp(10px,1.2vw,22px) !important;
+  margin:1.5vh auto !important;
+}
+.sold-card{
+  width:clamp(135px,14vw,255px) !important;
+  min-width:0 !important;
+  align-items:center !important;
+}
+.sold-photo{
+  width:100% !important;
+  height:auto !important;
+  aspect-ratio:3 / 4 !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  display:grid !important;
+  place-items:center !important;
+  padding:4px !important;
+  background:radial-gradient(circle at 50% 20%,#1d4f7b 0%,#0a2139 46%,#030b17 100%) !important;
+  border:2px solid #ffd166 !important;
+  border-radius:16px !important;
+  overflow:hidden !important;
+}
+.sold-photo img{
+  width:100% !important;
+  height:100% !important;
+  max-width:100% !important;
+  max-height:100% !important;
+  display:block !important;
+  object-fit:contain !important;
+  object-position:center center !important;
+  padding:0 !important;
+  background:transparent !important;
+}
+.sold-name{
+  width:100% !important;
+  min-height:2.4em !important;
+  display:flex !important;
+  align-items:flex-start !important;
+  justify-content:center !important;
+  text-align:center !important;
+  font-size:clamp(11px,.72vw,16px) !important;
+  line-height:1.2 !important;
+}
+@media(max-width:700px){
+  .sold-card{width:min(44vw,220px) !important;}
+  .sold-photos{gap:10px !important;}
+}
+
+
+/* ===== FINAL VIEWER BALANCE UPDATE =====
+   Reclaims space from the main player/bid stage and gives the team strip
+   stronger visual priority for logos, titles and squad readability. */
+
+/* Top-left / sponsor logos: remove the oversized empty white appearance. */
+.sponsors.left .sponsor{
+  width:clamp(78px,6.2vw,118px) !important;
+  height:clamp(46px,6.4vh,68px) !important;
+  min-width:78px !important;
+  padding:4px 6px !important;
+  border-radius:9px !important;
+}
+.sponsors.left .sponsor img{
+  width:100% !important;
+  height:100% !important;
+  object-fit:contain !important;
+  object-position:center !important;
+}
+
+/* Slightly reduce the main stage and bid panel footprint. */
+.stage{
+  height:44vh !important;
+  grid-template-columns:minmax(0,1fr) 15vw !important;
+  gap:.8vw !important;
+}
+.bid{
+  border-width:2px !important;
+  border-radius:14px !important;
+}
+.bid-price{
+  font-size:3.8vw !important;
+}
+.bid-label,.lead-label{
+  font-size:.55vw !important;
+}
+.lead{
+  font-size:1.05vw !important;
+}
+.live{
+  margin-top:1.2vh !important;
+}
+
+/* Make the bottom squad strip taller and much easier to read. */
+.teams{
+  height:21vh !important;
+  min-height:145px !important;
+  margin-top:1vh !important;
+  gap:.7vw !important;
+}
+.team{
+  padding:1vh .8vw !important;
+  border-radius:14px !important;
+}
+.team-top{
+  gap:.65vw !important;
+  align-items:center !important;
+}
+.team-logo{
+  width:3.15vw !important;
+  height:3.15vw !important;
+  min-width:44px !important;
+  min-height:44px !important;
+  max-width:58px !important;
+  max-height:58px !important;
+  flex:0 0 auto !important;
+  object-fit:contain !important;
+  object-position:center !important;
+}
+.team-name{
+  font-size:1vw !important;
+  line-height:1.12 !important;
+  letter-spacing:.01em !important;
+}
+.squad-count{
+  font-size:.58vw !important;
+}
+.team-purse{
+  font-size:.68vw !important;
+  margin-top:.45vh !important;
+}
+.team-squad{
+  margin-top:.75vh !important;
+  padding-top:.7vh !important;
+  font-size:.65vw !important;
+  line-height:1.55 !important;
+}
+
+/* Preserve good proportions on medium and smaller viewer displays. */
+@media(max-width:1200px){
+  .stage{height:43vh !important;grid-template-columns:minmax(0,1fr) 16vw !important;}
+  .teams{height:22vh !important;}
+  .team-logo{width:3.4vw !important;height:3.4vw !important;}
+  .team-name{font-size:1.12vw !important;}
+}
+@media(max-width:900px){
+  .stage{height:42vh !important;grid-template-columns:minmax(0,1fr) 18vw !important;}
+  .teams{height:23vh !important;grid-template-columns:repeat(3,minmax(0,1fr)) !important;}
+  .team-name{font-size:1.35vw !important;}
+  .team-logo{width:4vw !important;height:4vw !important;}
+}
+
+
+/* ===== FINAL SCREEN-FILL BALANCE FIX =====
+   Eliminates the large empty gap by making the main grid use fixed
+   broadcast rows: lot bar -> stage -> prominent team squad strip. */
+@media (min-width:901px){
+  .header{
+    height:10vh !important;
+    min-height:76px !important;
+  }
+  .main{
+    height:90vh !important;
+    min-height:0 !important;
+    grid-template-rows:7vh 45vh 25vh !important;
+    gap:1vh !important;
+    align-content:start !important;
+  }
+  .lotbar{height:7vh !important;}
+  .stage{
+    height:45vh !important;
+    min-height:0 !important;
+    grid-template-columns:minmax(0,1fr) 15.5vw !important;
+  }
+  .teams{
+    height:25vh !important;
+    min-height:175px !important;
+    margin:0 !important;
+  }
+}
+
+/* Left sponsor/logo box in the current markup has no .left class. */
+#sponsorsLeft{justify-content:flex-start !important;}
+#sponsorsLeft .sponsor{
+  width:clamp(92px,7.5vw,138px) !important;
+  height:clamp(54px,7vh,78px) !important;
+  padding:1px !important;
+  overflow:hidden !important;
+}
+#sponsorsLeft .sponsor img{
+  width:116% !important;
+  height:116% !important;
+  max-width:none !important;
+  max-height:none !important;
+  object-fit:contain !important;
+  transform:scale(1.08);
+}
+
+/* Bigger team identities: logo first, then clearly readable team title. */
+.team{padding:1.1vh .85vw !important;}
+.team-top{gap:.75vw !important;}
+.team-logo{
+  width:3.55vw !important;
+  height:3.55vw !important;
+  min-width:48px !important;
+  min-height:48px !important;
+  max-width:64px !important;
+  max-height:64px !important;
+}
+.team-name{font-size:clamp(14px,1.08vw,22px) !important;line-height:1.08 !important;}
+.squad-count{font-size:clamp(9px,.62vw,13px) !important;}
+.team-purse{font-size:clamp(10px,.72vw,15px) !important;}
+.team-squad{font-size:clamp(9px,.68vw,14px) !important;line-height:1.48 !important;}
+
+/* Keep the full player image visible while using the extra stage height. */
+.player img{
+  height:calc(100% - clamp(68px,7.5vw,112px)) !important;
+  max-height:calc(100% - clamp(68px,7.5vw,112px)) !important;
+  object-fit:contain !important;
+  object-position:center center !important;
+}
+.player-info{height:clamp(68px,7.5vw,112px) !important;}
+.player-name{font-size:clamp(20px,1.65vw,34px) !important;}
+
+@media (max-width:900px){
+  #sponsorsLeft .sponsor img{transform:none !important;width:100% !important;height:100% !important;}
+}
+
+
+
+/* ===== FINAL HEADER / SPONSOR ALIGNMENT FIX =====
+   Keeps every header element inside the header and removes oversized
+   white sponsor panels. */
+@media (min-width:901px){
+  .header{
+    height:clamp(82px,10vh,96px) !important;
+    min-height:clamp(82px,10vh,96px) !important;
+    max-height:clamp(82px,10vh,96px) !important;
+    padding:5px 16px !important;
+    overflow:hidden !important;
+    align-items:center !important;
+  }
+
+  .header:after{
+    bottom:0 !important;
+  }
+
+  .brand{gap:12px !important;}
+  .mpl-logo{
+    width:clamp(64px,4.5vw,78px) !important;
+    height:clamp(64px,4.5vw,78px) !important;
+    min-width:clamp(64px,4.5vw,78px) !important;
+    min-height:clamp(64px,4.5vw,78px) !important;
+    max-width:clamp(64px,4.5vw,78px) !important;
+    max-height:clamp(64px,4.5vw,78px) !important;
+    overflow:hidden !important;
+    flex:0 0 auto !important;
+  }
+  .mpl-logo img{
+    width:100% !important;
+    height:100% !important;
+    padding:3px !important;
+    object-fit:contain !important;
+  }
+
+  /* Actual sponsor logo: no oversized white tile around it. */
+  #sponsorsLeft .sponsor{
+    width:clamp(68px,5vw,86px) !important;
+    height:clamp(58px,7.2vh,72px) !important;
+    min-width:clamp(68px,5vw,86px) !important;
+    min-height:clamp(58px,7.2vh,72px) !important;
+    padding:0 !important;
+    background:transparent !important;
+    border:0 !important;
+    box-shadow:none !important;
+    border-radius:0 !important;
+    overflow:hidden !important;
+  }
+  #sponsorsLeft .sponsor:after{display:none !important;}
+  #sponsorsLeft .sponsor img{
+    width:100% !important;
+    height:100% !important;
+    max-width:none !important;
+    max-height:none !important;
+    object-fit:contain !important;
+    object-position:center !important;
+    transform:scale(1.16) !important;
+  }
+
+  /* Placeholder/right sponsor cards are compact dark badges, not large
+     empty white rectangles. Real logo images still fit fully inside. */
+  #sponsorsRight .sponsor{
+    width:clamp(74px,6vw,112px) !important;
+    height:clamp(38px,5vh,54px) !important;
+    min-width:74px !important;
+    min-height:38px !important;
+    padding:4px 7px !important;
+    background:linear-gradient(180deg,#f9fbff,#dfe7f1) !important;
+  }
+  #sponsorsRight .sponsor img{
+    object-fit:contain !important;
+    object-position:center !important;
+  }
+
+  /* Header and status now use the same top boundary. */
+  .main{
+    height:calc(100vh - clamp(82px,10vh,96px)) !important;
+    min-height:0 !important;
+    grid-template-rows:7vh 45vh minmax(0,1fr) !important;
+  }
+  .status-ribbon{
+    position:absolute !important;
+    top:calc(clamp(82px,10vh,96px) + 10px) !important;
+    right:18px !important;
+    z-index:126 !important;
+    white-space:nowrap !important;
+  }
+}
+
+
+/* ===== FINAL SINGLE-PLAYER STAGE + SPONSOR LOGO FIX ===== */
+/* Never scale the real sponsor logo past its natural contain box. */
+@media (min-width:901px){
+  #sponsorsLeft .sponsor{
+    overflow:visible !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    padding:0 !important;
+  }
+  #sponsorsLeft .sponsor img{
+    width:100% !important;
+    height:100% !important;
+    max-width:100% !important;
+    max-height:100% !important;
+    object-fit:contain !important;
+    object-position:left center !important;
+    transform:none !important;
+  }
+}
+
+/* Single-player lots get a broadcast "spotlight" composition instead of
+   leaving the wide player tile visually empty around a portrait photo. */
+.players.single .player{
+  background:
+    radial-gradient(circle at 50% 38%,rgba(246,198,79,.11),transparent 20%),
+    radial-gradient(circle at 18% 28%,rgba(84,201,255,.14),transparent 26%),
+    radial-gradient(circle at 82% 28%,rgba(167,108,255,.15),transparent 28%),
+    linear-gradient(180deg,#0b2748 0%,#061426 72%,#020814 100%) !important;
+}
+.players.single .player:before{
+  content:"SINGLE PLAYER\A AUCTION SPOTLIGHT" !important;
+  white-space:pre !important;
+  position:absolute !important;
+  left:clamp(24px,4vw,80px) !important;
+  top:50% !important;
+  transform:translateY(-58%) !important;
+  width:min(23%,330px) !important;
+  padding:clamp(12px,1.2vw,22px) 0 !important;
+  z-index:1 !important;
+  color:rgba(246,198,79,.82) !important;
+  font-size:clamp(11px,.82vw,18px) !important;
+  line-height:1.8 !important;
+  letter-spacing:.18em !important;
+  font-weight:1000 !important;
+  text-align:left !important;
+  border-top:1px solid rgba(246,198,79,.38) !important;
+  border-bottom:1px solid rgba(84,201,255,.22) !important;
+  background:none !important;
+  text-shadow:0 2px 14px rgba(0,0,0,.55) !important;
+}
+.players.single .player::after{
+  height:48% !important;
+}
+.players.single .player .auction-label{z-index:5 !important;}
+.players.single .player img{
+  z-index:3 !important;
+  filter:drop-shadow(0 18px 26px rgba(0,0,0,.68)) drop-shadow(0 0 28px rgba(246,198,79,.10)) !important;
+}
+.players.single .player .player-info{z-index:6 !important;}
+.players.single .player .chips{max-width:48% !important;}
+.players.single .player .player-name{max-width:68% !important;}
+
+/* Right-side visual frame balances the portrait without obscuring the player. */
+.players.single .player-info:before{
+  content:"MPL\A SEASON 2" !important;
+  white-space:pre !important;
+  position:absolute !important;
+  right:clamp(22px,4vw,80px) !important;
+  top:clamp(-260px,-25vh,-150px) !important;
+  transform:translateY(-50%) !important;
+  color:rgba(255,255,255,.055) !important;
+  font-size:clamp(34px,5vw,100px) !important;
+  line-height:.92 !important;
+  font-weight:1000 !important;
+  letter-spacing:.04em !important;
+  text-align:right !important;
+  pointer-events:none !important;
+  z-index:-1 !important;
+}
+@media (max-width:1200px){
+  .players.single .player:before{left:3vw !important;width:22% !important;font-size:11px !important;}
+  .players.single .player .chips{max-width:60% !important;}
+}
+@media (max-width:900px){
+  .players.single .player:before,.players.single .player-info:before{display:none !important;}
+  .players.single .player .chips,.players.single .player .player-name{max-width:100% !important;}
+}
+
 </style>
 </head>
 <body>
@@ -1182,3 +1704,126 @@ body.waiting .stage,
 </script>
 </body>
 </html>
+<!-- FINAL SOLD SCREEN FIT FIX -->
+<style>
+/* Keep the SOLD presentation completely inside the available viewer height. */
+.sold-overlay{
+  align-items:flex-start !important;
+  padding:1.2vh 1.5vw 1.4vh !important;
+  overflow:hidden !important;
+}
+.sold-overlay .overlay-inner{
+  width:min(92vw,1180px) !important;
+  max-width:1180px !important;
+  height:calc(89vh - 2.6vh) !important;
+  max-height:calc(89vh - 2.6vh) !important;
+  margin:auto !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  overflow:hidden !important;
+}
+.sold-overlay .sold-title{
+  flex:0 0 auto !important;
+  margin:0 !important;
+  font-size:clamp(72px,7vw,140px) !important;
+  line-height:.78 !important;
+}
+.sold-overlay .sold-photos{
+  flex:0 0 auto !important;
+  margin:.8vh auto .35vh !important;
+  gap:clamp(8px,1vw,18px) !important;
+}
+.sold-overlay .sold-card{
+  width:clamp(115px,10.5vw,205px) !important;
+}
+.sold-overlay .sold-photo{
+  width:100% !important;
+  height:auto !important;
+  aspect-ratio:3 / 4 !important;
+  max-height:30vh !important;
+}
+.sold-overlay .sold-name{
+  min-height:0 !important;
+  margin-top:.35vh !important;
+  font-size:clamp(11px,.68vw,15px) !important;
+  line-height:1.15 !important;
+}
+.sold-overlay .sold-price{
+  flex:0 0 auto !important;
+  margin:.25vh 0 0 !important;
+  font-size:clamp(54px,4.9vw,96px) !important;
+  line-height:.9 !important;
+}
+.sold-overlay .sold-team{
+  flex:0 0 auto !important;
+  margin-top:.55vh !important;
+  padding:.32em .75em !important;
+  font-size:clamp(24px,2.25vw,46px) !important;
+  line-height:1 !important;
+}
+.sold-overlay .just-sold{
+  flex:0 0 auto !important;
+  margin-top:.65vh !important;
+  padding:.4vh .7vw !important;
+  font-size:clamp(9px,.52vw,12px) !important;
+}
+.sold-overlay .sold-summary-title{
+  flex:0 0 auto !important;
+  margin:.8vh 0 .4vh !important;
+  font-size:clamp(9px,.52vw,12px) !important;
+}
+.sold-overlay .sold-squad{
+  flex:0 1 auto !important;
+  width:min(94vw,1080px) !important;
+  margin:.2vh auto 0 !important;
+  gap:.45vw !important;
+}
+.sold-overlay .sold-team-mini{
+  padding:.45vh .45vw !important;
+  min-height:0 !important;
+  font-size:clamp(8px,.48vw,11px) !important;
+}
+.sold-overlay .sold-team-mini strong{
+  font-size:clamp(9px,.58vw,12px) !important;
+}
+.sold-overlay .sold-team-mini span{
+  font-size:clamp(8px,.45vw,10px) !important;
+  margin-top:.2vh !important;
+}
+
+/* Short-height displays: tighten the SOLD layout further rather than clipping it. */
+@media (max-height:820px){
+  .sold-overlay{padding:.7vh 1.2vw !important;}
+  .sold-overlay .overlay-inner{height:calc(89vh - 1.5vh) !important;max-height:calc(89vh - 1.5vh) !important;}
+  .sold-overlay .sold-title{font-size:clamp(58px,6.2vw,110px) !important;}
+  .sold-overlay .sold-photos{margin:.45vh auto .2vh !important;}
+  .sold-overlay .sold-card{width:clamp(100px,9vw,170px) !important;}
+  .sold-overlay .sold-photo{max-height:25vh !important;}
+  .sold-overlay .sold-price{font-size:clamp(46px,4.2vw,78px) !important;}
+  .sold-overlay .sold-team{font-size:clamp(20px,1.9vw,36px) !important;margin-top:.35vh !important;}
+  .sold-overlay .just-sold{margin-top:.35vh !important;}
+  .sold-overlay .sold-summary-title{margin:.45vh 0 .25vh !important;}
+}
+
+
+/* FINAL WAITING-LOBBY TITLE FIX — show full team names instead of truncating them. */
+.waiting-team-head{align-items:flex-start !important;}
+.waiting-team-title{flex:1 1 auto !important;min-width:0 !important;padding-top:2px;}
+.waiting-team-title h3{
+  white-space:normal !important;
+  overflow:visible !important;
+  text-overflow:clip !important;
+  overflow-wrap:anywhere !important;
+  word-break:normal !important;
+  line-height:1.12 !important;
+  min-height:2.24em !important;
+  display:block !important;
+}
+/* Keep short names visually aligned while allowing long names such as Tallavalasa Kings XI to wrap cleanly. */
+.waiting-team-card{min-height:0 !important;}
+@media(max-width:720px){
+  .waiting-team-title h3{min-height:0 !important;}
+}
+</style>
