@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MPL Season 2 — Auctioneer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/static/css/auctioneer.css">
+</head>
+<body class="min-h-screen bg-slate-950 text-white">
+  <header class="sticky top-0 z-50 border-b border-white/10 bg-slate-950/95 backdrop-blur">
+    <div class="mx-auto flex max-w-[1800px] items-center justify-between gap-4 px-4 py-3 lg:px-6">
+      <div class="flex items-center gap-3">
+        <div class="mpl-mark">MPL</div>
+        <div>
+          <div class="text-xs font-bold tracking-[0.28em] text-amber-300">MANA OORU PREMIER LEAGUE</div>
+          <div class="text-xl font-black tracking-tight">SEASON 2 <span class="text-white/40">•</span> AUCTION CONTROL</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span id="connectionBadge" class="badge badge-success gap-2">ONLINE</span>
+        <span id="stateBadge" class="badge badge-outline">WAITING_FOR_GROUP</span>
+        <button id="logoutBtn" class="btn btn-sm btn-ghost">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-[1800px] space-y-4 p-4 lg:p-6">
+<div class="group-search-wrap" id="groupSearchWrap">
+  <label for="groupSearch">🔎 SEARCH GROUP ID</label>
+  <div class="group-search-row">
+    <input id="groupSearch" type="search" placeholder="Example: G014 or 14" autocomplete="off">
+    <button type="button" id="clearGroupSearch" title="Clear search">×</button>
+  </div>
+  <div class="group-search-help" id="groupSearchHelp">Type a Group ID to filter visible lots.</div>
+</div>
+
+    <section class="grid gap-4 lg:grid-cols-[1fr_420px]">
+      <div class="auction-card overflow-hidden">
+        <div class="flex items-center justify-between border-b border-white/10 px-5 py-4">
+          <div>
+            <div class="text-xs font-bold tracking-[0.25em] text-amber-300">CURRENT LOT</div>
+            <div id="lotTitle" class="mt-1 text-2xl font-black">Waiting for Auctioneer</div>
+          </div>
+          <div id="lotType" class="badge badge-warning badge-lg">—</div>
+        </div>
+        <div id="playerGrid" class="grid gap-4 p-5 sm:grid-cols-2 xl:grid-cols-3">
+          <div class="player-placeholder">NO ACTIVE LOT</div>
+        </div>
+      </div>
+
+      <div class="auction-card bid-panel">
+        <div class="text-xs font-bold tracking-[0.25em] text-amber-300">LIVE BID</div>
+        <div id="currentBid" class="bid-amount">₹0</div>
+        <div id="openingBidHint" class="mt-1 text-sm font-bold text-amber-300/80">OPENING BID • BASE PRICE</div>
+        <div class="text-xs uppercase tracking-widest text-white/50">Leading Team</div>
+        <div id="leadingTeam" class="mt-1 text-2xl font-black">—</div>
+        <div class="mt-5">
+          <div class="mb-2 flex items-center justify-between">
+            <span class="text-xs font-bold tracking-[0.2em] text-white/50">BID INCREMENT</span>
+            <span id="incrementBadge" class="badge badge-warning">+ ₹1,000</span>
+          </div>
+          <div class="grid grid-cols-3 gap-2">
+            <button class="btn btn-outline increment-btn" data-inc="50">+50</button>
+            <button class="btn btn-outline increment-btn" data-inc="100">+100</button>
+            <button class="btn btn-outline increment-btn" data-inc="200">+200</button>
+            <button class="btn btn-outline increment-btn" data-inc="500">+500</button>
+            <button class="btn btn-warning increment-btn" data-inc="1000">+1,000</button>
+            <input id="customIncrement" type="number" min="50" step="50" value="1000"
+              placeholder="Custom" class="input input-bordered bg-white/5">
+          </div>
+          <div id="incrementStatus" class="mt-2 text-xs font-bold text-amber-200/80">SELECTED INCREMENT WILL APPLY TO THE NEXT TEAM BID</div>
+          <div class="mt-2 text-xs text-white/40">
+            Select the increment first. Then click a team — the bid is placed automatically.
+            First team opens the lot at base price.
+          </div>
+        </div>
+        <div class="mt-5 grid grid-cols-2 gap-2">
+          <button id="sellBtn" class="btn btn-success btn-lg">SELL LOT</button>
+<button id="restartLotBtn" class="btn btn-outline btn-warning">RESTART CURRENT LOT</button>
+          <button id="passBtn" class="btn btn-outline btn-lg">PASS</button>
+          <button id="holdBtn" class="btn btn-outline">HOLD</button>
+          <button id="pauseBtn" class="btn btn-secondary">PAUSE</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid gap-4 xl:grid-cols-[1fr_360px]">
+      <div>
+        <div class="mb-3 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold tracking-[0.25em] text-amber-300">TEAM BIDDING DESK</div>
+            <h2 class="text-2xl font-black">Select a Team to Bid</h2>
+          </div>
+          <div class="text-sm text-white/50">Next bid is validated by server</div>
+        </div>
+        <div id="teamGrid" class="grid gap-3 sm:grid-cols-2 xl:grid-cols-5"></div>
+      </div>
+
+      <aside class="space-y-4">
+        <div class="auction-card p-4">
+          <div class="mb-3 flex items-center justify-between">
+            <div>
+              <div class="text-xs font-bold tracking-[0.2em] text-amber-300">AUCTION CONTROLS</div>
+              <h3 class="text-xl font-black">Lifecycle</h3>
+            </div>
+            <span id="roundBadge" class="badge badge-info">ROUND 1</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <button id="startBtn" class="btn btn-primary">START AUCTION</button>
+            <button id="resumeBtn" class="btn btn-secondary">RESUME</button>
+          </div>
+          <details class="mt-3 rounded-xl border border-white/10 bg-black/20">
+            <summary class="cursor-pointer select-none px-3 py-2 text-sm font-black text-amber-200">MANAGE AUCTION</summary>
+            <div class="grid grid-cols-2 gap-2 p-3">
+              <button id="round2Btn" class="btn btn-info btn-sm">START ROUND 2</button>
+              <button id="rollbackBtn" class="btn btn-warning btn-sm">ROLLBACK LAST SALE</button>
+              <button id="resetBtn" class="btn btn-error btn-sm">RESET AUCTION</button>
+              <button id="endBtn" class="btn btn-neutral btn-sm">END AUCTION</button>
+            </div>
+          </details>
+        </div>
+
+        <div class="auction-card p-4">
+          <div class="text-xs font-bold tracking-[0.2em] text-amber-300">LIVE STATISTICS</div>
+          <div id="statsGrid" class="mt-3 grid grid-cols-2 gap-2"></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="grid gap-4 lg:grid-cols-[1fr_420px]">
+      <div class="auction-card p-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold tracking-[0.2em] text-amber-300">LOT SELECTOR</div>
+            <h3 class="text-xl font-black">Auction Groups</h3>
+          </div>
+          <button id="refreshGroupsBtn" class="btn btn-sm btn-ghost">Refresh</button>
+        </div>
+        <div class="mt-3 flex gap-2"><input id="groupSearch" class="input input-sm input-bordered flex-1" placeholder="Search available Group ID (e.g. G014 or 14)"><button id="clearGroupSearch" class="btn btn-sm">Clear</button></div><div id="groupList" class="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3"></div>
+      </div>
+
+      <div class="auction-card p-4">
+        <div class="text-xs font-bold tracking-[0.2em] text-amber-300">AUCTION HISTORY</div>
+        <div id="historyList" class="mt-3 max-h-[360px] space-y-2 overflow-auto pr-1"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="offlineBanner" class="fixed bottom-4 left-1/2 z-[100] hidden -translate-x-1/2 rounded-full border border-red-400/30 bg-red-950/95 px-5 py-2 text-sm font-black text-red-100 shadow-2xl">RECONNECTING TO AUCTION SERVER…</div>
+  <div id="toast" class="toast toast-end"></div>
+  <script src="/static/js/auctioneer.js"></script>
+
+<script>
+/* UI-only Group ID filtering. Does not change lot selection, API calls or auction state. */
+(function(){
+  const input=document.getElementById("groupSearch");
+  const clear=document.getElementById("clearGroupSearch");
+  const help=document.getElementById("groupSearchHelp");
+  if(!input)return;
+
+  function norm(v){return String(v||"").toUpperCase().replace(/[^A-Z0-9]/g,"")}
+  function matchText(el,q){
+    if(!q)return true;
+    const text=norm(el.innerText||el.textContent||"");
+    const id=norm(el.dataset&& (el.dataset.groupId||el.dataset.lotId||el.dataset.id));
+    return text.includes(q)||id.includes(q);
+  }
+  function findCards(){
+    const selectors=[
+      "[data-group-id]","[data-lot-id]",
+      ".group-card",".lot-card",".group-item",".lot-item",
+      "#lotList > *","#groupsList > *",".lots > *",".groups > *"
+    ];
+    const seen=new Set(),out=[];
+    selectors.forEach(sel=>document.querySelectorAll(sel).forEach(el=>{
+      if(el===document.getElementById("groupSearchWrap")||seen.has(el))return;
+      if((el.innerText||"").trim().length<2)return;
+      seen.add(el);out.push(el);
+    }));
+    return out;
+  }
+  function apply(){
+    let q=norm(input.value);
+    if(q && /^\d+$/.test(q))q="G"+q.padStart(3,"0");
+    const cards=findCards();
+    let visible=0;
+    cards.forEach(card=>{
+      const ok=matchText(card,q);
+      card.style.display=ok?"":"none";
+      if(ok)visible++;
+    });
+    help.textContent=q?(visible?`${visible} matching group/lot result(s). Press Enter to select the first visible result.`:"No matching Group ID found."):"Type a Group ID to filter visible lots.";
+  }
+  input.addEventListener("input",apply);
+  input.addEventListener("keydown",e=>{
+    if(e.key==="Enter"){
+      e.preventDefault();
+      const first=findCards().find(c=>c.style.display!=="none");
+      if(first){first.scrollIntoView({block:"center",behavior:"smooth"});first.click()}
+    }
+  });
+  clear.addEventListener("click",()=>{input.value="";apply();input.focus()});
+})();
+</script>
+
+</body>
+</html>
+
+<style>
+/* Step 12 compact auctioneer controls */
+.secondary-controls{display:flex;flex-wrap:wrap;gap:.5rem}
+.secondary-controls .btn-secondary{opacity:.88}
+@media (min-width:1024px){.secondary-controls{max-height:44px;overflow:hidden}.secondary-controls:hover{max-height:220px}}
+
+/* Final improvement: fast Group ID search */
+.group-search-wrap{
+  margin:10px 0 14px;padding:12px;border:1px solid rgba(84,201,255,.24);
+  border-radius:12px;background:linear-gradient(180deg,rgba(8,25,47,.95),rgba(4,15,29,.95));
+}
+.group-search-wrap label{display:block;margin-bottom:7px;color:#f6c64f;font-weight:900;font-size:12px;letter-spacing:.12em}
+.group-search-row{display:flex;gap:8px}
+#groupSearch{flex:1;min-width:0;padding:11px 12px;border-radius:9px;border:1px solid rgba(84,201,255,.35);background:#061426;color:#fff;font-size:15px}
+#clearGroupSearch{width:42px;border-radius:9px;border:1px solid rgba(255,255,255,.12);background:#10213a;color:#fff;font-size:22px;cursor:pointer}
+.group-search-help{margin-top:7px;color:#91a4bb;font-size:11px}
+
+</style>

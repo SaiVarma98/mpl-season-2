@@ -1,0 +1,14 @@
+{
+  "auction_started": false,
+  "auction_finished": false,
+  "current_round": 1,
+  "auction_status": "WAITING_FOR_GROUP",
+  "current_group_id": null,
+  "current_bid": {
+    "amount": 0,
+    "team_id": null
+  },
+  "last_sale_snapshot": null,
+  "history": [],
+  "bid_increment": 1000
+}

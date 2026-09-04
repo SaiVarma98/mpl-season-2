@@ -1,0 +1,49 @@
+[
+  {
+    "id": "T001",
+    "team_name": "Panthers XI",
+    "owner": "P.Bujji",
+    "logo": "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/Panther11.jpeg",
+    "default_purse": 100000,
+    "purse": 100000,
+    "players": []
+  },
+  {
+    "id": "T002",
+    "team_name": "Tallavalasa Kings XI",
+    "owner": "D.Vinod",
+    "logo": "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/Tallavalasa11.jpeg",
+    "default_purse": 100000,
+    "purse": 100000,
+    "players": []
+  },
+  {
+    "id": "T003",
+    "team_name": "Dangerous XI",
+    "owner": "D.Srinu",
+    "logo": "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/DangerousXI.jpeg",
+    "default_purse": 100000,
+    "purse": 100000,
+    "players": []
+  },
+  {
+    "id": "T004",
+    "team_name": "Garuda XI",
+    "owner": "DSN Raju",
+    "logo": "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/GarudaXI.jpeg",
+    "default_purse": 100000,
+    "purse": 100000,
+    "players": []
+  },
+  {
+    "id": "T005",
+    "team_name": "Tallavalasa Titans",
+    "owner": "DAN Raju",
+    "logo": "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/Tallvalasa+Titans.jpeg",
+    "default_purse": 100000,
+    "purse": 100000,
+    "players": [
+
+    ]
+  }
+]

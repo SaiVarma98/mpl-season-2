@@ -1,0 +1,1150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MPL Season 2 — Live Auction</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Arial,Inter,sans-serif;background:#020814;color:#fff}
+body{background:radial-gradient(circle at 50% 10%,#1d4f7b 0,#07182a 42%,#020814 100%)}
+#app{height:100vh;position:relative}
+#app:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,8,20,.15),rgba(2,8,20,.72)),radial-gradient(ellipse at 50% 100%,rgba(24,102,68,.28),transparent 42%);pointer-events:none}
+.header{height:11vh;min-height:74px;position:relative;z-index:10;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:1vh 2vw;background:linear-gradient(90deg,#03101feF,#071a30e8,#03101feF);border-bottom:2px solid #ffd166}
+.sponsors{display:flex;align-items:center;gap:.65vw}.sponsors.right{justify-content:flex-end}
+.sponsor{width:5.3vw;height:4.1vh;min-width:62px;min-height:28px;display:flex;align-items:center;justify-content:center;background:#f8fafc;border-radius:7px;padding:3px 5px}
+.sponsor img{max-width:100%;max-height:100%;object-fit:contain}.sponsor span{font-size:.55vw;font-weight:1000;color:#10233a}
+.brand{display:flex;align-items:center;gap:.8vw;white-space:nowrap}
+.mpl-logo{width:4.7vw;height:4.7vw;min-width:62px;min-height:62px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,#ffe28e,#ffd166,#d79518);color:#071525;font-size:1.8vw;font-weight:1000;border:2px solid #fff0ae;box-shadow:0 8px 30px #0008}
+.title{font-size:1.35vw;font-weight:1000}.subtitle{font-size:.58vw;letter-spacing:.2em;color:#c7d6e8;font-weight:900;margin-top:.35vh}
+.main{height:89vh;position:relative;z-index:2;padding:1.2vh 2vw 3.5vh}
+.lotbar{height:6vh;min-height:44px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 1vw;border:1px solid #ffffff1b;border-left:5px solid #ffd166;border-radius:10px;background:#031426ee}
+.meta{font-size:.62vw;letter-spacing:.16em;color:#b9c8d9;font-weight:900}.lotid{font-size:1.25vw;font-weight:1000}.type{padding:.55vh .8vw;background:#ffd166;color:#071525;border-radius:6px;font-size:.6vw;font-weight:1000}.base{text-align:right}
+.stage{height:49vh;margin-top:1.2vh;display:grid;grid-template-columns:minmax(0,1fr) 17vw;gap:1vw}
+.players{display:grid;gap:1vw;min-width:0}.players.single{grid-template-columns:1fr}.players.duo{grid-template-columns:1fr 1fr}.players.trio{grid-template-columns:repeat(3,1fr)}
+.player{position:relative;min-width:0;overflow:hidden;border-radius:16px;background:#071425;border:2px solid #ffffff20;box-shadow:0 18px 60px #0008}
+.player img{width:100%;height:100%;display:block;object-fit:contain;object-position:center;background:linear-gradient(160deg,#173d63,#061221)}
+.player .fallback{width:100%;height:100%;display:grid;place-items:center;color:#64748b;font-size:2vw;font-weight:1000}
+.player:after{content:"";position:absolute;left:0;right:0;bottom:0;height:42%;background:linear-gradient(transparent,#020617f5);pointer-events:none}
+.player-info{position:absolute;z-index:2;left:1vw;right:1vw;bottom:1vw}.player-name{font-size:1.45vw;font-weight:1000;text-shadow:0 3px 10px #000}.chips{display:flex;gap:.4vw;flex-wrap:wrap;margin-top:.5vh}.chip{padding:.35vh .5vw;border-radius:4px;background:#020617dc;border:1px solid #ffffff18;font-size:.5vw;font-weight:900}
+.bid{border-radius:16px;background:#020617f5;border:3px solid #ffd166;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 0 0 5px #02061799,0 20px 70px #000d}
+.bid-label,.lead-label{font-size:.6vw;letter-spacing:.22em;color:#ffd166;font-weight:1000}.bid-price{font-size:4.4vw;line-height:.95;color:#ffd166;font-weight:1000;margin:1vh 0;letter-spacing:-.06em}.lead{font-size:1.25vw;font-weight:1000;margin-top:.3vh}.live{margin-top:1.6vh;padding:.5vh .8vw;border-radius:999px;background:#103c2b;color:#7ff0a9;font-size:.5vw;font-weight:1000;letter-spacing:.12em}
+.teams{height:15vh;min-height:110px;margin-top:1.2vh;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.55vw}
+.team{min-width:0;overflow:hidden;border-radius:11px;background:#061c34;border:2px solid #ffffff18;padding:.7vh .65vw;display:flex;flex-direction:column}
+.team.leading{background:linear-gradient(135deg,#ffd166,#d89218);color:#071525;border-color:#ffe8a1}
+.team-top{display:flex;align-items:center;gap:.4vw;min-width:0}.team-logo{width:2vw;height:2vw;min-width:27px;min-height:27px;object-fit:contain}.team-name{font-size:.78vw;line-height:1.05;font-weight:1000;word-break:break-word}.team-purse{margin-left:auto;font-size:.5vw;font-weight:900;white-space:nowrap;color:#d8e6f4}.team.leading .team-purse{color:#172033}
+.team-squad{margin-top:.55vh;padding-top:.45vh;border-top:1px solid #ffffff1a;color:#e7f0f9;font-size:.54vw;line-height:1.4;font-weight:800;overflow:hidden;flex:1}
+.team.leading .team-squad{color:#172033;border-top-color:#17203333}.empty{color:#8da3ba;font-style:italic}
+.connection{position:fixed;z-index:100;right:1vw;bottom:1vh;padding:.55vh .8vw;border-radius:999px;background:#07182ddd;border:1px solid #ffffff18;color:#7ff0a9;font-size:.5vw;font-weight:1000}
+.connection.offline{color:#ff9b9b;border-color:#ef444466}
+.overlay{position:fixed;z-index:90;inset:0;display:none;align-items:center;justify-content:center;text-align:center;background:#020814f4}
+.overlay.active{display:flex}.overlay-inner{width:min(90vw,1200px)}
+.wait-title{font-size:7vw;font-weight:1000;line-height:.9}.wait-sub{margin-top:2vh;font-size:2vw;color:#cbd5e1;font-weight:800;letter-spacing:.12em}
+.sold-title{font-size:10vw;line-height:.8;color:#4ade80;font-weight:1000;text-shadow:0 5px 25px #000}.sold-photos{display:flex;justify-content:center;gap:1vw;margin:1.5vh 0}.sold-card{width:11vw}.sold-photo{width:11vw;height:17vh;min-width:100px;min-height:120px;background:#07182a;border:2px solid #ffd166;border-radius:14px;overflow:hidden}.sold-photo img{width:100%;height:100%;object-fit:contain}.sold-name{font-size:.65vw;font-weight:900;margin-top:.4vh}.sold-price{font-size:5vw;color:#ffd166;font-weight:1000}.sold-team{display:inline-block;margin-top:.7vh;padding:.2em .65em;border:2px solid #ffd166;border-radius:12px;background:#020617;color:#fff;font-size:2.4vw;font-weight:1000}.sold-squad{margin:1.5vh auto 0;display:grid;grid-template-columns:repeat(5,1fr);gap:.5vw;max-width:1000px}.sold-team-mini{padding:.7vh .5vw;border:1px solid #ffffff18;background:#061c34;border-radius:8px;font-size:.55vw}.sold-team-mini strong{display:block;color:#ffd166;font-size:.65vw}.sold-team-mini span{display:block;color:#cbd5e1;margin-top:.3vh;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.paused-title,.complete-title{font-size:6vw;font-weight:1000}.paused-sub,.complete-sub{margin-top:1vh;color:#cbd5e1;font-size:1.5vw}
+@media(max-width:1100px){.title{font-size:18px}.stage{grid-template-columns:1fr 230px}.team-name{font-size:10px}.team-squad{font-size:8px}}
+
+/* UI Enhancement Pack — Option 7 */
+.bid{position:relative;overflow:hidden;background:linear-gradient(180deg,#071a2d,#020914)!important;border-width:3px!important;box-shadow:0 0 0 1px #ffd16633,0 20px 70px #000d!important}
+.bid:before{content:"";position:absolute;inset:-30%;background:radial-gradient(circle,#ffd16618,transparent 55%);animation:bidGlow 3s ease-in-out infinite;pointer-events:none}
+.bid>*{position:relative;z-index:1}.bid-label{font-size:.7vw!important;color:#f8d77d!important}.bid-price{font-size:5.2vw!important;letter-spacing:-.07em!important;text-shadow:0 0 28px #ffd16635}.lead{font-size:1.45vw!important;color:#fff}.live{font-size:.56vw!important}
+@keyframes bidGlow{0%,100%{transform:scale(.9);opacity:.45}50%{transform:scale(1.1);opacity:.9}}
+.player{border-color:#ffffff28!important}.player:hover{transform:none}
+.player:after{height:48%!important;background:linear-gradient(transparent,#020617f8)!important}
+.player img{object-fit:contain!important;object-position:center bottom!important}
+.player-info{padding-bottom:1.1vw!important}.player-name{font-size:1.55vw!important}
+.auction-label{position:absolute;top:1vh;left:1vw;z-index:3;padding:.45vh .65vw;border-radius:5px;background:#020617cc;border:1px solid #ffd16655;color:#ffd166;font-size:.5vw;font-weight:1000;letter-spacing:.16em}
+.team-squad{font-size:.58vw!important}.team-squad .squad-line{display:flex;gap:.35vw;align-items:flex-start;margin:.18vh 0}.team-squad .num{color:#ffd166;font-weight:1000;min-width:1.2em}
+.team-card.leading{box-shadow:0 0 0 2px #fff0a044,0 8px 25px #0006}
+.team-card.leading .team-name:before{content:"★ ";color:#071525}
+.just-sold{display:inline-block;margin-top:1.1vh;padding:.45vh .75vw;border-radius:999px;background:#ffd166;color:#071525;font-size:.58vw;font-weight:1000;letter-spacing:.12em}
+.sold-title{font-size:10vw!important;text-shadow:0 0 35px #4ade8055,0 5px 25px #000!important}
+.sold-price{font-size:6.2vw!important;text-shadow:0 0 25px #ffd16633}
+.sold-team{font-size:2.7vw!important;box-shadow:0 8px 30px #0008}
+.sold-card{transform:translateY(10px);opacity:0;animation:soldPlayerIn .55s ease forwards}.sold-card:nth-child(2){animation-delay:.12s}.sold-card:nth-child(3){animation-delay:.24s}
+@keyframes soldPlayerIn{to{transform:translateY(0);opacity:1}}
+.sold-summary-title{margin:1.3vh 0 .5vh;color:#ffd166;font-size:.6vw;font-weight:1000;letter-spacing:.18em}
+.sold-team-mini strong{font-size:.68vw!important}.sold-team-mini span{font-size:.52vw!important}
+.status-ribbon{position:fixed;top:11.3vh;right:1vw;z-index:15;padding:.42vh .65vw;border-radius:5px;background:#06182be8;border:1px solid #ffffff20;color:#cbd5e1;font-size:.48vw;font-weight:1000;letter-spacing:.12em}
+.status-ribbon .dot{color:#4ade80}
+@media(max-width:1100px){.bid-price{font-size:58px!important}.player-name{font-size:16px!important}.lead{font-size:15px!important}}
+
+/* Broadcast Polish Pack */
+.purse-wrap{margin-top:.55vh;display:flex;align-items:center;gap:.35vw}.purse-bar{height:.42vh;flex:1;min-width:30px;background:#ffffff18;border-radius:99px;overflow:hidden}.purse-fill{height:100%;border-radius:99px;transition:width .35s ease,background .35s ease}.purse-pct{font-size:.43vw;font-weight:1000;color:#d8e6f4;min-width:2.4em;text-align:right}.team.leading .purse-pct{color:#172033}
+.squad-count{margin-left:auto;font-size:.45vw;letter-spacing:.08em;color:#9eb3c8;font-weight:1000}.team.leading .squad-count{color:#172033}
+.squad-update{animation:squadPulse 2.4s ease-out}.squad-update:after{content:"+ NEW PLAYER";position:absolute;right:.55vw;top:.55vh;padding:.3vh .45vw;border-radius:5px;background:#ffd166;color:#071525;font-size:.42vw;font-weight:1000;letter-spacing:.08em}.team{position:relative}
+@keyframes squadPulse{0%{box-shadow:0 0 0 3px #ffd166,0 0 30px #ffd16655}70%{box-shadow:0 0 0 3px #ffd16633,0 0 18px #ffd16622}100%{box-shadow:none}}
+.last-sale{position:fixed;left:0;right:0;bottom:0;height:3.2vh;z-index:80;background:linear-gradient(90deg,#020914,#071b30,#020914);border-top:1px solid #ffd16644;display:flex;align-items:center;justify-content:center;gap:.7vw;font-size:.5vw;font-weight:900;letter-spacing:.08em;color:#cbd5e1}.last-sale strong{color:#ffd166}.last-sale .live-dot{color:#4ade80}
+.sold-overlay .sold-title{letter-spacing:.02em}.sold-price{animation:soldPriceIn .55s ease-out}.sold-team{animation:soldTeamIn .55s .15s ease-out both}.sold-summary-title{color:#ffd166!important}
+@keyframes soldPriceIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}@keyframes soldTeamIn{from{transform:translateY(15px);opacity:0}to{transform:translateY(0);opacity:1}}
+.base-note{margin-top:.35vh;color:#7f93a8;font-size:.45vw;font-weight:800}
+
+/* Final player-photo positioning fix */
+.player{
+  background:linear-gradient(180deg,#153a64 0%,#06152a 100%) !important;
+}
+.player img{
+  width:100% !important;
+  height:100% !important;
+  display:block !important;
+  object-fit:contain !important;
+  object-position:center center !important;
+  padding:0 !important;
+  background:linear-gradient(180deg,#153a64 0%,#06152a 100%) !important;
+}
+.sold-photo img{
+  width:100% !important;
+  height:100% !important;
+  display:block !important;
+  object-fit:contain !important;
+  object-position:center center !important;
+  background:linear-gradient(180deg,#153a64 0%,#06152a 100%) !important;
+}
+.sold-card{display:flex;flex-direction:column;align-items:center}
+.last-sale-text{display:none}
+
+/* FINAL MPL BRANDING RULES — header remains visible on every Viewer state */
+.header{
+  position:fixed !important;
+  top:0;left:0;right:0;
+  height:11vh !important;
+  z-index:120 !important;
+}
+.main{
+  padding-top:1.2vh !important;
+}
+.overlay{
+  top:11vh !important;
+  inset-inline:0 !important;
+  bottom:0 !important;
+  z-index:90 !important;
+  background:rgba(2,8,20,.94) !important;
+}
+#connection{z-index:130 !important}
+.status-ribbon{z-index:125 !important;top:11.3vh !important}
+.brand{
+  min-width:0;
+  justify-content:center;
+}
+.mpl-logo{
+  overflow:hidden;
+  flex:none;
+  display:grid;
+  place-items:center;
+}
+.mpl-logo img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+}
+.title{
+  line-height:1.05;
+  text-align:left;
+}
+.subtitle{
+  white-space:nowrap;
+}
+.sponsors{
+  min-width:0;
+}
+.sponsor{
+  flex:0 1 5.3vw;
+  overflow:hidden;
+}
+.sponsor img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:contain;
+}
+.sponsor span{
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+/* Branding remains readable on the waiting / paused / completed screens */
+.overlay-inner{
+  padding:2vh 2vw 4vh;
+}
+.wait-title{
+  font-size:5.5vw !important;
+  line-height:.95 !important;
+}
+.wait-sub{
+  font-size:1.8vw !important;
+}
+
+
+
+/* Image/text safety: positioning only; sizing is responsive above. */
+.player{overflow:hidden}
+.player img{display:block;object-position:center center}
+.player-info{z-index:4}
+.player:after{z-index:2;pointer-events:none}
+.team{z-index:5}
+
+/* ================================================================
+   REAL RESPONSIVE LAYOUT — FINAL
+   Flow is: header -> lot -> stage -> team strip.
+   Nothing is positioned over another section.
+   ================================================================ */
+html,body,#app{
+  width:100%;
+  min-width:0;
+  margin:0;
+}
+html,body{min-height:100%;height:auto}
+body{overflow-x:hidden;overflow-y:auto}
+
+.header{
+  position:relative !important;
+  inset:auto !important;
+  width:100% !important;
+  height:auto !important;
+  min-height:clamp(70px,8vw,108px) !important;
+  box-sizing:border-box !important;
+  padding:clamp(8px,1vw,16px) clamp(12px,2vw,32px) !important;
+  z-index:120 !important;
+}
+
+.main{
+  position:relative !important;
+  box-sizing:border-box !important;
+  width:100% !important;
+  height:auto !important;
+  min-height:calc(100vh - clamp(70px,8vw,108px)) !important;
+  padding:clamp(8px,1vw,16px) clamp(12px,2vw,32px) clamp(12px,1.5vw,24px) !important;
+  display:grid !important;
+  grid-template-rows:auto minmax(320px,1fr) auto !important;
+  gap:clamp(8px,1vw,16px) !important;
+  overflow:visible !important;
+}
+
+.lotbar{
+  position:relative !important;
+  width:100% !important;
+  height:auto !important;
+  min-height:52px !important;
+  box-sizing:border-box !important;
+  margin:0 !important;
+}
+
+.stage{
+  position:relative !important;
+  width:100% !important;
+  height:auto !important;
+  min-height:320px !important;
+  margin:0 !important;
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) minmax(230px,19%) !important;
+  gap:clamp(8px,1vw,16px) !important;
+  overflow:hidden !important;
+  min-width:0 !important;
+}
+
+.players{
+  position:relative !important;
+  width:100% !important;
+  height:100% !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  display:grid !important;
+  gap:clamp(8px,1vw,16px) !important;
+  overflow:hidden !important;
+}
+.players.single{grid-template-columns:minmax(0,1fr) !important}
+.players.duo{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+.players.trio{grid-template-columns:repeat(3,minmax(0,1fr)) !important}
+
+.player{
+  position:relative !important;
+  width:100% !important;
+  height:100% !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  box-sizing:border-box !important;
+  overflow:hidden !important;
+}
+
+.player img{
+  position:absolute !important;
+  top:0 !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:auto !important;
+  width:100% !important;
+  height:calc(100% - clamp(58px,7vw,105px)) !important;
+  max-height:calc(100% - clamp(58px,7vw,105px)) !important;
+  display:block !important;
+  object-fit:contain !important;
+  object-position:center center !important;
+  z-index:1 !important;
+}
+.player .fallback{
+  position:absolute !important;
+  top:0 !important;
+  left:0 !important;
+  width:100% !important;
+  height:calc(100% - clamp(58px,7vw,105px)) !important;
+  z-index:1 !important;
+}
+.player:after{
+  height:42% !important;
+  bottom:clamp(58px,7vw,105px) !important;
+  z-index:2 !important;
+}
+.player-info{
+  position:absolute !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+  height:clamp(58px,7vw,105px) !important;
+  min-height:0 !important;
+  box-sizing:border-box !important;
+  padding:clamp(8px,1vw,16px) !important;
+  display:flex !important;
+  flex-direction:column !important;
+  justify-content:flex-end !important;
+  background:linear-gradient(180deg,rgba(2,8,20,.25),rgba(2,8,20,.98)) !important;
+  z-index:5 !important;
+}
+.player-name{
+  font-size:clamp(13px,1.2vw,23px) !important;
+  line-height:1.1 !important;
+}
+.chips{font-size:clamp(8px,.55vw,11px) !important}
+
+.bid{
+  position:relative !important;
+  width:100% !important;
+  height:100% !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  box-sizing:border-box !important;
+  overflow:hidden !important;
+}
+
+.teams{
+  position:relative !important;
+  width:100% !important;
+  height:auto !important;
+  min-height:clamp(105px,13vh,160px) !important;
+  margin:0 !important;
+  display:grid !important;
+  grid-template-columns:repeat(5,minmax(0,1fr)) !important;
+  gap:clamp(6px,.65vw,12px) !important;
+  overflow:visible !important;
+}
+.team{
+  position:relative !important;
+  width:100% !important;
+  height:100% !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  box-sizing:border-box !important;
+  overflow:hidden !important;
+  z-index:10 !important;
+}
+.team-squad{
+  min-height:0 !important;
+  overflow:hidden !important;
+}
+
+/* Keep the branding in document flow. Overlays still cover the auction
+   content, but never the MPL title/sponsor header. */
+.overlay{
+  position:fixed !important;
+  top:0 !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+  z-index:90 !important;
+  padding-top:clamp(70px,8vw,108px) !important;
+  box-sizing:border-box !important;
+}
+
+/* No overlap on shorter landscape screens: allow page scrolling rather
+   than shrinking content into the same pixels. */
+@media (max-height:760px) and (min-width:701px){
+  .main{min-height:0 !important}
+  .stage{min-height:360px !important}
+  .teams{min-height:105px !important}
+}
+
+/* Narrow landscape/tablet */
+@media (max-width:900px){
+  .stage{
+    grid-template-columns:minmax(0,1fr) minmax(190px,25%) !important;
+  }
+  .team-name{font-size:clamp(10px,1.4vw,15px) !important}
+}
+
+/* Portrait / phone: never squeeze three photos and five teams together. */
+@media (max-width:700px){
+  .sponsors{display:none !important}
+  .header{display:flex !important;justify-content:center !important}
+  .main{
+    display:block !important;
+    min-height:0 !important;
+  }
+  .lotbar{margin-bottom:10px !important}
+  .stage{
+    display:flex !important;
+    flex-direction:column !important;
+    min-height:0 !important;
+    overflow:visible !important;
+  }
+  .players{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+  }
+  .player{height:clamp(330px,90vw,520px) !important}
+  .bid{height:260px !important;margin-top:10px !important}
+  .teams{
+    margin-top:10px !important;
+    display:flex !important;
+    gap:8px !important;
+    overflow-x:auto !important;
+    padding-bottom:4px !important;
+  }
+  .team{
+    flex:0 0 190px !important;
+    height:150px !important;
+  }
+}
+
+/* Very wide screens: preserve proportions instead of allowing the bid or
+   player names to become oversized. */
+@media (min-width:1800px){
+  .stage{
+    grid-template-columns:minmax(0,1fr) minmax(300px,18%) !important;
+  }
+}
+
+/* ================================================================
+   MPL SEASON 2 — 10/10 BROADCAST UI
+   UI ONLY: no auction state, API, polling, bid, sale or team logic.
+   ================================================================ */
+:root{
+  --mpl-ink:#020816;
+  --mpl-panel:#07172c;
+  --mpl-panel-2:#0a2342;
+  --mpl-blue:#54c9ff;
+  --mpl-purple:#a76cff;
+  --mpl-gold:#f6c64f;
+  --mpl-white:#f7fbff;
+  --mpl-muted:#a8bad0;
+  --mpl-green:#49d58b;
+}
+
+html,body{
+  background:
+    radial-gradient(circle at 22% 18%,rgba(73,48,157,.32),transparent 27%),
+    radial-gradient(circle at 78% 24%,rgba(25,110,180,.24),transparent 30%),
+    linear-gradient(180deg,#020714 0%,#040b1a 48%,#020714 100%) !important;
+}
+
+#app{
+  isolation:isolate;
+  background:
+    linear-gradient(180deg,rgba(1,6,16,.25),rgba(1,6,16,.72)),
+    radial-gradient(circle at 50% 18%,rgba(75,41,160,.16),transparent 36%);
+}
+
+#app:before{
+  z-index:-1 !important;
+  background:
+    linear-gradient(90deg,rgba(99,73,220,.10),transparent 24%,transparent 76%,rgba(31,152,219,.10)),
+    repeating-linear-gradient(135deg,rgba(255,255,255,.018) 0 1px,transparent 1px 14px) !important;
+}
+
+/* ---------- TOP BROADCAST HEADER ---------- */
+.header{
+  height:12vh !important;
+  min-height:86px !important;
+  padding:1vh 2vw !important;
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) !important;
+  gap:1.25vw !important;
+  background:
+    linear-gradient(180deg,rgba(6,16,35,.98),rgba(4,13,28,.94)),
+    radial-gradient(circle at 50% 0,rgba(110,71,214,.14),transparent 58%) !important;
+  border-bottom:1px solid rgba(246,198,79,.65) !important;
+  box-shadow:0 12px 36px rgba(0,0,0,.45),0 1px 0 rgba(255,255,255,.04) inset !important;
+}
+
+.header:after{
+  content:"";
+  position:absolute;
+  left:25%;
+  right:25%;
+  bottom:-2px;
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--mpl-purple),var(--mpl-gold),var(--mpl-purple),transparent);
+  box-shadow:0 0 18px rgba(167,108,255,.65);
+}
+
+.sponsors{
+  gap:.75vw !important;
+}
+
+.sponsor{
+  width:7.2vw !important;
+  max-width:130px !important;
+  height:5.2vh !important;
+  min-width:72px !important;
+  min-height:42px !important;
+  padding:.35vh .55vw !important;
+  border-radius:9px !important;
+  background:linear-gradient(180deg,#ffffff,#e8eef5) !important;
+  border:1px solid rgba(255,255,255,.7) !important;
+  box-shadow:0 7px 22px rgba(0,0,0,.35) !important;
+}
+
+.sponsor:before{
+  content:"";
+  position:absolute;
+}
+
+.sponsor span{
+  color:#11233a !important;
+  font-size:clamp(8px,.55vw,12px) !important;
+  letter-spacing:.08em;
+}
+
+.brand{
+  gap:1vw !important;
+  justify-content:center !important;
+}
+
+.mpl-logo{
+  width:5.1vw !important;
+  height:5.1vw !important;
+  min-width:66px !important;
+  min-height:66px !important;
+  max-width:94px !important;
+  max-height:94px !important;
+  border-radius:14px !important;
+  background:
+    linear-gradient(145deg,#fff0a5 0%,#f6c64f 42%,#b67811 100%) !important;
+  border:2px solid rgba(255,244,181,.9) !important;
+  color:#071426 !important;
+  box-shadow:0 10px 32px rgba(0,0,0,.45),0 0 24px rgba(246,198,79,.18) !important;
+  font-size:clamp(24px,1.8vw,40px) !important;
+}
+
+.mpl-logo img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  padding:5px;
+}
+
+.title{
+  font-size:clamp(20px,1.75vw,38px) !important;
+  font-weight:1000 !important;
+  letter-spacing:.015em !important;
+  text-shadow:0 3px 18px rgba(0,0,0,.55);
+}
+
+.subtitle{
+  font-size:clamp(8px,.6vw,13px) !important;
+  color:#f6c64f !important;
+  letter-spacing:.22em !important;
+  margin-top:.45vh !important;
+}
+
+/* ---------- MAIN BROADCAST CANVAS ---------- */
+.main{
+  height:88vh !important;
+  padding:1.15vh 2vw 1.3vh !important;
+  display:grid !important;
+  grid-template-rows:auto minmax(0,1fr) minmax(118px,15vh) !important;
+  gap:1vh !important;
+}
+
+.lotbar{
+  height:7vh !important;
+  min-height:52px !important;
+  padding:.65vh 1.05vw !important;
+  border-radius:10px !important;
+  border:1px solid rgba(113,180,255,.28) !important;
+  border-left:4px solid var(--mpl-gold) !important;
+  background:
+    linear-gradient(90deg,rgba(5,22,44,.98),rgba(6,28,54,.92),rgba(5,20,40,.98)) !important;
+  box-shadow:0 9px 25px rgba(0,0,0,.25),0 1px 0 rgba(255,255,255,.04) inset !important;
+}
+
+.meta{
+  color:#b9c7d9 !important;
+  font-size:clamp(8px,.58vw,13px) !important;
+  letter-spacing:.18em !important;
+}
+
+.lotid{
+  color:#fff !important;
+  font-size:clamp(22px,1.55vw,34px) !important;
+  text-shadow:0 0 16px rgba(84,201,255,.16);
+}
+
+.type{
+  padding:.5vh .8vw !important;
+  background:linear-gradient(180deg,#f8d56c,#d99a22) !important;
+  color:#071426 !important;
+  border:1px solid rgba(255,236,162,.8) !important;
+  border-radius:6px !important;
+  box-shadow:0 0 18px rgba(246,198,79,.16);
+}
+
+.base{
+  position:relative;
+  padding-right:.35vw;
+}
+
+.base:before{
+  content:"BASE PRICE";
+  display:block;
+  color:#8fa3ba;
+  font-size:clamp(7px,.48vw,11px);
+  font-weight:900;
+  letter-spacing:.16em;
+  margin-bottom:.25vh;
+}
+
+.base .meta{
+  display:none;
+}
+
+#basePrice{
+  color:#fff !important;
+  font-size:clamp(14px,1vw,22px);
+}
+
+.base-note{
+  color:#8396ad !important;
+  font-size:clamp(7px,.45vw,10px) !important;
+}
+
+/* ---------- LIVE STAGE ---------- */
+.stage{
+  height:auto !important;
+  min-height:0 !important;
+  margin:0 !important;
+  grid-template-columns:minmax(0,1fr) minmax(270px,23%) !important;
+  gap:1vw !important;
+}
+
+.players{
+  gap:.8vw !important;
+  min-height:0 !important;
+}
+
+.player{
+  border-radius:14px !important;
+  border:1px solid rgba(98,190,255,.42) !important;
+  background:
+    radial-gradient(circle at 50% 20%,rgba(102,60,218,.32),transparent 42%),
+    linear-gradient(180deg,#0b2748,#041020 72%,#020814) !important;
+  box-shadow:0 16px 40px rgba(0,0,0,.38),0 0 0 1px rgba(167,108,255,.08) inset !important;
+}
+
+.player:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background:
+    linear-gradient(120deg,transparent 0 47%,rgba(167,108,255,.14) 50%,transparent 53%),
+    radial-gradient(circle at 20% 18%,rgba(84,201,255,.16),transparent 22%);
+}
+
+.player img{
+  object-fit:contain !important;
+  object-position:center center !important;
+  position:relative !important;
+  z-index:1 !important;
+  filter:drop-shadow(0 16px 20px rgba(0,0,0,.55)) !important;
+}
+
+.player:after{
+  height:45% !important;
+  z-index:2 !important;
+  background:linear-gradient(180deg,transparent 0%,rgba(2,8,20,.38) 35%,rgba(2,8,20,.96) 100%) !important;
+}
+
+.auction-label{
+  top:1vh !important;
+  left:.85vw !important;
+  z-index:4 !important;
+  color:#f4dc8b !important;
+  background:rgba(3,12,28,.8) !important;
+  border-color:rgba(246,198,79,.38) !important;
+  box-shadow:0 0 18px rgba(0,0,0,.2);
+}
+
+.player-info{
+  z-index:5 !important;
+  left:.95vw !important;
+  right:.95vw !important;
+  bottom:.85vw !important;
+  padding:0 !important;
+}
+
+.player-name{
+  font-size:clamp(18px,1.55vw,34px) !important;
+  letter-spacing:.02em !important;
+  color:#fff !important;
+  text-shadow:0 4px 18px #000 !important;
+}
+
+.chip{
+  background:rgba(15,36,68,.82) !important;
+  border:1px solid rgba(255,255,255,.12) !important;
+  color:#dbe9fb !important;
+  font-size:clamp(7px,.48vw,11px) !important;
+}
+
+/* ---------- BID HERO ---------- */
+.bid{
+  border-radius:14px !important;
+  border:1px solid rgba(246,198,79,.8) !important;
+  background:
+    radial-gradient(circle at 50% 32%,rgba(246,198,79,.10),transparent 34%),
+    linear-gradient(180deg,#0a1728,#06111f 100%) !important;
+  box-shadow:0 18px 48px rgba(0,0,0,.45),0 0 28px rgba(246,198,79,.08) !important;
+}
+
+.bid:before{
+  background:
+    radial-gradient(circle,rgba(246,198,79,.13),transparent 54%) !important;
+}
+
+.bid-label,.lead-label{
+  color:#f6d67a !important;
+  font-size:clamp(8px,.58vw,13px) !important;
+  letter-spacing:.2em !important;
+}
+
+.bid-price{
+  color:var(--mpl-gold) !important;
+  font-size:clamp(58px,5vw,104px) !important;
+  text-shadow:0 0 30px rgba(246,198,79,.22) !important;
+  margin:.8vh 0 !important;
+}
+
+.lead{
+  color:#e8ddff !important;
+  font-size:clamp(20px,1.55vw,34px) !important;
+}
+
+.live{
+  background:linear-gradient(90deg,#123d2c,#0d5135) !important;
+  color:#82efad !important;
+  border:1px solid rgba(91,226,143,.18);
+  box-shadow:0 0 18px rgba(73,213,139,.08);
+}
+
+/* ---------- TEAM STRIP ---------- */
+.teams{
+  height:auto !important;
+  min-height:118px !important;
+  margin:0 !important;
+  gap:.65vw !important;
+}
+
+.team{
+  border-radius:12px !important;
+  padding:.7vh .7vw !important;
+  background:
+    linear-gradient(180deg,rgba(9,35,66,.98),rgba(4,18,35,.98)) !important;
+  border:1px solid rgba(88,173,230,.30) !important;
+  box-shadow:0 10px 26px rgba(0,0,0,.26) !important;
+}
+
+.team.leading{
+  background:
+    radial-gradient(circle at 50% 0,rgba(255,236,151,.15),transparent 40%),
+    linear-gradient(180deg,#2a210d,#161208 100%) !important;
+  color:#fff !important;
+  border-color:rgba(246,198,79,.92) !important;
+  box-shadow:0 0 0 1px rgba(246,198,79,.25),0 10px 28px rgba(0,0,0,.32),0 0 22px rgba(246,198,79,.10) !important;
+}
+
+.team-top{
+  padding-bottom:.4vh;
+}
+
+.team-logo{
+  width:2.2vw !important;
+  height:2.2vw !important;
+  min-width:30px !important;
+  min-height:30px !important;
+}
+
+.team-name{
+  color:#f5f8fc !important;
+  font-size:clamp(10px,.78vw,17px) !important;
+}
+
+.team.leading .team-name{
+  color:#ffe18a !important;
+}
+
+.team-purse{
+  margin:.35vh 0 .25vh !important;
+  color:#bcd2e8 !important;
+  font-size:clamp(8px,.58vw,12px) !important;
+}
+
+.team.leading .team-purse{
+  color:#ffe7a6 !important;
+}
+
+.team-squad{
+  margin-top:.55vh !important;
+  color:#dce8f5 !important;
+  font-size:clamp(8px,.55vw,12px) !important;
+}
+
+.team.leading .team-squad{
+  color:#fff4cf !important;
+}
+
+.purse-wrap{
+  display:flex !important;
+  align-items:center !important;
+  gap:.45vw !important;
+}
+
+.purse-bar{
+  background:rgba(255,255,255,.10) !important;
+  border:1px solid rgba(255,255,255,.06);
+}
+
+.purse-fill{
+  box-shadow:0 0 10px currentColor;
+}
+
+/* ---------- STATUS / OVERLAYS ---------- */
+.status-ribbon{
+  top:calc(12vh + .6vh) !important;
+  right:2vw !important;
+  z-index:30 !important;
+  background:rgba(5,18,35,.86) !important;
+  border-color:rgba(84,201,255,.22) !important;
+  backdrop-filter:blur(10px);
+}
+
+.connection{
+  background:rgba(5,18,35,.88) !important;
+  border-color:rgba(84,201,255,.18) !important;
+  backdrop-filter:blur(10px);
+}
+
+.overlay{
+  background:
+    radial-gradient(circle at 50% 30%,rgba(92,49,200,.18),transparent 36%),
+    rgba(2,8,20,.95) !important;
+}
+
+.sold-title{
+  color:var(--mpl-gold) !important;
+  text-shadow:0 0 36px rgba(246,198,79,.22),0 8px 28px #000 !important;
+}
+
+.sold-price{
+  color:#fff1aa !important;
+  text-shadow:0 0 24px rgba(246,198,79,.16) !important;
+}
+
+.sold-team{
+  border-color:var(--mpl-gold) !important;
+  background:linear-gradient(180deg,#101b2e,#06101f) !important;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:1200px){
+  .header{min-height:76px !important;}
+  .main{grid-template-rows:auto minmax(0,1fr) minmax(112px,15vh) !important;}
+  .stage{grid-template-columns:minmax(0,1fr) minmax(230px,24%) !important;}
+  .sponsor{width:8vw !important;}
+}
+
+@media (max-width:900px){
+  body{overflow:auto !important;}
+  #app{height:auto !important;min-height:100vh;}
+  .header{height:auto !important;grid-template-columns:1fr auto 1fr !important;}
+  .title{font-size:18px !important;}
+  .main{height:auto !important;min-height:calc(100vh - 76px) !important;}
+  .stage{min-height:500px !important;grid-template-columns:minmax(0,1fr) 220px !important;}
+  .teams{min-height:130px !important;}
+}
+
+@media (max-width:700px){
+  .header{grid-template-columns:1fr !important;justify-items:center !important;}
+  .sponsors{display:none !important;}
+  .main{display:block !important;}
+  .lotbar{margin-bottom:10px !important;}
+  .stage{display:flex !important;flex-direction:column !important;min-height:0 !important;}
+  .players{display:grid !important;grid-template-columns:1fr !important;}
+  .player{height:430px !important;}
+  .bid{height:270px !important;margin-top:10px !important;}
+  .teams{display:flex !important;overflow-x:auto !important;margin-top:10px !important;padding-bottom:8px !important;}
+  .team{flex:0 0 210px !important;height:155px !important;}
+  .status-ribbon{top:10px !important;}
+}
+
+
+/* Final improvement: public Team Squads navigation */
+.team-squads-link{
+  position:absolute;
+  right:1.5vw;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:150;
+  display:inline-flex;
+  align-items:center;
+  gap:.45vw;
+  padding:.55em .85em;
+  border-radius:999px;
+  color:#fff5c5;
+  text-decoration:none;
+  font-weight:900;
+  font-size:clamp(10px,.7vw,15px);
+  letter-spacing:.08em;
+  background:linear-gradient(180deg,rgba(34,44,74,.96),rgba(8,15,31,.96));
+  border:1px solid rgba(246,198,79,.65);
+  box-shadow:0 8px 24px rgba(0,0,0,.28),0 0 18px rgba(246,198,79,.08);
+}
+.team-squads-link:hover{transform:translateY(-50%) scale(1.03);box-shadow:0 8px 24px rgba(0,0,0,.35),0 0 26px rgba(246,198,79,.22)}
+@media(max-width:900px){.team-squads-link{right:1vw;font-size:10px}}
+@media(max-width:700px){.team-squads-link{position:static;transform:none;margin-top:4px}.team-squads-link:hover{transform:scale(1.02)}}
+
+
+/* Waiting state: keep team information visually prominent between lots */
+body.waiting .teams,
+#app.waiting .teams{
+  opacity:1 !important;
+  filter:none !important;
+}
+body.waiting .stage,
+#app.waiting .stage{
+  min-height:0 !important;
+}
+
+
+
+/* Waiting for next lot — live squad board */
+.waiting-overlay{overflow:auto!important;background:radial-gradient(circle at 50% 0,#102947 0,#071527 38%,#020914 100%)!important}
+.waiting-inner{width:min(98vw,1780px);margin:0 auto;text-align:center;padding:clamp(18px,2.5vw,42px) clamp(12px,2vw,34px) clamp(24px,3vw,54px)!important}
+.wait-kicker{color:#f6c64f;font-size:clamp(10px,.65vw,14px);font-weight:1000;letter-spacing:.22em;margin-bottom:8px}
+.wait-note{margin:8px auto 18px;color:#9eb3c8;font-size:clamp(11px,.8vw,16px)}
+.waiting-teams{display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:clamp(12px,1.2vw,20px);margin:0 auto;width:100%;align-items:stretch}
+.waiting-team-card{position:relative;display:flex;flex-direction:column;min-width:0;text-align:left;padding:clamp(14px,1.2vw,22px);border:1px solid rgba(246,198,79,.38);border-radius:20px;background:linear-gradient(160deg,rgba(16,40,69,.94),rgba(4,15,30,.96));box-shadow:0 12px 36px rgba(0,0,0,.24);overflow:hidden}
+.waiting-team-card:before{content:"";position:absolute;inset:0 0 auto;height:3px;background:linear-gradient(90deg,transparent,#f6c64f,transparent);opacity:.75}
+.waiting-team-head{display:flex;align-items:center;gap:12px;min-width:0}
+.waiting-team-logo{width:clamp(52px,4.2vw,76px);height:clamp(52px,4.2vw,76px);flex:0 0 auto;border-radius:15px;overflow:hidden;display:grid;place-items:center;background:#0a2038;border:1px solid rgba(246,198,79,.28);color:#ffe18a;font-weight:1000;font-size:clamp(15px,1vw,22px)}
+.waiting-team-logo img{width:100%;height:100%;display:block;object-fit:contain;padding:4px;box-sizing:border-box}
+.waiting-team-title{min-width:0}.waiting-team-title h3{margin:0;color:#fff;font-size:clamp(16px,1.15vw,23px);line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.waiting-owner{display:flex;align-items:center;gap:8px;margin-top:8px;color:#c8d5e4;font-size:clamp(11px,.75vw,15px);min-width:0}.waiting-owner span:last-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.waiting-owner-avatar{width:30px;height:30px;flex:0 0 30px;border-radius:50%;overflow:hidden;display:grid;place-items:center;background:#27496b;color:#fff;font-weight:1000;border:1px solid rgba(255,255,255,.18)}
+.waiting-owner-avatar img{width:100%;height:100%;display:block;object-fit:cover}
+.waiting-stats{display:grid;grid-template-columns:1.5fr .8fr .8fr;gap:8px;margin:16px 0 8px;padding:12px 0;border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1)}
+.waiting-stats div{min-width:0}.waiting-stats span,.waiting-spent span{display:block;color:#90a4ba;font-size:clamp(9px,.56vw,12px);font-weight:900;letter-spacing:.08em}.waiting-stats b{display:block;margin-top:4px;color:#fff;font-size:clamp(13px,.9vw,18px)}.waiting-stats div:first-child b{color:#ffe18a}
+.waiting-spent{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;color:#b8c7d8;font-size:clamp(11px,.7vw,14px)}.waiting-spent b{color:#f6c64f}
+.waiting-sold-title{display:flex;align-items:center;gap:7px;color:#f6c64f;font-size:clamp(10px,.62vw,13px);font-weight:1000;letter-spacing:.1em;margin:2px 0 8px}.waiting-sold-title span{color:#4ade80}
+.waiting-sales-list{display:flex;flex-direction:column;gap:7px;max-height:230px;overflow:auto;padding-right:2px}
+.waiting-sale-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07);min-width:0}
+.waiting-sale-main{display:flex;align-items:center;gap:8px;min-width:0}.waiting-group-id{color:#ffe18a;font-weight:1000;font-size:clamp(10px,.65vw,14px);white-space:nowrap}.waiting-player-names{color:#dce6f0;font-size:clamp(10px,.66vw,14px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.waiting-sale-price{flex:0 0 auto;color:#fff;font-size:clamp(11px,.72vw,15px)}
+.waiting-empty{padding:16px 10px;border-radius:10px;background:rgba(255,255,255,.035);color:#8fa3b8;font-size:clamp(11px,.72vw,15px);font-style:italic}
+@media(max-width:720px){.waiting-stats{grid-template-columns:1fr 1fr 1fr}.waiting-team-card{border-radius:16px}.wait-title{font-size:clamp(34px,10vw,58px)!important}.wait-sub{font-size:clamp(14px,4vw,24px)!important}}
+</style>
+</head>
+<body>
+<div id="app"><div class="status-ribbon"><span class="dot">●</span> LIVE AUCTION <span id="statusRound">ROUND 1</span> <span id="statusLot">LOT —</span></div>
+<header class="header">
+  <div id="sponsorsLeft" class="sponsors"></div>
+  <div class="brand"><div id="mplLogo" class="mpl-logo"><span id="mplLogoFallback">MPL</span></div><div><div class="title">MANA OORU PREMIER LEAGUE</div><div class="subtitle">SEASON 2 • LIVE PLAYER AUCTION</div></div></div>
+  <div id="sponsorsRight" class="sponsors right"></div>
+</header>
+<main class="main">
+  <section class="lotbar"><div><div id="round" class="meta">ROUND 1 • CURRENT LOT</div><div id="groupId" class="lotid">—</div></div><div id="groupType" class="type">LOT</div><div class="base"><div class="meta">BASE PRICE</div><strong id="basePrice">₹0</strong><div id="baseNote" class="base-note">Opening price</div></div></section>
+  <section class="stage"><div id="players" class="players duo"></div><aside class="bid"><div class="bid-label">CURRENT BID</div><div id="bidPrice" class="bid-price">₹0</div><div class="lead-label">LEADING TEAM</div><div id="leadTeam" class="lead">OPENING BID</div><div class="live">● LIVE BIDDING</div></aside></section>
+  <section id="teams" class="teams"></section>
+</main>
+<div id="connection" class="connection">CONNECTING</div>
+</div>
+
+<div id="waiting" class="overlay waiting-overlay"><div class="overlay-inner waiting-inner"><div class="wait-kicker">LIVE AUCTION • TEAM SQUADS</div><div class="wait-title">MPL SEASON 2</div><div class="wait-sub">WAITING FOR NEXT LOT</div><div class="wait-note">Latest sold squads and remaining purses update automatically</div><div id="waitingTeams" class="waiting-teams" aria-live="polite"></div></div></div>
+<div id="paused" class="overlay"><div class="overlay-inner"><div class="paused-title">AUCTION PAUSED</div><div class="paused-sub">Please wait for the Auctioneer</div></div></div>
+<div id="completed" class="overlay"><div class="overlay-inner"><div class="complete-title">AUCTION COMPLETED</div><div class="complete-sub">MPL SEASON 2 • THANK YOU</div></div></div>
+<div id="lastSaleText" class="last-sale-text" aria-live="polite"></div>
+<div id="sold" class="overlay sold-overlay"><div class="overlay-inner"><div class="sold-title">SOLD</div><div id="soldPhotos" class="sold-photos"></div><div id="soldPrice" class="sold-price">₹0</div><div id="soldTeam" class="sold-team">—</div><div id="justSold" class="just-sold">✓ JUST SOLD</div><div class="sold-summary-title">TEAM SQUADS • UPDATED</div><div id="soldSquad" class="sold-squad"></div></div></div>
+<div id="lost" class="overlay"><div class="overlay-inner"><div class="paused-title" style="color:#f87171">CONNECTION LOST</div><div class="paused-sub">Reconnecting…</div></div></div>
+
+<script>
+(() => {
+  const $=id=>document.getElementById(id);
+  const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const money=n=>'₹'+Number(n||0).toLocaleString('en-IN');
+  let lastSaleKey="", soldUntil=0, busy=false, firstLoad=true;
+
+  function show(id){["waiting","paused","completed","sold"].forEach(x=>$(x).classList.remove("active")); if(id)$(id).classList.add("active");}
+  function setOnline(ok){$("connection").textContent=ok?"ONLINE":"RECONNECTING";$("connection").className="connection "+(ok?"":"offline");$("lost").classList.toggle("active",!ok);}
+  function renderSponsors(media){
+    const t=media?.tournament||{};
+    const logo=t.main_logo_url||"";
+    const mark=$("mplLogo");
+    if(mark){
+      mark.innerHTML=logo
+        ? `<img src="${esc(logo)}" alt="MPL" onerror="this.replaceWith(document.getElementById("mplLogoFallback"))">`
+        : `<span id="mplLogoFallback">MPL</span>`;
+    }
+    const s=(media?.sponsors||[]).filter(x=>x && (x.logo_url||x.logo||x.image_url));
+    const render=a=>a.map(x=>`<div class="sponsor"><img src="${esc(x.logo_url||x.logo||x.image_url)}" alt="${esc(x.name||"Sponsor")}" onerror="this.style.display='none'"></div>`).join("");
+    $("sponsorsLeft").innerHTML=render(s.slice(0,2)) || `<div class="sponsor"><span>SPONSOR</span></div><div class="sponsor"><span>SPONSOR</span></div>`;
+    $("sponsorsRight").innerHTML=render(s.slice(2,4)) || `<div class="sponsor"><span>SPONSOR</span></div><div class="sponsor"><span>SPONSOR</span></div>`;
+  }
+  async function loadMedia(){
+    try{const r=await fetch("/api/viewer/media",{cache:"no-store"});const j=await r.json();if(j.success)renderSponsors(j.data||{});}catch(e){renderSponsors({});}
+  }
+  let previousTeamCounts={};
+  function renderTeams(teams,players,bidTeamId){
+    $("teams").innerHTML=(teams||[]).slice(0,5).map(t=>{
+      const ids=Array.isArray(t.players)?t.players:[];
+      const purchased=ids.map(id=>players.find(p=>String(p.id)===String(id))).filter(Boolean);
+      const squad=purchased.length?purchased.map((p,i)=>`<div class="squad-line"><span class="num">${String(i+1).padStart(2,"0")}</span><span>${esc(p.name)}</span></div>`).join(""):`<span class="empty">No players yet</span>`;
+      const purse=Number(t.purse||0), def=Number(t.default_purse||100000), pct=def>0?Math.max(0,Math.min(100,(purse/def)*100)):0;
+      const fill=pct>50?"#35d07f":pct>=25?"#f4c84a":"#ef5350";
+      const changed=(previousTeamCounts[String(t.id)]??purchased.length)<purchased.length;
+      return `<article class="team ${String(t.id)===String(bidTeamId)?"leading ":""}${changed?"squad-update":""}">
+        <div class="team-top">${t.logo?`<img class="team-logo" src="${esc(t.logo)}" alt="">`:''}<div class="team-name">${esc(t.team_name)}</div><div class="squad-count">SQUAD ${purchased.length}</div></div>
+        <div class="team-purse">${money(purse)} REMAINING</div>
+        <div class="purse-wrap"><div class="purse-bar"><div class="purse-fill" style="width:${pct}%;background:${fill}"></div></div><div class="purse-pct">${Math.round(pct)}%</div></div>
+        <div class="team-squad">${squad}</div>
+      </article>`;
+    }).join("");
+    (teams||[]).slice(0,5).forEach(t=>{
+      const count=Array.isArray(t.players)?t.players.length:0;
+      previousTeamCounts[String(t.id)]=count;
+    });
+  }
+  function renderWaitingTeams(data){
+    const teams=data.teams||[], players=data.players||[], groups=data.groups||[];
+    const box=$("waitingTeams"); if(!box)return;
+    const playerById=new Map(players.map(p=>[String(p.id),p]));
+    box.innerHTML=teams.map(t=>{
+      // Source of truth for the waiting screen is SOLD group history/state.
+      // This prevents the squad cards from relying on a stale DOM snapshot.
+      const soldGroups=groups.filter(g=>String(g.status||"").toLowerCase()==="sold"&&String(g.winner_team_id)===String(t.id));
+      const soldPlayerIds=[...new Set(soldGroups.flatMap(g=>Array.isArray(g.players)?g.players:[]).map(String))];
+      const teamPlayerIds=(Array.isArray(t.players)?t.players:[]).map(String);
+      const displayPlayerIds=soldPlayerIds.length?soldPlayerIds:[...new Set(teamPlayerIds)];
+      const playerCount=displayPlayerIds.length;
+      const groupCount=soldGroups.length;
+      const soldRows=soldGroups.map(g=>{
+        const names=(Array.isArray(g.players)?g.players:[])
+          .map(id=>playerById.get(String(id))?.name).filter(Boolean).join(" + ");
+        return `<div class="waiting-sale-row">
+          <div class="waiting-sale-main"><span class="waiting-group-id">${esc(g.group_id||"LOT")}</span><span class="waiting-player-names">${esc(names||"Sold Group")}</span></div>
+          <strong class="waiting-sale-price">${money(g.current_bid||0)}</strong>
+        </div>`;
+      }).join("")||'<div class="waiting-empty">No players sold yet</div>';
+      const owner=t.owner||t.owner_name||"Owner";
+      const ownerPhoto=t.owner_image||t.owner_photo||t.owner_image_url||"";
+      const initials=String(owner).trim().split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join("").toUpperCase()||"O";
+      const teamInitials=String(t.team_name||"TEAM").trim().split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join("").toUpperCase()||"T";
+      const logo=t.logo||t.team_logo||t.logo_url||"";
+      const purse=Number(t.purse||0), defaultPurse=Number(t.default_purse||100000);
+      const spent=Math.max(0,defaultPurse-purse);
+      return `<article class="waiting-team-card">
+        <div class="waiting-team-head">
+          <div class="waiting-team-logo">${logo?`<img src="${esc(logo)}" alt="${esc(t.team_name)}" onerror="this.remove();this.parentElement.textContent='${teamInitials}'">`:teamInitials}</div>
+          <div class="waiting-team-title"><h3>${esc(t.team_name||"Team")}</h3><div class="waiting-owner"><span class="waiting-owner-avatar">${ownerPhoto?`<img src="${esc(ownerPhoto)}" alt="${esc(owner)}" onerror="this.remove();this.parentElement.textContent='${initials}'">`:initials}</span><span>${esc(owner)}</span></div></div>
+        </div>
+        <div class="waiting-stats"><div><span>REMAINING</span><b>${money(purse)}</b></div><div><span>PLAYERS</span><b>${playerCount}</b></div><div><span>GROUPS</span><b>${groupCount}</b></div></div>
+        <div class="waiting-spent"><span>Spent</span><b>${money(spent)}</b></div>
+        <div class="waiting-sold-title"><span>●</span> SOLD PLAYERS / GROUPS</div>
+        <div class="waiting-sales-list">${soldRows}</div>
+      </article>`;
+    }).join("");
+  }
+  function renderLive(data){
+    const state=data.state||{},groups=data.groups||[],teams=data.teams||[],players=data.players||[];
+    const g=groups.find(x=>String(x.group_id)===String(state.current_group_id));
+    if(!g){renderWaitingTeams(data);show("waiting");return;}
+    $("round").textContent=`ROUND ${state.current_round||1} • CURRENT LOT`;
+    $("statusRound").textContent=`ROUND ${state.current_round||1}`;
+    $("statusLot").textContent=`LOT ${g.group_id}`;
+    $("groupId").textContent=g.group_id;
+    $("groupType").textContent=String(g.type||"LOT").toUpperCase();
+    $("basePrice").textContent=money(g.base_price);
+    $("baseNote").textContent="Opening price • bidding starts at base";
+    const ids=Array.isArray(g.players)?g.players:[];
+    const grid=$("players");grid.className="players "+(ids.length===1?"single":ids.length===3?"trio":"duo");
+    grid.innerHTML=ids.map(id=>{
+      const p=players.find(x=>String(x.id)===String(id));
+      if(!p)return `<article class="player"><div class="fallback">PLAYER</div></article>`;
+      return `<article class="player"><div class="auction-label">MPL SEASON 2 • LIVE LOT</div><img src="${esc(p.photo_url)}" alt="${esc(p.name)}" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="fallback" style="display:none">PHOTO UNAVAILABLE</div><div class="player-info"><div class="player-name">${esc(p.name)}</div><div class="chips"><span class="chip">${esc(p.age)} YRS</span><span class="chip">${esc(p.skill)}</span><span class="chip">${esc(p.handedness)}</span></div></div></article>`;
+    }).join("");
+    const bid=state.current_bid||{},lead=teams.find(t=>String(t.id)===String(bid.team_id));
+    $("bidPrice").textContent=money(bid.amount||g.base_price);
+    $("leadTeam").textContent=lead?lead.team_name:"OPENING BID • BASE PRICE";
+    renderTeams(teams,players,bid.team_id);
+    show(null);
+  }
+  function renderSold(data,sale){
+    const players=data.players||[],teams=data.teams||[];
+    const sold=(sale.players||[]).map(id=>players.find(p=>String(p.id)===String(id))).filter(Boolean);
+    $("soldPrice").textContent=money(sale.amount);
+    const team=teams.find(t=>String(t.id)===String(sale.team_id));
+    $("soldTeam").textContent=team?team.team_name:"—";
+    const justSold=document.getElementById("justSold");
+    if(justSold) justSold.textContent="✓ JUST SOLD";
+    $("soldPhotos").innerHTML=sold.map(p=>`<div class="sold-card"><div class="sold-photo"><img src="${esc(p.photo_url)}" alt="${esc(p.name)}" onerror="this.style.display='none'"></div><div class="sold-name">${esc(p.name)}</div></div>`).join("");
+    const lastSale=$("lastSaleText"); if(lastSale) lastSale.textContent=`${sold.map(p=>p.name).join(" • ")||"Lot"}  •  ${money(sale.amount)}  •  ${team?team.team_name:"Winning Team"}`;
+    $("soldSquad").innerHTML=teams.slice(0,5).map(t=>{
+      const ids=Array.isArray(t.players)?t.players:[];
+      const names=ids.map(id=>players.find(p=>String(p.id)===String(id))).filter(Boolean).map(p=>p.name);
+      return `<div class="sold-team-mini"><strong>${esc(t.team_name)}</strong><span>${esc(names.join(" • ")||"No players yet")}</span></div>`;
+    }).join("");
+    show("sold");
+  }
+  async function poll(){
+    if(busy)return;busy=true;
+    try{
+      const r=await fetch("/api/state",{cache:"no-store",credentials:"same-origin"});
+      if(!r.ok)throw new Error("state");
+      const j=await r.json();if(!j.success)throw new Error("state");
+      const data=j.data||{};
+      setOnline(true);
+      const state=data.state||{},history=state.history||[];
+      const last=history.length?history[history.length-1]:null;
+      const latestSale=[...history].reverse().find(x=>x.event==="SOLD");
+      if(latestSale){
+        const saleTeam=(data.teams||[]).find(t=>String(t.id)===String(latestSale.team_id));
+        const salePlayers=(data.players||[]).filter(p=>(latestSale.players||[]).some(id=>String(id)===String(p.id)));
+        const lastSale=$("lastSaleText"); if(lastSale) lastSale.textContent=`${salePlayers.map(p=>p.name).join(" • ")||"Lot"}  •  ${money(latestSale.amount)}  •  ${saleTeam?saleTeam.team_name:"Winning Team"}`;
+      }
+      if(state.auction_finished||state.auction_status==="COMPLETED"){show("completed");return;}
+      if(state.auction_status==="PAUSED"){show("paused");return;}
+      if(state.auction_status==="LOT_SOLD" && last?.event==="SOLD"){
+        const key=`${last.timestamp}|${last.group_id}|${last.amount}|${(last.players||[]).join(",")}`;
+        if(key!==lastSaleKey){lastSaleKey=key;soldUntil=Date.now()+4500;renderSold(data,last);}
+        else if(Date.now()<soldUntil){return;}
+        else {renderWaitingTeams(data);show("waiting");}
+        return;
+      }
+      // A new lot selection clears LOT_SOLD and must immediately take the
+      // viewer back to the live lot even though SOLD remains in audit history.
+      renderLive(data);
+    }catch(e){setOnline(false);}
+    finally{busy=false;firstLoad=false;}
+  }
+  loadMedia();poll();setInterval(poll,500);
+})();
+</script>
+</body>
+</html>

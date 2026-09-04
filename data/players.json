@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "name": "Harshad Varma Bhupathiraju",
+    "age": 30,
+    "skill": "All-Rounder",
+    "handedness": "Right Handed",
+    "photo_url": "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/1783483635731_harshad_varma_bhupathiraju.jpeg",
+    "status": "available",
+    "team_id": null
+  },
+  {
+    "id": 2,
+    "name": "Harsha",
+    "age": 25,
+    "skill": "All-Rounder",
+    "handedness": "Right Handed",
+    "photo_url": "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/1783483683284_harsha.jpeg",
+    "status": "available",
+    "team_id": null
+  },
+  {
+    "id": 3,
+    "name": "Santosh Varma",
+    "age": 35,
+    "skill": "All-Rounder",
+    "handedness": "Right Handed",
+    "photo_url": "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/1783483694447_santosh_varma.jpg",
+    "status": "available",
+    "team_id": null
+  },
+  {
+    "id": 4,
+    "name": "Kalidindi Karthik",
+    "age": 30,
+    "skill": "All-Rounder",
+    "handedness": "Right Handed",
+    "photo_url": "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/1783483722951_kalidindi_karthik.png",
+    "status": "available",
+    "team_id": null
+  },
+  {
+    "id": 5,
+    "name": "Ramesh varma",
+    "age": 43,
+    "skill": "All-Rounder",
+    "handedness": "Right Handed",
+    "photo_url": "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/1783483800215_ramesh_varma.jpg",
+    "status": "available",
+    "team_id": null
+  },
+  {
+    "id": 6,
+    "name": "Gottimukkala Prabhas Varma",
+    "age": 26,
+    "skill": "Batsman",
+    "handedness": "Right Handed",
+    "photo_url": "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/1783483840115_gottimukkala_prabhas_varma.jpg",
+    "status": "available",
+    "team_id": null
+  },
+  {
+    "id": 7,
+    "name": "Koushik Varma",
+    "age": 22,
+    "skill": "Batsman",
+    "handedness": "Right Handed",
+    "photo_url": "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/1783483827154_koushik_varma.jpg",
+    "status": "available",
+    "team_id": null
+  },
+  {
+    "id": 8,
+    "name": "Tirumalaraju Sai Varma",
+    "age": 29,
+    "skill": "Batsman",
+    "handedness": "Left Handed",
+    "photo_url": "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/1783483939947_tirumalaraju_sai_varma.jpg",
+    "status": "available",
+    "team_id": null
+  },
+  {
+    "id": 9,
+    "name": "Rajesh Dantuluri",
+    "age": 42,
+    "skill": "Batsman",
+    "handedness": "Right Handed",
+    "photo_url": "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/1783484079612_rajesh_dantuluri.jpg",
+    "status": "available",
+    "team_id": null
+  },
+  {
+    "id": 10,
+    "name": "D sandeep Varma",
+    "age": 38,
+    "skill": "Bowler",
+    "handedness": "Right Handed",
+    "photo_url": "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/1783484108014_d_sandeep_varma.jpeg",
+    "status": "available",
+    "team_id": null
+  }
+]

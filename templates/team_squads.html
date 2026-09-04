@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MPL Season 2 • Team Squads</title>
+<style>
+:root{--bg:#020816;--panel:#071a31;--panel2:#0b2748;--gold:#f6c64f;--blue:#54c9ff;--purple:#a76cff;--text:#f7fbff;--muted:#a9b9cf;--green:#49d58b}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,Segoe UI,Arial,sans-serif;background:radial-gradient(circle at 20% 10%,rgba(88,56,184,.25),transparent 28%),radial-gradient(circle at 80% 20%,rgba(30,130,190,.17),transparent 28%),linear-gradient(180deg,#020714,#05101f 50%,#020714);color:var(--text)}
+header{position:sticky;top:0;z-index:20;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:20px;padding:14px 3vw;background:rgba(3,12,27,.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(246,198,79,.55)}
+.back{justify-self:start;color:#fff0b0;text-decoration:none;font-weight:900;border:1px solid rgba(246,198,79,.6);padding:9px 14px;border-radius:999px;background:rgba(246,198,79,.06)}
+.brand{text-align:center;display:flex;align-items:center;gap:12px;justify-content:center}.logo{width:54px;height:54px;border-radius:12px;display:grid;place-items:center;overflow:hidden;background:#071426;border:2px solid #fff0aa}.logo img{width:100%;height:100%;object-fit:contain;display:block}.title{font-weight:1000;font-size:clamp(18px,2vw,30px);letter-spacing:.03em}.sub{font-size:11px;color:var(--gold);letter-spacing:.2em;margin-top:3px}.status{justify-self:end;color:var(--muted);font-size:12px}
+main{max-width:1600px;margin:auto;padding:26px 3vw 48px}.hero{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:20px}.hero h1{margin:0;font-size:clamp(28px,3.2vw,54px)}.hero p{margin:8px 0 0;color:var(--muted)}.summary{display:flex;flex-wrap:wrap;gap:10px}.metric{min-width:150px;padding:12px 16px;border:1px solid rgba(84,201,255,.22);border-radius:12px;background:linear-gradient(180deg,rgba(10,35,65,.92),rgba(5,17,33,.92))}.metric b{display:block;color:var(--gold);font-size:22px}.metric span{color:var(--muted);font-size:11px;letter-spacing:.12em}
+.toolbar{display:flex;gap:12px;align-items:center;margin:16px 0 22px;flex-wrap:wrap}.search{flex:1;min-width:240px;padding:13px 16px;border-radius:12px;border:1px solid rgba(84,201,255,.3);background:#07172c;color:#fff;font-size:15px}.pill{border:1px solid rgba(255,255,255,.14);background:#0a1e37;color:#dce8f5;padding:9px 12px;border-radius:999px;font-weight:800;cursor:pointer}.pill.active{border-color:var(--gold);color:#fff0aa}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px}.team{border:1px solid rgba(84,201,255,.26);border-radius:16px;background:linear-gradient(180deg,rgba(9,35,66,.98),rgba(3,13,27,.98));overflow:hidden;box-shadow:0 18px 44px rgba(0,0,0,.25)}.team-head{padding:16px;border-bottom:1px solid rgba(255,255,255,.08);background:radial-gradient(circle at 80% 0,rgba(167,108,255,.16),transparent 38%)}.team-identity{display:flex;align-items:center;gap:12px;min-width:0}.team-logo-wrap{width:58px;height:58px;flex:0 0 58px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(246,198,79,.35);display:grid;place-items:center;overflow:hidden}.team-logo-wrap img{width:100%;height:100%;object-fit:contain;display:block}.team-logo-fallback{font-weight:1000;color:#ffe18a;font-size:18px}.team-owner{display:flex;align-items:center;gap:8px;margin-top:10px;color:#b9c9da;font-size:12px}.owner-avatar{width:34px;height:34px;border-radius:50%;overflow:hidden;display:grid;place-items:center;flex:0 0 34px;background:linear-gradient(145deg,#183b5e,#7a4eaf);border:1px solid rgba(255,255,255,.16);font-weight:1000;color:#fff}.owner-avatar img{width:100%;height:100%;object-fit:cover;display:block}.team-name{font-size:20px;font-weight:1000;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.team-meta{margin-top:8px;color:var(--muted);font-size:12px;display:flex;gap:12px;flex-wrap:wrap}.team-meta b{color:#fff}.squad{padding:10px 14px 16px}.empty{padding:16px 0;color:#8295ad;font-style:italic}.row{display:grid;grid-template-columns:1fr auto;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.07)}.row:last-child{border-bottom:0}.name{font-weight:850}.lot{font-size:11px;color:#8ea3bc;margin-top:3px}.price{font-weight:1000;color:#ffe18a;white-space:nowrap}.loading{padding:50px;text-align:center;color:var(--muted)}.error{color:#ffb4b4}
+@media(max-width:700px){header{grid-template-columns:1fr}.back,.status{justify-self:center}.hero{display:block}.summary{margin-top:18px}}
+</style>
+</head>
+<body>
+<header>
+<a class="back" href="/viewer">← LIVE VIEWER</a>
+<div class="brand"><div class="logo"><img src="/static/media/branding/mpl_logo.png" alt="MPL" onerror="this.parentElement.textContent='MPL'"></div><div><div class="title">MANA OORU PREMIER LEAGUE</div><div class="sub">SEASON 2 • TEAM SQUADS</div></div></div>
+<div class="status" id="updated">LIVE DATA</div>
+</header>
+<main>
+<section class="hero">
+<div><h1>Team Squads</h1><p>Players and groups purchased in the live MPL Season 2 auction.</p></div>
+<div class="summary">
+<div class="metric"><b id="totalSold">0</b><span>TOTAL SOLD</span></div>
+<div class="metric"><b id="totalValue">₹0</b><span>AUCTION VALUE</span></div>
+<div class="metric"><b id="highestSale">₹0</b><span>HIGHEST SALE</span></div>
+</div>
+</section>
+<div class="toolbar">
+<input id="search" class="search" placeholder="Search player, group ID or team name…">
+<div id="filters"></div>
+</div>
+<section id="grid" class="grid"><div class="loading">Loading live auction results…</div></section>
+</main>
+<script>
+const fmt=n=>"₹"+Number(n||0).toLocaleString("en-IN");
+let lastData=null, activeTeam="ALL";
+
+function saleRows(team){
+  const list=team.squad||team.players||team.sold_players||[];
+  return Array.isArray(list)?list:[];
+}
+function normalizeSales(data){
+  const teams=data.teams||data.team_summaries||[];
+  const sold=data.sold||data.sold_players||data.sales||[];
+  if(Array.isArray(teams)&&teams.length){
+    return teams.map(t=>({...t,squad:saleRows(t)}));
+  }
+  const map={};
+  (Array.isArray(sold)?sold:[]).forEach(s=>{
+    const key=s.team_id||s.team||s.team_name||"UNASSIGNED";
+    if(!map[key]) map[key]={id:key,name:s.team_name||s.team||key,purse_remaining:s.purse_remaining,squad:[]};
+    map[key].squad.push(s);
+  });
+  return Object.values(map);
+}
+function rowName(x){
+  if(typeof x==="string") return x;
+  return x.group_name||x.player_name||x.name||x.lot_id||x.group_id||"Sold Lot";
+}
+function rowLot(x){
+  if(typeof x==="string") return "";
+  return [x.group_id||x.lot_id,x.player_id].filter(Boolean).join(" • ");
+}
+function rowPrice(x){return typeof x==="object"?(x.sale_price??x.price??x.amount??0):0}
+function render(data){
+  lastData=data;
+  const teams=normalizeSales(data);
+  const q=document.getElementById("search").value.trim().toLowerCase();
+  const filtered=teams.filter(t=>{
+    const tn=(t.name||t.team_name||"").toLowerCase();
+    const rows=saleRows(t);
+    return (activeTeam==="ALL"||String(t.id||t.name||t.team_name)===activeTeam) &&
+      (!q||tn.includes(q)||rows.some(x=>(rowName(x)+" "+rowLot(x)).toLowerCase().includes(q)));
+  });
+  const allRows=teams.flatMap(saleRows);
+  const totalValue=allRows.reduce((a,x)=>a+Number(rowPrice(x)||0),0);
+  const high=allRows.reduce((m,x)=>Math.max(m,Number(rowPrice(x)||0)),0);
+  document.getElementById("totalSold").textContent=allRows.length;
+  document.getElementById("totalValue").textContent=fmt(totalValue);
+  document.getElementById("highestSale").textContent=fmt(high);
+  const filters=document.getElementById("filters");
+  filters.innerHTML=`<button class="pill ${activeTeam==="ALL"?"active":""}" data-team="ALL">ALL TEAMS</button>`+
+    teams.map(t=>`<button class="pill ${String(t.id||t.name||t.team_name)===activeTeam?"active":""}" data-team="${String(t.id||t.name||t.team_name)}">${t.name||t.team_name||"TEAM"}</button>`).join("");
+  filters.querySelectorAll("[data-team]").forEach(b=>b.onclick=()=>{activeTeam=b.dataset.team;render(lastData)});
+  const grid=document.getElementById("grid");
+  if(!filtered.length){grid.innerHTML='<div class="loading">No matching team or sold player found.</div>';return}
+  grid.innerHTML=filtered.map(t=>{
+    const name=t.name||t.team_name||"TEAM";
+    const owner=t.owner||t.owner_name||"Team Owner";
+    const logo=t.logo||t.team_logo||t.logo_url||"";
+    const ownerPhoto=t.owner_image||t.owner_photo||t.owner_image_url||"";
+    const initials=String(owner).trim().split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join("").toUpperCase()||"O";
+    const rows=saleRows(t);
+    const spent=rows.reduce((a,x)=>a+Number(rowPrice(x)||0),0);
+    const remaining=t.purse_remaining??t.remaining_purse??t.purse;
+    const logoHtml=logo?`<img src="${logo}" alt="${name}" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">`:"";
+    return `<article class="team">
+      <div class="team-head">
+        <div class="team-identity"><div class="team-logo-wrap">${logoHtml}<span class="team-logo-fallback" style="${logo?'display:none':''}">${String(name).split(/\s+/).map(x=>x[0]).slice(0,2).join("").toUpperCase()}</span></div><div><div class="team-name">${name}</div><div class="team-owner"><span class="owner-avatar">${ownerPhoto?`<img src="${ownerPhoto}" alt="${owner}" onerror="this.remove();this.parentElement.textContent='${initials}'">`:initials}</span><span><b>OWNER:</b> ${owner}</span></div></div></div>
+        <div class="team-meta"><span>PLAYERS/GROUPS: <b>${rows.length}</b></span><span>SPENT: <b>${fmt(spent)}</b></span>${remaining!==undefined?`<span>REMAINING: <b>${fmt(remaining)}</b></span>`:""}</div>
+      </div>
+      <div class="squad">${rows.length?rows.map(x=>`<div class="row"><div><div class="name">${rowName(x)}</div><div class="lot">${rowLot(x)}</div></div><div class="price">${fmt(rowPrice(x))}</div></div>`).join(""):'<div class="empty">No purchases yet.</div>'}</div>
+    </article>`;
+  }).join("");
+  document.getElementById("updated").textContent="LIVE • "+new Date().toLocaleTimeString();
+}
+async function load(){
+  try{
+    const [stateRes, playersRes]=await Promise.all([fetch("/api/state",{cache:"no-store"}),fetch("/api/players",{cache:"no-store"})]);
+    if(!stateRes.ok||!playersRes.ok) throw new Error("API unavailable");
+    const stateJson=await stateRes.json(), playersJson=await playersRes.json();
+    if(!stateJson.success||!playersJson.success) throw new Error("API error");
+    const d=stateJson.data||{}, players=playersJson.data||[];
+    const teams=(d.teams||[]).map(t=>{const groups=(d.groups||[]).filter(g=>String(g.status).toLowerCase()==="sold"&&String(g.winner_team_id)===String(t.id)); return {...t,squad:groups.map(g=>({group_id:g.group_id,group_name:(g.players||[]).map(id=>players.find(p=>String(p.id)===String(id))?.name).filter(Boolean).join(" + "),sale_price:g.current_bid||0,player_count:(g.players||[]).length}))};});
+    render({teams});
+  }catch(e){document.getElementById("grid").innerHTML='<div class="loading error">Unable to load live auction data.</div>';}
+}
+document.getElementById("search").addEventListener("input",()=>lastData&&render(lastData));
+load(); setInterval(load,2000);
+</script>
+</body>
+</html>

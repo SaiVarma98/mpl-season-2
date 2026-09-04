@@ -1,0 +1,84 @@
+[
+  {
+    "group_id": "G001",
+    "type": "single",
+    "players": [
+      1
+    ],
+    "round": 1,
+    "order": 1,
+    "base_price": 500,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": "G002",
+    "type": "duo",
+    "players": [
+      2,
+      3
+    ],
+    "round": 1,
+    "order": 2,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": "G003",
+    "type": "trio",
+    "players": [
+      4,
+      5,
+      6
+    ],
+    "round": 1,
+    "order": 3,
+    "base_price": 1500,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": "G004",
+    "type": "single",
+    "players": [
+      7
+    ],
+    "round": 1,
+    "order": 4,
+    "base_price": 500,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": "G005",
+    "type": "duo",
+    "players": [
+      8,
+      9
+    ],
+    "round": 1,
+    "order": 5,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": "G006",
+    "type": "single",
+    "players": [
+      10
+    ],
+    "round": 2,
+    "order": 1,
+    "base_price": 500,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  }
+]
