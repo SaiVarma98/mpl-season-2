@@ -1588,6 +1588,71 @@ body.waiting .stage,
 }
 </style>
 
+
+<style>
+/* ===== MOBILE PLAYER CARD CLARITY FIX =====
+   Applies to phones/tablets where the viewer is shown in a narrow portrait viewport. */
+@media (max-width:900px){
+  .main{padding:10px 14px 24px !important;}
+  .stage{
+    display:flex !important;
+    flex-direction:column !important;
+    height:auto !important;
+    min-height:0 !important;
+    gap:12px !important;
+  }
+  .players{display:grid !important;grid-template-columns:1fr !important;width:100% !important;}
+  .players.single,.players.duo,.players.trio{grid-template-columns:1fr !important;}
+  .player{
+    height:clamp(360px,58vh,520px) !important;
+    min-height:360px !important;
+    border-radius:18px !important;
+    background:linear-gradient(180deg,#193f67 0%,#08182b 68%,#020814 100%) !important;
+  }
+  .player img{
+    object-fit:contain !important;
+    object-position:center center !important;
+    width:100% !important;
+    height:100% !important;
+    background:linear-gradient(180deg,#274d76 0%,#102641 58%,#061221 100%) !important;
+  }
+  .player:after{
+    height:34% !important;
+    background:linear-gradient(transparent,rgba(2,8,20,.92) 68%,#020814 100%) !important;
+  }
+  .player-info{
+    left:14px !important;
+    right:14px !important;
+    bottom:12px !important;
+    padding:0 !important;
+    z-index:8 !important;
+  }
+  .player-name{
+    font-size:clamp(24px,5.6vw,36px) !important;
+    line-height:1.05 !important;
+    max-width:100% !important;
+    text-shadow:0 3px 14px #000 !important;
+  }
+  .chips{margin-top:8px !important;gap:6px !important;}
+  .chip{font-size:11px !important;padding:6px 9px !important;}
+  .auction-label{top:12px !important;left:12px !important;font-size:10px !important;padding:7px 9px !important;}
+  .bid{height:220px !important;min-height:220px !important;margin:0 !important;}
+  .teams{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:10px !important;
+    overflow:visible !important;
+    height:auto !important;
+  }
+  .team{flex:none !important;width:auto !important;height:auto !important;min-height:180px !important;}
+}
+@media (max-width:520px){
+  .main{padding-inline:10px !important;}
+  .player{height:clamp(330px,68vh,460px) !important;min-height:330px !important;}
+  .player-name{font-size:25px !important;}
+  .bid{height:205px !important;min-height:205px !important;}
+}
+</style>
 </head>
 <body>
 <div id="app"><div class="status-ribbon"><span class="dot">●</span> LIVE AUCTION <span id="statusRound">ROUND 1</span> <span id="statusLot">LOT —</span></div>
