@@ -975,6 +975,25 @@ body.waiting .stage,
   .waiting-sales-list{max-height:none!important;overflow:visible!important}
 }
 
+/* FINAL MOBILE AUCTION PAGE SCROLL FIX */
+@media (max-width:700px){
+  html, body {
+    height:auto !important;
+    min-height:100% !important;
+    overflow-x:hidden !important;
+    overflow-y:auto !important;
+  }
+  body { position:static !important; touch-action:pan-y !important; }
+  #app { height:auto !important; min-height:100vh !important; overflow:visible !important; }
+  .main { height:auto !important; min-height:0 !important; overflow:visible !important; display:block !important; }
+  .stage { height:auto !important; min-height:0 !important; overflow:visible !important; }
+  .players { height:auto !important; min-height:0 !important; overflow:visible !important; }
+  .player { height:430px !important; min-height:330px !important; }
+  .bid { height:270px !important; min-height:270px !important; overflow:hidden !important; }
+  .teams { height:auto !important; min-height:155px !important; overflow-x:auto !important; overflow-y:hidden !important; }
+  .waiting-overlay { position:fixed !important; height:100dvh !important; overflow-y:auto !important; }
+}
+
 </style>
 </head>
 <body>
