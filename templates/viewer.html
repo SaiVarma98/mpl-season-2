@@ -1653,6 +1653,101 @@ body.waiting .stage,
   .bid{height:205px !important;min-height:205px !important;}
 }
 </style>
+
+
+<style>
+/* ===== FINAL FIX: WAITING TEAM NAME + SOLD SCREEN SCALE ===== */
+
+/* 1) Waiting lobby team names: never strip/cut long names such as
+   "Tallavalasa Kings XI". Allow a clean two-line wrap inside the card. */
+.waiting-team-title{flex:1 1 auto !important;min-width:0 !important;}
+.waiting-team-title h3{
+  width:100% !important;
+  white-space:normal !important;
+  overflow:visible !important;
+  text-overflow:clip !important;
+  overflow-wrap:anywhere !important;
+  word-break:normal !important;
+  line-height:1.12 !important;
+}
+.waiting-team-head{align-items:flex-start !important;}
+
+/* 2) Sold screen: keep the whole celebration composition inside the viewport
+   instead of letting SOLD / photo / price become oversized. */
+.sold-overlay{
+  overflow:auto !important;
+  padding:clamp(8px,1.2vh,18px) 12px !important;
+}
+.sold-overlay .overlay-inner{
+  width:min(92vw,1180px) !important;
+  max-height:96dvh !important;
+  padding:0 !important;
+  margin:auto !important;
+}
+.sold-title{
+  font-size:clamp(54px,7.2vw,128px) !important;
+  line-height:.84 !important;
+  margin:0 !important;
+}
+.sold-photos{
+  gap:clamp(8px,1vw,18px) !important;
+  margin:clamp(8px,1.2vh,16px) auto !important;
+}
+.sold-card{
+  width:clamp(115px,10.5vw,190px) !important;
+}
+.sold-photo{
+  width:100% !important;
+  aspect-ratio:3 / 4 !important;
+  height:auto !important;
+  max-height:42vh !important;
+}
+.sold-name{
+  min-height:auto !important;
+  margin-top:5px !important;
+  font-size:clamp(11px,.78vw,15px) !important;
+}
+.sold-price{
+  font-size:clamp(48px,5vw,92px) !important;
+  line-height:.92 !important;
+  margin-top:2px !important;
+}
+.sold-team{
+  font-size:clamp(20px,2vw,38px) !important;
+  margin-top:clamp(4px,.6vh,10px) !important;
+  padding:.18em .55em !important;
+}
+.just-sold{margin-top:clamp(6px,.8vh,12px) !important;}
+.sold-summary-title{margin:clamp(8px,1vh,14px) 0 clamp(5px,.6vh,9px) !important;}
+.sold-squad{
+  margin:0 auto !important;
+  max-width:1000px !important;
+  gap:clamp(5px,.45vw,9px) !important;
+}
+.sold-team-mini{
+  padding:clamp(5px,.55vh,9px) clamp(5px,.45vw,9px) !important;
+}
+
+/* Phone layout: compact, readable and scroll-safe without giant SOLD text. */
+@media (max-width:700px){
+  .sold-overlay{align-items:flex-start !important;padding:14px 10px 24px !important;}
+  .sold-overlay.active{display:flex !important;}
+  .sold-overlay .overlay-inner{width:100% !important;max-height:none !important;}
+  .sold-title{font-size:clamp(52px,17vw,88px) !important;line-height:.86 !important;}
+  .sold-photos{gap:10px !important;margin:10px auto !important;}
+  .sold-card{width:min(40vw,170px) !important;}
+  .sold-photo{max-height:38vh !important;}
+  .sold-price{font-size:clamp(46px,15vw,76px) !important;}
+  .sold-team{font-size:clamp(20px,6.2vw,30px) !important;}
+  .sold-squad{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+}
+@media (max-width:420px){
+  .sold-card{width:min(42vw,150px) !important;}
+  .sold-photo{max-height:35vh !important;}
+  .sold-squad{grid-template-columns:1fr !important;}
+}
+</style>
+
 </head>
 <body>
 <div id="app"><div class="status-ribbon"><span class="dot">●</span> LIVE AUCTION <span id="statusRound">ROUND 1</span> <span id="statusLot">LOT —</span></div>
