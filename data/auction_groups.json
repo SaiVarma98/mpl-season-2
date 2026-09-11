@@ -1,65 +1,48 @@
 [
   {
-    "group_id": "G001",
+    "group_id": 2,
     "type": "single",
     "players": [
-      1
+      2
     ],
     "round": 1,
-    "order": 1,
-    "base_price": 500,
+    "order": 2,
+    "base_price": 5000,
     "current_bid": 0,
     "winner_team_id": null,
     "status": "pending"
   },
   {
-    "group_id": "G002",
-    "type": "duo",
+    "group_id": 3,
+    "type": "single",
     "players": [
-      2,
       3
     ],
     "round": 1,
-    "order": 2,
+    "order": 3,
+    "base_price": 5000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 4,
+    "type": "single",
+    "players": [
+      4
+    ],
+    "round": 1,
+    "order": 4,
     "base_price": 1000,
     "current_bid": 0,
     "winner_team_id": null,
     "status": "pending"
   },
   {
-    "group_id": "G003",
-    "type": "trio",
-    "players": [
-      4,
-      5,
-      6
-    ],
-    "round": 1,
-    "order": 3,
-    "base_price": 1500,
-    "current_bid": 0,
-    "winner_team_id": null,
-    "status": "pending"
-  },
-  {
-    "group_id": "G004",
+    "group_id": 5,
     "type": "single",
     "players": [
-      7
-    ],
-    "round": 1,
-    "order": 4,
-    "base_price": 500,
-    "current_bid": 0,
-    "winner_team_id": null,
-    "status": "pending"
-  },
-  {
-    "group_id": "G005",
-    "type": "duo",
-    "players": [
-      8,
-      9
+      5
     ],
     "round": 1,
     "order": 5,
@@ -69,14 +52,970 @@
     "status": "pending"
   },
   {
-    "group_id": "G006",
+    "group_id": 6,
+    "type": "single",
+    "players": [
+      6
+    ],
+    "round": 1,
+    "order": 6,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 7,
+    "type": "single",
+    "players": [
+      7
+    ],
+    "round": 1,
+    "order": 7,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 9,
+    "type": "single",
+    "players": [
+      9
+    ],
+    "round": 1,
+    "order": 9,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 10,
     "type": "single",
     "players": [
       10
     ],
-    "round": 2,
-    "order": 1,
-    "base_price": 500,
+    "round": 1,
+    "order": 10,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 11,
+    "type": "single",
+    "players": [
+      11
+    ],
+    "round": 1,
+    "order": 11,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 12,
+    "type": "single",
+    "players": [
+      12
+    ],
+    "round": 1,
+    "order": 12,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 13,
+    "type": "single",
+    "players": [
+      13
+    ],
+    "round": 1,
+    "order": 13,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 14,
+    "type": "single",
+    "players": [
+      14
+    ],
+    "round": 1,
+    "order": 14,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 15,
+    "type": "single",
+    "players": [
+      15
+    ],
+    "round": 1,
+    "order": 15,
+    "base_price": 5000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 16,
+    "type": "single",
+    "players": [
+      16
+    ],
+    "round": 1,
+    "order": 16,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 18,
+    "type": "single",
+    "players": [
+      18
+    ],
+    "round": 1,
+    "order": 18,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 19,
+    "type": "single",
+    "players": [
+      19
+    ],
+    "round": 1,
+    "order": 19,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 20,
+    "type": "single",
+    "players": [
+      20
+    ],
+    "round": 1,
+    "order": 20,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 23,
+    "type": "single",
+    "players": [
+      23
+    ],
+    "round": 1,
+    "order": 23,
+    "base_price": 5000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 24,
+    "type": "single",
+    "players": [
+      24
+    ],
+    "round": 1,
+    "order": 24,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 25,
+    "type": "single",
+    "players": [
+      25
+    ],
+    "round": 1,
+    "order": 25,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 26,
+    "type": "single",
+    "players": [
+      26
+    ],
+    "round": 1,
+    "order": 26,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 27,
+    "type": "single",
+    "players": [
+      27
+    ],
+    "round": 1,
+    "order": 27,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 28,
+    "type": "single",
+    "players": [
+      28
+    ],
+    "round": 1,
+    "order": 28,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 29,
+    "type": "single",
+    "players": [
+      29
+    ],
+    "round": 1,
+    "order": 29,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 31,
+    "type": "single",
+    "players": [
+      31
+    ],
+    "round": 1,
+    "order": 31,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 32,
+    "type": "single",
+    "players": [
+      32
+    ],
+    "round": 1,
+    "order": 32,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 33,
+    "type": "single",
+    "players": [
+      33
+    ],
+    "round": 1,
+    "order": 33,
+    "base_price": 5000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 34,
+    "type": "single",
+    "players": [
+      34
+    ],
+    "round": 1,
+    "order": 34,
+    "base_price": 5000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 35,
+    "type": "single",
+    "players": [
+      35
+    ],
+    "round": 1,
+    "order": 35,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 36,
+    "type": "single",
+    "players": [
+      36
+    ],
+    "round": 1,
+    "order": 36,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 38,
+    "type": "single",
+    "players": [
+      38
+    ],
+    "round": 1,
+    "order": 38,
+    "base_price": 5000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 39,
+    "type": "single",
+    "players": [
+      39
+    ],
+    "round": 1,
+    "order": 39,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 40,
+    "type": "single",
+    "players": [
+      40
+    ],
+    "round": 1,
+    "order": 40,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 42,
+    "type": "single",
+    "players": [
+      42
+    ],
+    "round": 1,
+    "order": 42,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 44,
+    "type": "single",
+    "players": [
+      44
+    ],
+    "round": 1,
+    "order": 44,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 47,
+    "type": "single",
+    "players": [
+      47
+    ],
+    "round": 1,
+    "order": 47,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 48,
+    "type": "single",
+    "players": [
+      48
+    ],
+    "round": 1,
+    "order": 48,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 49,
+    "type": "single",
+    "players": [
+      49
+    ],
+    "round": 1,
+    "order": 49,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 50,
+    "type": "single",
+    "players": [
+      50
+    ],
+    "round": 1,
+    "order": 50,
+    "base_price": 5000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 51,
+    "type": "single",
+    "players": [
+      51
+    ],
+    "round": 1,
+    "order": 51,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 54,
+    "type": "single",
+    "players": [
+      54
+    ],
+    "round": 1,
+    "order": 54,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 55,
+    "type": "single",
+    "players": [
+      55
+    ],
+    "round": 1,
+    "order": 55,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 56,
+    "type": "single",
+    "players": [
+      56
+    ],
+    "round": 1,
+    "order": 56,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 57,
+    "type": "single",
+    "players": [
+      57
+    ],
+    "round": 1,
+    "order": 57,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 59,
+    "type": "single",
+    "players": [
+      59
+    ],
+    "round": 1,
+    "order": 59,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 60,
+    "type": "single",
+    "players": [
+      60
+    ],
+    "round": 1,
+    "order": 60,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 61,
+    "type": "single",
+    "players": [
+      61
+    ],
+    "round": 1,
+    "order": 61,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 62,
+    "type": "single",
+    "players": [
+      62
+    ],
+    "round": 1,
+    "order": 62,
+    "base_price": 5000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 65,
+    "type": "single",
+    "players": [
+      65
+    ],
+    "round": 1,
+    "order": 65,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 66,
+    "type": "single",
+    "players": [
+      66
+    ],
+    "round": 1,
+    "order": 66,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 68,
+    "type": "single",
+    "players": [
+      68
+    ],
+    "round": 1,
+    "order": 68,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 69,
+    "type": "single",
+    "players": [
+      69
+    ],
+    "round": 1,
+    "order": 69,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 70,
+    "type": "single",
+    "players": [
+      70
+    ],
+    "round": 1,
+    "order": 70,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 73,
+    "type": "single",
+    "players": [
+      73
+    ],
+    "round": 1,
+    "order": 73,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 74,
+    "type": "single",
+    "players": [
+      74
+    ],
+    "round": 1,
+    "order": 74,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 76,
+    "type": "single",
+    "players": [
+      76
+    ],
+    "round": 1,
+    "order": 76,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 77,
+    "type": "single",
+    "players": [
+      77
+    ],
+    "round": 1,
+    "order": 77,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 78,
+    "type": "single",
+    "players": [
+      78
+    ],
+    "round": 1,
+    "order": 78,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 84,
+    "type": "single",
+    "players": [
+      84
+    ],
+    "round": 1,
+    "order": 84,
+    "base_price": 5000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 85,
+    "type": "single",
+    "players": [
+      85
+    ],
+    "round": 1,
+    "order": 85,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 87,
+    "type": "single",
+    "players": [
+      87
+    ],
+    "round": 1,
+    "order": 87,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 88,
+    "type": "single",
+    "players": [
+      88
+    ],
+    "round": 1,
+    "order": 88,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 92,
+    "type": "single",
+    "players": [
+      92
+    ],
+    "round": 1,
+    "order": 92,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 94,
+    "type": "single",
+    "players": [
+      94
+    ],
+    "round": 1,
+    "order": 94,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 95,
+    "type": "single",
+    "players": [
+      95
+    ],
+    "round": 1,
+    "order": 95,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 96,
+    "type": "single",
+    "players": [
+      96
+    ],
+    "round": 1,
+    "order": 96,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 97,
+    "type": "single",
+    "players": [
+      97
+    ],
+    "round": 1,
+    "order": 97,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 98,
+    "type": "group",
+    "players": [
+      1,
+      43,
+      80
+    ],
+    "round": 1,
+    "order": 98,
+    "base_price": 3000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 99,
+    "type": "group",
+    "players": [
+      8,
+      82,
+      83
+    ],
+    "round": 1,
+    "order": 99,
+    "base_price": 3000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 100,
+    "type": "group",
+    "players": [
+      64,
+      81,
+      86
+    ],
+    "round": 1,
+    "order": 100,
+    "base_price": 3000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 101,
+    "type": "group",
+    "players": [
+      30,
+      37,
+      91
+    ],
+    "round": 1,
+    "order": 101,
+    "base_price": 3000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 102,
+    "type": "group",
+    "players": [
+      17,
+      67,
+      71
+    ],
+    "round": 1,
+    "order": 102,
+    "base_price": 3000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 103,
+    "type": "group",
+    "players": [
+      41,
+      52,
+      89
+    ],
+    "round": 1,
+    "order": 103,
+    "base_price": 3000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 104,
+    "type": "group",
+    "players": [
+      53,
+      72,
+      90
+    ],
+    "round": 1,
+    "order": 104,
+    "base_price": 3000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 105,
+    "type": "group",
+    "players": [
+      22,
+      79,
+      93
+    ],
+    "round": 1,
+    "order": 105,
+    "base_price": 3000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 106,
+    "type": "group",
+    "players": [
+      45,
+      46,
+      63
+    ],
+    "round": 1,
+    "order": 106,
+    "base_price": 3000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
+  },
+  {
+    "group_id": 107,
+    "type": "group",
+    "players": [
+      21,
+      58,
+      75
+    ],
+    "round": 1,
+    "order": 107,
+    "base_price": 3000,
     "current_bid": 0,
     "winner_team_id": null,
     "status": "pending"

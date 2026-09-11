@@ -27,14 +27,8 @@
   </header>
 
   <main class="mx-auto max-w-[1800px] space-y-4 p-4 lg:p-6">
-<div class="group-search-wrap" id="groupSearchWrap">
-  <label for="groupSearch">🔎 SEARCH GROUP ID</label>
-  <div class="group-search-row">
-    <input id="groupSearch" type="search" placeholder="Example: G014 or 14" autocomplete="off">
-    <button type="button" id="clearGroupSearch" title="Clear search">×</button>
-  </div>
-  <div class="group-search-help" id="groupSearchHelp">Type a Group ID to filter visible lots.</div>
-</div>
+<!-- Lot selector is intentionally kept in the LOT SELECTOR section below.
+     This avoids duplicate IDs and keeps search/filter logic in one place. -->
 
     <section class="grid gap-4 lg:grid-cols-[1fr_420px]">
       <div class="auction-card overflow-hidden">
@@ -64,7 +58,7 @@
           <div class="grid grid-cols-3 gap-2">
             <button class="btn btn-outline increment-btn" data-inc="50">+50</button>
             <button class="btn btn-outline increment-btn" data-inc="100">+100</button>
-            <button class="btn btn-outline increment-btn" data-inc="200">+200</button>
+            <button class="btn btn-outline increment-btn" data-inc="250">+250</button>
             <button class="btn btn-outline increment-btn" data-inc="500">+500</button>
             <button class="btn btn-warning increment-btn" data-inc="1000">+1,000</button>
             <input id="customIncrement" type="number" min="50" step="50" value="1000"
@@ -131,14 +125,45 @@
 
     <section class="grid gap-4 lg:grid-cols-[1fr_420px]">
       <div class="auction-card p-4">
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between gap-3">
           <div>
             <div class="text-xs font-bold tracking-[0.2em] text-amber-300">LOT SELECTOR</div>
-            <h3 class="text-xl font-black">Auction Groups</h3>
+            <h3 class="text-xl font-black">Choose Auction Lot</h3>
           </div>
-          <button id="refreshGroupsBtn" class="btn btn-sm btn-ghost">Refresh</button>
+          <div class="flex items-center gap-2">
+            <span id="lotCountBadge" class="badge badge-outline">77 LOTS</span>
+            <button id="refreshGroupsBtn" class="btn btn-sm btn-ghost">Refresh</button>
+          </div>
         </div>
-        <div class="mt-3 flex gap-2"><input id="groupSearch" class="input input-sm input-bordered flex-1" placeholder="Search available Group ID (e.g. G014 or 14)"><button id="clearGroupSearch" class="btn btn-sm">Clear</button></div><div id="groupList" class="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3"></div>
+
+        <div id="lotFilterTabs" class="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+          <button type="button" class="lot-filter-btn active" data-filter="all">
+            <span>ALL</span><small id="countAll">77</small>
+          </button>
+          <button type="button" class="lot-filter-btn" data-filter="5000">
+            <span>₹5,000</span><small id="count5000">0</small>
+          </button>
+          <button type="button" class="lot-filter-btn" data-filter="1000">
+            <span>₹1,000</span><small id="count1000">0</small>
+          </button>
+          <button type="button" class="lot-filter-btn trio" data-filter="trios">
+            <span>TRIOS</span><small id="countTrios">10</small>
+          </button>
+        </div>
+
+        <div class="mt-3 flex gap-2">
+          <input id="lotSearch" type="search"
+            class="input input-sm input-bordered flex-1"
+            placeholder="Search player, Group ID, or lot..."
+            autocomplete="off">
+          <button id="clearLotSearch" type="button" class="btn btn-sm">Clear</button>
+        </div>
+
+        <div id="lotSelectorHelp" class="mt-2 text-xs text-white/40">
+          Select a category or search by player name / Group ID.
+        </div>
+
+        <div id="groupList" class="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3"></div>
       </div>
 
       <div class="auction-card p-4">
@@ -152,59 +177,242 @@
   <div id="toast" class="toast toast-end"></div>
   <script src="/static/js/auctioneer.js"></script>
 
-<script>
-/* UI-only Group ID filtering. Does not change lot selection, API calls or auction state. */
-(function(){
-  const input=document.getElementById("groupSearch");
-  const clear=document.getElementById("clearGroupSearch");
-  const help=document.getElementById("groupSearchHelp");
-  if(!input)return;
 
-  function norm(v){return String(v||"").toUpperCase().replace(/[^A-Z0-9]/g,"")}
-  function matchText(el,q){
-    if(!q)return true;
-    const text=norm(el.innerText||el.textContent||"");
-    const id=norm(el.dataset&& (el.dataset.groupId||el.dataset.lotId||el.dataset.id));
-    return text.includes(q)||id.includes(q);
+<script>
+/* MPL Auctioneer — categorized lot selector
+   Works with the existing auctioneer.js groupList rendering without changing
+   auction state, API calls, bidding, selling, or lifecycle behavior. */
+(function () {
+  const search = document.getElementById("lotSearch");
+  const clear = document.getElementById("clearLotSearch");
+  const list = document.getElementById("groupList");
+  const help = document.getElementById("lotSelectorHelp");
+  const tabs = Array.from(document.querySelectorAll(".lot-filter-btn"));
+
+  if (!search || !clear || !list) return;
+
+  let activeFilter = "all";
+
+  function norm(v) {
+    return String(v || "").toLowerCase().replace(/[^a-z0-9₹]/g, "");
   }
-  function findCards(){
-    const selectors=[
-      "[data-group-id]","[data-lot-id]",
-      ".group-card",".lot-card",".group-item",".lot-item",
-      "#lotList > *","#groupsList > *",".lots > *",".groups > *"
-    ];
-    const seen=new Set(),out=[];
-    selectors.forEach(sel=>document.querySelectorAll(sel).forEach(el=>{
-      if(el===document.getElementById("groupSearchWrap")||seen.has(el))return;
-      if((el.innerText||"").trim().length<2)return;
-      seen.add(el);out.push(el);
-    }));
-    return out;
-  }
-  function apply(){
-    let q=norm(input.value);
-    if(q && /^\d+$/.test(q))q="G"+q.padStart(3,"0");
-    const cards=findCards();
-    let visible=0;
-    cards.forEach(card=>{
-      const ok=matchText(card,q);
-      card.style.display=ok?"":"none";
-      if(ok)visible++;
+
+  function getCards() {
+    return Array.from(list.children).filter(el => {
+      return el && el.nodeType === 1 && !el.classList.contains("player-placeholder");
     });
-    help.textContent=q?(visible?`${visible} matching group/lot result(s). Press Enter to select the first visible result.`:"No matching Group ID found."):"Type a Group ID to filter visible lots.";
   }
-  input.addEventListener("input",apply);
-  input.addEventListener("keydown",e=>{
-    if(e.key==="Enter"){
-      e.preventDefault();
-      const first=findCards().find(c=>c.style.display!=="none");
-      if(first){first.scrollIntoView({block:"center",behavior:"smooth"});first.click()}
+
+  function cardText(card) {
+    return String(card.innerText || card.textContent || "");
+  }
+
+  function isTrio(card) {
+    const text = cardText(card).toLowerCase();
+    const players = card.querySelectorAll("img").length;
+    return text.includes("trio") || text.includes("group") ||
+           players >= 3 || card.dataset.type === "group";
+  }
+
+  function getPrice(card) {
+    const text = cardText(card).replace(/,/g, "");
+    if (text.includes("5000") || text.includes("₹5000")) return 5000;
+    if (text.includes("3000") || text.includes("₹3000")) return 3000;
+    if (text.includes("1000") || text.includes("₹1000")) return 1000;
+    return null;
+  }
+
+  function matches(card) {
+    const q = norm(search.value);
+    const text = norm(cardText(card));
+
+    if (q && !text.includes(q)) {
+      // Also support typing G067 / 67 / group 67.
+      const digits = q.replace(/^g/, "");
+      if (!digits || !text.includes(digits)) return false;
+    }
+
+    if (activeFilter === "trios") return isTrio(card);
+    if (activeFilter === "5000") return !isTrio(card) && getPrice(card) === 5000;
+    if (activeFilter === "1000") return !isTrio(card) && getPrice(card) === 1000;
+    return true;
+  }
+
+  function decorateCards() {
+    const cards = getCards();
+    let n5000 = 0, n1000 = 0, nTrios = 0;
+
+    cards.forEach(card => {
+      const trio = isTrio(card);
+      const price = getPrice(card);
+
+      if (trio) nTrios++;
+      else if (price === 5000) n5000++;
+      else if (price === 1000) n1000++;
+
+      card.classList.toggle("lot-trio-card", trio);
+      card.classList.toggle("lot-premium-card", !trio && price === 5000);
+      card.classList.toggle("lot-standard-card", !trio && price === 1000);
+
+      const visible = matches(card);
+      card.style.display = visible ? "" : "none";
+    });
+
+    const visible = cards.filter(c => c.style.display !== "none").length;
+    document.getElementById("countAll").textContent = cards.length || 77;
+    document.getElementById("count5000").textContent = n5000;
+    document.getElementById("count1000").textContent = n1000;
+    document.getElementById("countTrios").textContent = nTrios;
+    document.getElementById("lotCountBadge").textContent =
+      `${visible} LOT${visible === 1 ? "" : "S"}`;
+
+    if (help) {
+      if (!cards.length) {
+        help.textContent = "Waiting for auction lots…";
+      } else if (!visible) {
+        help.textContent = "No matching lots. Try another category or search.";
+      } else if (search.value.trim()) {
+        help.textContent = `${visible} matching lot${visible === 1 ? "" : "s"}.`;
+      } else {
+        const labels = { all: "all lots", 5000: "₹5,000 players", 1000: "₹1,000 players", trios: "trio groups" };
+        help.textContent = `Showing ${visible} ${labels[activeFilter] || "lots"}.`;
+      }
+    }
+  }
+
+  function setFilter(filter) {
+    activeFilter = filter;
+    tabs.forEach(btn => btn.classList.toggle("active", btn.dataset.filter === filter));
+    decorateCards();
+  }
+
+  tabs.forEach(btn => btn.addEventListener("click", () => setFilter(btn.dataset.filter)));
+
+  search.addEventListener("input", decorateCards);
+
+  search.addEventListener("keydown", e => {
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    const first = getCards().find(card => card.style.display !== "none");
+    if (first) {
+      first.scrollIntoView({ block: "center", behavior: "smooth" });
+      first.click();
     }
   });
-  clear.addEventListener("click",()=>{input.value="";apply();input.focus()});
+
+  clear.addEventListener("click", () => {
+    search.value = "";
+    decorateCards();
+    search.focus();
+  });
+
+  // auctioneer.js may replace groupList contents after refresh/select.
+  // Observe only child changes and re-apply the visual filters.
+  const observer = new MutationObserver(() => {
+    window.requestAnimationFrame(decorateCards);
+  });
+  observer.observe(list, { childList: true, subtree: true });
+
+  // Initial + delayed passes cover async lot loading.
+  decorateCards();
+  setTimeout(decorateCards, 300);
+  setTimeout(decorateCards, 1000);
 })();
 </script>
 
+<style>
+/* Categorized MPL lot selector */
+#lotFilterTabs {
+  position: relative;
+}
+
+.lot-filter-btn {
+  min-height: 58px;
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 12px;
+  background: rgba(255,255,255,.035);
+  color: rgba(255,255,255,.72);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-weight: 900;
+  letter-spacing: .04em;
+  transition: .16s ease;
+}
+
+.lot-filter-btn span {
+  font-size: 13px;
+}
+
+.lot-filter-btn small {
+  font-size: 11px;
+  color: rgba(255,255,255,.42);
+  font-weight: 800;
+}
+
+.lot-filter-btn:hover {
+  border-color: rgba(251,191,36,.45);
+  background: rgba(251,191,36,.08);
+  transform: translateY(-1px);
+}
+
+.lot-filter-btn.active {
+  border-color: rgba(251,191,36,.72);
+  background: linear-gradient(180deg, rgba(245,158,11,.20), rgba(245,158,11,.07));
+  color: #fff;
+  box-shadow: 0 0 0 1px rgba(245,158,11,.12), 0 8px 22px rgba(0,0,0,.18);
+}
+
+.lot-filter-btn.active small {
+  color: #fcd34d;
+}
+
+.lot-filter-btn.trio.active {
+  border-color: rgba(56,189,248,.70);
+  background: linear-gradient(180deg, rgba(14,165,233,.18), rgba(14,165,233,.06));
+}
+
+#lotSearch {
+  background: rgba(255,255,255,.045);
+}
+
+#groupList {
+  max-height: 570px;
+  overflow-y: auto;
+  padding-right: 3px;
+}
+
+#groupList > * {
+  transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease;
+}
+
+#groupList > *:hover {
+  transform: translateY(-1px);
+}
+
+.lot-premium-card {
+  border-color: rgba(245,158,11,.20) !important;
+}
+
+.lot-trio-card {
+  border-color: rgba(56,189,248,.28) !important;
+}
+
+.lot-standard-card {
+  border-color: rgba(255,255,255,.08) !important;
+}
+
+@media (max-width: 640px) {
+  .lot-filter-btn {
+    min-height: 50px;
+  }
+  .lot-filter-btn span {
+    font-size: 12px;
+  }
+}
+</style>
 </body>
 </html>
 
