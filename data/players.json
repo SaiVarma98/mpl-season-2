@@ -16,7 +16,7 @@
     "age": 35,
     "skill": "All-Rounder",
     "handedness": "Right Handed",
-    "photo_url": "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/1783483694447_santosh_varma.jpg",
+    "photo_url": "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/sony.jpeg",
     "status": "available",
     "team_id": null,
     "group_id": 3
@@ -643,7 +643,7 @@
     "age": 29,
     "skill": "All-Rounder",
     "handedness": "Right Handed",
-    "photo_url": "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/1783839823822_player.jpg",
+    "photo_url": "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/mvarma.png",
     "status": "available",
     "team_id": null,
     "group_id": 84
