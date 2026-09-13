@@ -70,15 +70,31 @@ class APIService:
         return result
 
     def bid(self, team_id):
+        # A bid only mutates live auction state and the current group's bid.
+        # Players and team purses do not change until SELL, so avoid rewriting
+        # those JSON files on every click. This substantially shortens the
+        # critical path for rapid bidding.
         engine = self._engine()
         result = engine.bid(team_id)
-        self.repository.save_all({
-            "players": result["data"]["players"],
-            "teams": result["data"]["teams"],
-            "groups": result["data"]["groups"],
-            "state": result["data"]["state"],
-        })
-        return result
+        data = result["data"]
+        self.repository.save_groups_and_state(data["groups"], data["state"])
+
+        # Keep the bid response intentionally small. The auctioneer already
+        # has players/teams cached in memory and can update the changed fields
+        # immediately without triggering four more GET requests.
+        current_group_id = data["state"].get("current_group_id")
+        current_group = next(
+            (g for g in data["groups"] if str(g.get("group_id")) == str(current_group_id)),
+            None,
+        )
+        return {
+            "success": True,
+            "message": result.get("message", "Bid accepted successfully."),
+            "data": {
+                "state": data["state"],
+                "group": current_group,
+            },
+        }
 
     def sell(self):
         docs = self.repository.load_all()
