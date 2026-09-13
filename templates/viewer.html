@@ -4704,76 +4704,67 @@
 
 
   <style id="waiting-logo-fix">
+    /* Waiting screen branding: 4 logos, balanced around one central MPL brand block. */
     .waiting-branding {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: clamp(24px, 4vw, 70px);
-      margin: 0 auto clamp(14px, 2vh, 28px);
-      padding: clamp(12px, 2vh, 22px) clamp(20px, 3vw, 42px);
-      width: min(94%, 1000px);
-      box-sizing: border-box;
-      border: 1px solid rgba(246, 198, 79, .38);
-      border-radius: 18px;
-      background: linear-gradient(135deg, rgba(5, 22, 42, .88), rgba(2, 10, 22, .94));
+      display:grid;
+      grid-template-columns:minmax(170px,1fr) auto minmax(170px,1fr);
+      align-items:center;
+      gap:clamp(14px,2.2vw,34px);
+      margin:0 auto clamp(12px,1.8vh,22px);
+      padding:clamp(10px,1.2vw,16px) clamp(14px,2vw,28px);
+      width:min(96%,1280px);
+      box-sizing:border-box;
+      border:1px solid rgba(246,198,79,.38);
+      border-radius:16px;
+      background:linear-gradient(135deg,rgba(5,22,42,.9),rgba(2,10,22,.96));
     }
-
-    .waiting-brand-logo,
-    .waiting-brand-sponsor {
-      width: clamp(78px, 8vw, 125px);
-      height: clamp(58px, 7vw, 100px);
-      object-fit: contain;
-      object-position: center;
-      flex: 0 0 auto;
+    .waiting-brand-side {
+      display:flex; align-items:center; justify-content:center; gap:clamp(10px,1.2vw,18px); min-width:0;
     }
-
-    .waiting-brand-divider {
-      width: 1px;
-      height: clamp(48px, 5vw, 76px);
-      background: rgba(246, 198, 79, .35);
+    .waiting-brand-slot {
+      width:clamp(58px,5.2vw,78px); height:clamp(58px,5.2vw,78px);
+      flex:0 0 clamp(58px,5.2vw,78px); display:flex; align-items:center; justify-content:center;
     }
-
-    .waiting-brand-copy {
-      text-align: center;
-      min-width: 220px;
+    .waiting-brand-logo,.waiting-brand-sponsor {
+      width:100% !important; height:100% !important;
+      max-width:100% !important; max-height:100% !important;
+      min-width:0 !important; min-height:0 !important;
+      padding:6px; box-sizing:border-box; object-fit:contain !important; object-position:center;
+      background:#fff; border-radius:10px; display:block;
     }
-
-    .waiting-brand-copy .kicker {
-      color: #f6c64f;
-      font-size: clamp(9px, .8vw, 13px);
-      font-weight: 900;
-      letter-spacing: .16em;
-      margin-bottom: 6px;
+    .waiting-brand-logo { border:2px solid rgba(246,198,79,.85); }
+    .waiting-brand-sponsor { border:1px solid rgba(255,255,255,.75); }
+    .waiting-brand-center { display:flex; align-items:center; justify-content:center; gap:clamp(10px,1.1vw,18px); min-width:0; }
+    .waiting-brand-copy { text-align:left; min-width:0; }
+    .waiting-brand-copy .kicker { color:#f6c64f;font-size:clamp(9px,.7vw,13px);font-weight:900;letter-spacing:.14em;margin-bottom:5px;white-space:nowrap; }
+    .waiting-brand-copy .title { color:#fff;font-size:clamp(22px,2.2vw,36px);line-height:1.02;font-weight:900;letter-spacing:.07em;white-space:nowrap; }
+    .waiting-brand-copy .sub { color:#f6c64f;font-size:clamp(8px,.72vw,12px);font-weight:900;letter-spacing:.14em;margin-top:6px;white-space:nowrap; }
+    .waiting-next-lot {
+      width:fit-content; max-width:92%; margin:0 auto clamp(16px,2vh,26px); padding:8px 20px;
+      border:1px solid rgba(246,198,79,.65); border-radius:999px;
+      background:rgba(5,18,34,.88); color:#fff; font-size:clamp(12px,1vw,18px);
+      font-weight:1000; letter-spacing:.18em; text-transform:uppercase;
+      box-shadow:0 0 22px rgba(246,198,79,.08);
     }
-
-    .waiting-brand-copy .title {
-      color: #fff;
-      font-size: clamp(20px, 2.1vw, 34px);
-      line-height: 1.05;
-      font-weight: 1000;
+    @media(max-width:800px){
+      .waiting-branding{grid-template-columns:1fr;gap:9px;width:98%;padding:9px 10px;}
+      .waiting-brand-side{gap:7px;}
+      .waiting-brand-slot{width:52px;height:52px;flex-basis:52px;}
+      .waiting-brand-logo,.waiting-brand-sponsor{padding:4px;border-radius:7px;}
+      .waiting-brand-center{gap:9px;}
+      .waiting-brand-copy{text-align:center;}
+      .waiting-brand-copy .kicker{font-size:7px;letter-spacing:.08em;}
+      .waiting-brand-copy .title{font-size:17px;letter-spacing:.045em;}
+      .waiting-brand-copy .sub{font-size:7px;letter-spacing:.07em;margin-top:4px;}
+      .waiting-next-lot{font-size:11px;padding:7px 14px;letter-spacing:.12em;}
     }
-
-    .waiting-brand-copy .sub {
-      color: rgba(255, 255, 255, .68);
-      font-size: clamp(9px, .75vw, 12px);
-      letter-spacing: .12em;
-      margin-top: 7px;
-    }
-
-    @media(max-width:700px) {
-      .waiting-branding {
-        gap: 12px;
-        flex-wrap: wrap
-      }
-
-      .waiting-brand-copy {
-        order: 3;
-        flex-basis: 100%
-      }
-
-      .waiting-brand-divider {
-        display: none
-      }
+    @media(max-width:520px){
+      .waiting-brand-slot{width:42px;height:42px;flex-basis:42px;}
+      .waiting-brand-logo,.waiting-brand-sponsor{padding:3px;border-radius:6px;}
+      .waiting-brand-copy .kicker{font-size:5.5px;}
+      .waiting-brand-copy .title{font-size:13px;}
+      .waiting-brand-copy .sub{font-size:5.5px;}
+      .waiting-next-lot{font-size:9px;padding:6px 11px;}
     }
   </style>
 
@@ -5345,6 +5336,193 @@ img.player-photo {
 .sold-player-grid { display:flex !important; flex-direction:column !important; gap:3px !important; }
 .sold-player-card { display:none !important; }
 </style>
+
+
+
+
+
+<style id="final-unified-auction-header">
+/* FINAL HEADER NORMALIZATION
+   One geometry for BOTH the live bidding header and the SOLD header.
+   Sponsor artwork keeps its natural aspect ratio inside an identical slot. */
+.header,
+#soldBiddingHeader {
+  height: 86px !important;
+  min-height: 86px !important;
+  box-sizing: border-box !important;
+  display: grid !important;
+  grid-template-columns: minmax(0,1fr) auto minmax(0,1fr) !important;
+  align-items: center !important;
+  gap: 14px !important;
+  padding: 6px 18px !important;
+  overflow: hidden !important;
+}
+
+.header .sponsors,
+#soldBiddingHeader .sponsors {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  min-width: 0 !important;
+  height: 74px !important;
+}
+
+.header .sponsors.left,
+#soldBiddingHeader .sponsors.left,
+#sponsorsLeft,
+#soldSponsorsLeft {
+  justify-content: flex-start !important;
+}
+
+.header .sponsors.right,
+#soldBiddingHeader .sponsors.right,
+#sponsorsRight,
+#soldSponsorsRight {
+  justify-content: flex-end !important;
+}
+
+.header .sponsor,
+#soldBiddingHeader .sponsor,
+#sponsorsLeft .sponsor,
+#sponsorsRight .sponsor,
+#soldSponsorsLeft .sponsor,
+#soldSponsorsRight .sponsor {
+  width: 72px !important;
+  height: 72px !important;
+  min-width: 72px !important;
+  min-height: 72px !important;
+  max-width: 72px !important;
+  max-height: 72px !important;
+  box-sizing: border-box !important;
+  flex: 0 0 72px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 5px !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+}
+
+.header .sponsor img,
+#soldBiddingHeader .sponsor img,
+#sponsorsLeft .sponsor img,
+#sponsorsRight .sponsor img,
+#soldSponsorsLeft .sponsor img,
+#soldSponsorsRight .sponsor img {
+  display: block !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  transform: none !important;
+}
+
+.header .brand,
+#soldBiddingHeader .brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  min-width: 0 !important;
+  white-space: nowrap !important;
+}
+
+.header .mpl-logo,
+#soldBiddingHeader .mpl-logo {
+  width: 78px !important;
+  height: 78px !important;
+  min-width: 78px !important;
+  min-height: 78px !important;
+  max-width: 78px !important;
+  max-height: 78px !important;
+  box-sizing: border-box !important;
+  border-radius: 14px !important;
+  padding: 2px !important;
+  overflow: hidden !important;
+}
+
+.header .mpl-logo img,
+#soldBiddingHeader .mpl-logo img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
+.header .title,
+#soldBiddingHeader .title {
+  font-size: clamp(18px, 1.45vw, 28px) !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+
+.header .subtitle,
+#soldBiddingHeader .subtitle {
+  font-size: clamp(8px, .62vw, 12px) !important;
+  line-height: 1 !important;
+  margin-top: 5px !important;
+  white-space: nowrap !important;
+}
+
+/* Never let the old mobile rule remove the branding from either header. */
+@media (max-width:700px) {
+  .header,
+  #soldBiddingHeader {
+    height: 70px !important;
+    min-height: 70px !important;
+    padding: 5px 8px !important;
+    gap: 6px !important;
+  }
+  .header .sponsors,
+  #soldBiddingHeader .sponsors {
+    display: flex !important;
+    gap: 4px !important;
+    height: 60px !important;
+  }
+  .header .sponsor,
+  #soldBiddingHeader .sponsor,
+  #sponsorsLeft .sponsor,
+  #sponsorsRight .sponsor,
+  #soldSponsorsLeft .sponsor,
+  #soldSponsorsRight .sponsor {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
+    max-width: 48px !important;
+    max-height: 48px !important;
+    flex-basis: 48px !important;
+    padding: 3px !important;
+  }
+  .header .mpl-logo,
+  #soldBiddingHeader .mpl-logo {
+    width: 58px !important;
+    height: 58px !important;
+    min-width: 58px !important;
+    min-height: 58px !important;
+    max-width: 58px !important;
+    max-height: 58px !important;
+  }
+  .header .brand,
+  #soldBiddingHeader .brand { gap: 6px !important; }
+  .header .title,
+  #soldBiddingHeader .title { font-size: clamp(12px, 3.7vw, 18px) !important; }
+  .header .subtitle,
+  #soldBiddingHeader .subtitle { font-size: clamp(6px, 1.7vw, 9px) !important; letter-spacing: .12em !important; }
+}
+
+@media (max-width:520px) {
+  /* Keep the center title readable; show one sponsor slot on each side. */
+  #sponsorsLeft .sponsor:nth-child(n+2),
+  #sponsorsRight .sponsor:nth-child(n+2),
+  #soldSponsorsLeft .sponsor:nth-child(n+2),
+  #soldSponsorsRight .sponsor:nth-child(n+2) { display:none !important; }
+}
+</style>
 </head>
 
 <body>
@@ -5406,17 +5584,25 @@ img.player-photo {
 
   <div id="waiting" class="overlay waiting-overlay active">
     <div class="overlay-inner waiting-inner">
-      <div id="waitingBranding" class="waiting-branding" aria-label="MPL and partner sponsor">
-        <img class="waiting-brand-logo" alt="MPL" src="https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/MPL_logo_1.jpeg">
-        <div class="waiting-brand-copy">
-          <div class="kicker">MANA OORU PREMIER LEAGUE</div>
-          <div class="title">MPL SEASON 2</div>
-          <div class="sub">LIVE PLAYER AUCTION</div>
+      <div id="waitingBranding" class="waiting-branding" aria-label="MPL and partner sponsors">
+        <div class="waiting-brand-side">
+          <div class="waiting-brand-slot"><img id="waitingSponsor1" class="waiting-brand-sponsor" alt="Partner Sponsor 1"></div>
+          <div class="waiting-brand-slot"><img id="waitingSponsor2" class="waiting-brand-sponsor" alt="Partner Sponsor 2"></div>
         </div>
-        <div class="waiting-brand-divider"></div>
-        <img class="waiting-brand-sponsor" alt="Partner Sponsor"
-          src="https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/MPL_logo2.jpeg">
+        <div class="waiting-brand-center">
+          <div class="waiting-brand-slot waiting-mpl-slot"><img id="waitingMplLogo" class="waiting-brand-logo" alt="MPL"></div>
+          <div class="waiting-brand-copy">
+            <div class="kicker">MANA OORU PREMIER LEAGUE</div>
+            <div class="title">MPL SEASON 2</div>
+            <div class="sub">LIVE PLAYER AUCTION</div>
+          </div>
+        </div>
+        <div class="waiting-brand-side">
+          <div class="waiting-brand-slot"><img id="waitingSponsor3" class="waiting-brand-sponsor" alt="Partner Sponsor 3"></div>
+          <div class="waiting-brand-slot" aria-hidden="true"></div>
+        </div>
       </div>
+      <div class="waiting-next-lot">WAITING FOR NEXT LOT</div>
 
       <div id="waitingTeams" class="waiting-teams" aria-live="polite">
         <article class="waiting-team-card">
@@ -5547,7 +5733,22 @@ img.player-photo {
   <div id="lastSaleText" class="last-sale-text" aria-live="polite">Koushik Varma • ₹1,500 • Dangerous XI</div>
   <div id="sold" class="overlay sold-overlay">
     <div class="overlay-inner">
-      <div class="sold-title">SOLD</div>
+      <header id="soldBiddingHeader" class="header" aria-label="MPL Season 2 live player auction">
+        <div id="soldSponsorsLeft" class="sponsors">
+          <div class="sponsor"><span>SPONSOR</span></div>
+        </div>
+        <div class="brand">
+          <div id="soldMplLogo" class="mpl-logo"><span id="soldMplLogoFallback">MPL</span></div>
+          <div>
+            <div class="title">MANA OORU PREMIER LEAGUE</div>
+            <div class="subtitle">SEASON 2 • LIVE PLAYER AUCTION</div>
+          </div>
+        </div>
+        <div id="soldSponsorsRight" class="sponsors right">
+          <div class="sponsor"><span>SPONSOR</span></div>
+          <div class="sponsor"><span>SPONSOR</span></div>
+        </div>
+      </header><div class="sold-title">SOLD</div>
       <div id="soldPhotos" class="sold-photos">
         <div class="sold-card">
           <div class="sold-photo"><img src="./MPL Season 2 — Live Auction_files/1783483827154_koushik_varma.jpg"
@@ -5599,27 +5800,41 @@ img.player-photo {
         $("sponsorsLeft").innerHTML = render(s.slice(0, 2)) || `<div class="sponsor"><span>SPONSOR</span></div><div class="sponsor"><span>SPONSOR</span></div>`;
         $("sponsorsRight").innerHTML = render(s.slice(2, 4)) || `<div class="sponsor"><span>SPONSOR</span></div><div class="sponsor"><span>SPONSOR</span></div>`;
       }
+      function renderSoldBiddingHeader(media) {
+        const t = media?.tournament || {};
+        const logo = t.main_logo_url || "";
+        const mark = $("soldMplLogo");
+        if (mark) {
+          mark.innerHTML = logo
+            ? `<img src="${esc(logo)}" alt="MPL" onerror="this.replaceWith(document.getElementById("soldMplLogoFallback"))">`
+            : `<span id="soldMplLogoFallback">MPL</span>`;
+        }
+        const s = (media?.sponsors || []).filter(x => x && (x.logo_url || x.logo || x.image_url));
+        const render = a => a.map(x => `<div class="sponsor"><img src="${esc(x.logo_url || x.logo || x.image_url)}" alt="${esc(x.name || "Sponsor")}" onerror="this.style.display='none'"></div>`).join("");
+        // IDENTICAL to the live bidding header's renderSponsors() placement.
+        $("soldSponsorsLeft").innerHTML = render(s.slice(0, 2)) || `<div class="sponsor"><span>SPONSOR</span></div><div class="sponsor"><span>SPONSOR</span></div>`;
+        $("soldSponsorsRight").innerHTML = render(s.slice(2, 4)) || `<div class="sponsor"><span>SPONSOR</span></div><div class="sponsor"><span>SPONSOR</span></div>`;
+      }
+
       async function loadMedia() {
-        try { const r = await fetch("/api/viewer/media", { cache: "no-store" }); const j = await r.json(); if (j.success) { viewerMedia = j.data || {}; renderSponsors(viewerMedia); } } catch (e) { renderSponsors({}); }
+        try { const r = await fetch("/api/viewer/media", { cache: "no-store" }); const j = await r.json(); if (j.success) { viewerMedia = j.data || {}; renderSponsors(viewerMedia); renderSoldBiddingHeader(viewerMedia); renderWaitingBranding(); } } catch (e) { renderSponsors({}); renderSoldBiddingHeader({}); renderWaitingBranding(); }
       }
 
       function renderWaitingBranding() {
         const media = viewerMedia || {};
-        const tournament = media.tournament || {};
-        const mpl = tournament.main_logo_url || "";
-        const sponsors = (media.sponsors || []).filter(x => x && (x.logo_url || x.logo || x.image_url));
-        const sponsor = sponsors[0]?.logo_url || sponsors[0]?.logo || sponsors[0]?.image_url || "";
-        const ml = $("waitingMplLogo"), sl = $("waitingSponsorLogo");
-        if (ml) {
-          if (mpl) { ml.src = mpl; ml.style.display = "block"; }
-          else { ml.removeAttribute("src"); ml.style.display = "none"; }
-          ml.onerror = () => { ml.style.display = "none"; };
-        }
-        if (sl) {
-          if (sponsor) { sl.src = sponsor; sl.style.display = "block"; }
-          else { sl.removeAttribute("src"); sl.style.display = "none"; }
-          sl.onerror = () => { sl.style.display = "none"; };
-        }
+        const mpl = media?.tournament?.main_logo_url || "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/MPL_logo_1.jpeg";
+        const sponsors = (media?.sponsors || []).filter(x => x && (x.logo_url || x.logo || x.image_url));
+        const urls = sponsors.slice(0, 3).map(x => x.logo_url || x.logo || x.image_url);
+        const setImg = (id, src, alt) => {
+          const el = $(id); if (!el) return;
+          if (src) { el.src = src; el.alt = alt; el.style.display = "block"; }
+          else { el.removeAttribute("src"); el.style.display = "none"; }
+          el.onerror = () => { el.style.display = "none"; };
+        };
+        setImg("waitingSponsor1", urls[0] || "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/MPL_logo2.jpeg", "Partner Sponsor 1");
+        setImg("waitingSponsor2", urls[1] || "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/MPL_logo2.jpeg", "Partner Sponsor 2");
+        setImg("waitingMplLogo", mpl, "MPL");
+        setImg("waitingSponsor3", urls[2] || "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/MPL_logo2.jpeg", "Partner Sponsor 3");
       }
 
       let previousTeamCounts = {};

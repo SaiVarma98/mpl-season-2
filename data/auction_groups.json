@@ -1019,5 +1019,18 @@
     "current_bid": 0,
     "winner_team_id": null,
     "status": "pending"
+  },
+  {
+    "group_id": 109,
+    "type": "single",
+    "players": [
+      109
+    ],
+    "round": 1,
+    "order": 109,
+    "base_price": 1000,
+    "current_bid": 0,
+    "winner_team_id": null,
+    "status": "pending"
   }
 ]

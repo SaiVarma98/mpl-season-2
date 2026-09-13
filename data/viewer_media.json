@@ -10,13 +10,13 @@
     {
       "id": "S001",
       "name": "Main Sponsor",
-      "logo_url": "",
+      "logo_url": "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/MPL_logo2.jpeg",
       "tier": "title"
     },
     {
       "id": "S002",
       "name": "Gold Sponsor",
-      "logo_url": "",
+      "logo_url": "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/arudra.jpeg",
       "tier": "gold"
     },
     {
@@ -28,7 +28,7 @@
     {
       "id": "S004",
       "name": "Organization Partner",
-      "logo_url": "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/MPL_logo2.jpeg",
+      "logo_url": "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/DIVASMA.jpg",
       "tier": "partner"
     }
   ],

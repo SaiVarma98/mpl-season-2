@@ -1065,5 +1065,16 @@
     "status": "available",
     "team_id": null,
     "group_id": 107
+  },
+  {
+    "id": 109,
+    "name": "Siddhardh Varma",
+    "age": 35,
+    "skill": "Batsman",
+    "handedness": "Right Handed",
+    "photo_url": "https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/siddu.jpeg",
+    "status": "available",
+    "team_id": null,
+    "group_id": 109
   }
 ]
