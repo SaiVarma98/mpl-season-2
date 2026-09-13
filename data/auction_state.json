@@ -8,7 +8,12 @@
     "amount": 0,
     "team_id": null
   },
+  "bid_increment": 1000,
   "last_sale_snapshot": null,
-  "history": [],
-  "bid_increment": 1000
+  "history": [
+    {
+      "timestamp": "17:40:10",
+      "event": "RESET"
+    }
+  ]
 }

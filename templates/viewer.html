@@ -5522,6 +5522,114 @@ img.player-photo {
   #soldSponsorsLeft .sponsor:nth-child(n+2),
   #soldSponsorsRight .sponsor:nth-child(n+2) { display:none !important; }
 }
+
+/* =========================================================
+   SOLD CELEBRATION: entrance animation + stamp
+   ========================================================= */
+@keyframes soldOverlayPop {
+  0%   { opacity: 0; transform: scale(0.85); }
+  60%  { opacity: 1; transform: scale(1.03); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes soldCardPop {
+  0%   { opacity: 0; transform: translateY(18px) scale(0.9); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes soldStampSlam {
+  0%   { opacity: 0; transform: translate(-50%, -50%) rotate(-18deg) scale(2.4); }
+  55%  { opacity: 1; transform: translate(-50%, -50%) rotate(-14deg) scale(0.92); }
+  75%  { transform: translate(-50%, -50%) rotate(-14deg) scale(1.06); }
+  100% { opacity: 1; transform: translate(-50%, -50%) rotate(-14deg) scale(1); }
+}
+@keyframes soldFlash {
+  0%   { opacity: .55; }
+  100% { opacity: 0; }
+}
+
+.sold-overlay .overlay-inner { position: relative; }
+.sold-overlay.sold-anim-in .overlay-inner {
+  animation: soldOverlayPop .5s cubic-bezier(.2,.8,.3,1.2) both;
+}
+.sold-overlay.sold-anim-in .sold-card {
+  animation: soldCardPop .45s ease-out both;
+  animation-delay: .08s;
+}
+.sold-overlay.sold-anim-in .sold-price,
+.sold-overlay.sold-anim-in .sold-team {
+  animation: soldCardPop .4s ease-out both;
+  animation-delay: .2s;
+}
+
+/* #soldFlash / #soldStamp are siblings of #sold (not nested inside its
+   scrollable .overlay-inner), fixed to the actual viewport, and shown
+   purely via this sibling selector matching #sold's own .active class -
+   so they always sit centered on screen regardless of how tall the sold
+   summary content is or how far it's scrolled. */
+.sold-flash {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 50% 40%, rgba(250,204,21,.9), rgba(250,204,21,0) 70%);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 91;
+  display: none;
+}
+#sold.active ~ .sold-flash { display: block; }
+#sold.sold-anim-in ~ .sold-flash {
+  animation: soldFlash .7s ease-out both;
+}
+
+.sold-photos {
+  flex-wrap: wrap; /* safety net: the stamp widens each card a bit, let multi-player lots wrap instead of overflow */
+}
+.sold-card {
+  width: auto; /* let it grow to fit the photo + stamp side by side */
+  min-width: 11vw;
+}
+.sold-photo-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+.sold-card-stamp {
+  width: clamp(20px, 3vw, 46px);
+  height: auto;
+  flex-shrink: 0;
+  pointer-events: none;
+  opacity: 0;
+  transform: rotate(-6deg) scale(1);
+  filter: drop-shadow(0 3px 8px rgba(0,0,0,.5));
+  display: none;
+}
+.sold-overlay.active .sold-card-stamp { display: block; }
+.sold-overlay.sold-anim-in .sold-card-stamp {
+  animation: soldStampSlam .55s cubic-bezier(.34,1.56,.64,1) both;
+  animation-delay: .15s;
+}
+
+.sound-unlock-hint {
+  position: fixed;
+  bottom: 14px;
+  right: 14px;
+  z-index: 99;
+  background: rgba(0,0,0,.6);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  letter-spacing: .02em;
+  border: 1px solid rgba(255,255,255,.25);
+  pointer-events: none;
+  transition: opacity .3s ease;
+}
+.sound-unlock-hint.hidden { opacity: 0; visibility: hidden; }
+
+@media (max-width:520px) {
+  .sold-photo-row { gap: 14px; }
+  .sold-card-stamp { width: clamp(16px, 2.6vw, 32px); }
+  .sound-unlock-hint { font-size: 11px; padding: 6px 12px; bottom: 8px; right: 8px; }
+}
 </style>
 </head>
 
@@ -5531,12 +5639,10 @@ img.player-photo {
         id="statusLot">LOT —</span></div>
     <header class="header">
       <div id="sponsorsLeft" class="sponsors">
-        <div class="sponsor"><img src="./MPL Season 2 — Live Auction_files/MPL_logo2.jpeg" alt="Organization Partner"
-            onerror="this.style.display=&#39;none&#39;"></div>
+        <div class="sponsor"><span>SPONSOR</span></div>
       </div>
       <div class="brand">
-        <div id="mplLogo" class="mpl-logo"><img src="./MPL Season 2 — Live Auction_files/MPL_logo_1.jpeg" alt="MPL"
-            onerror="this.replaceWith(document.getElementById(" mpllogofallback"))"=""></div>
+        <div id="mplLogo" class="mpl-logo"><span id="mplLogoFallback">MPL</span></div>
         <div>
           <div class="title">MANA OORU PREMIER LEAGUE</div>
           <div class="subtitle">SEASON 2 • LIVE PLAYER AUCTION</div>
@@ -5604,118 +5710,7 @@ img.player-photo {
       </div>
       <div class="waiting-next-lot">WAITING FOR NEXT LOT</div>
 
-      <div id="waitingTeams" class="waiting-teams" aria-live="polite">
-        <article class="waiting-team-card">
-          <div class="waiting-team-head">
-            <div class="waiting-team-logo"><img src="./MPL Season 2 — Live Auction_files/Panther11.jpeg"
-                alt="Panthers XI" onerror="this.remove();this.parentElement.textContent=&#39;PX&#39;"></div>
-            <div class="waiting-team-title">
-              <h3>Panthers XI</h3>
-              <div class="waiting-owner"><span class="waiting-owner-avatar">P</span><span>P.Bujji</span></div>
-            </div>
-          </div>
-          <div class="waiting-stats">
-            <div><span>REMAINING</span><b>₹1,00,000</b></div>
-            <div><span>PLAYERS</span><b>0</b></div>
-            <div><span>GROUPS</span><b>0</b></div>
-          </div>
-          <div class="waiting-spent"><span>Spent</span><b>₹0</b></div>
-          <div class="waiting-sold-title"><span>●</span> SOLD PLAYERS</div>
-          <div class="waiting-sales-list">
-            <div class="waiting-empty">No players sold yet</div>
-          </div>
-        </article>
-        <article class="waiting-team-card">
-          <div class="waiting-team-head">
-            <div class="waiting-team-logo"><img src="./MPL Season 2 — Live Auction_files/Tallavalasa11.jpeg"
-                alt="Tallavalasa Kings XI" onerror="this.remove();this.parentElement.textContent=&#39;TK&#39;"></div>
-            <div class="waiting-team-title">
-              <h3>Tallavalasa Kings XI</h3>
-              <div class="waiting-owner"><span class="waiting-owner-avatar">D</span><span>D.Vinod</span></div>
-            </div>
-          </div>
-          <div class="waiting-stats">
-            <div><span>REMAINING</span><b>₹1,00,000</b></div>
-            <div><span>PLAYERS</span><b>0</b></div>
-            <div><span>GROUPS</span><b>0</b></div>
-          </div>
-          <div class="waiting-spent"><span>Spent</span><b>₹0</b></div>
-          <div class="waiting-sold-title"><span>●</span> SOLD PLAYERS</div>
-          <div class="waiting-sales-list">
-            <div class="waiting-empty">No players sold yet</div>
-          </div>
-        </article>
-        <article class="waiting-team-card">
-          <div class="waiting-team-head">
-            <div class="waiting-team-logo"><img src="./MPL Season 2 — Live Auction_files/DangerousXI.jpeg"
-                alt="Dangerous XI" onerror="this.remove();this.parentElement.textContent=&#39;DX&#39;"></div>
-            <div class="waiting-team-title">
-              <h3>Dangerous XI</h3>
-              <div class="waiting-owner"><span class="waiting-owner-avatar">D</span><span>D.Srinu</span></div>
-            </div>
-          </div>
-          <div class="waiting-stats">
-            <div><span>REMAINING</span><b>₹94,000</b></div>
-            <div><span>PLAYERS</span><b>4</b></div>
-            <div><span>GROUPS</span><b>2</b></div>
-          </div>
-          <div class="waiting-spent"><span>Spent</span><b>₹6,000</b></div>
-          <div class="waiting-sold-title"><span>●</span> SOLD PLAYERS</div>
-          <div class="waiting-sales-list">
-            <div class="waiting-sale-row">
-              <div class="waiting-sale-main"><span class="waiting-group-id">G003</span><span
-                  class="waiting-player-names">Kalidindi Karthik + Ramesh varma + Gottimukkala Prabhas Varma</span>
-              </div>
-              <strong class="waiting-sale-price">₹4,500</strong>
-            </div>
-            <div class="waiting-sale-row">
-              <div class="waiting-sale-main"><span class="waiting-group-id">G004</span><span
-                  class="waiting-player-names">Koushik Varma</span></div>
-              <strong class="waiting-sale-price">₹1,500</strong>
-            </div>
-          </div>
-        </article>
-        <article class="waiting-team-card">
-          <div class="waiting-team-head">
-            <div class="waiting-team-logo"><img src="./MPL Season 2 — Live Auction_files/GarudaXI.jpeg" alt="Garuda XI"
-                onerror="this.remove();this.parentElement.textContent=&#39;GX&#39;"></div>
-            <div class="waiting-team-title">
-              <h3>Garuda XI</h3>
-              <div class="waiting-owner"><span class="waiting-owner-avatar">DR</span><span>DSN Raju</span></div>
-            </div>
-          </div>
-          <div class="waiting-stats">
-            <div><span>REMAINING</span><b>₹1,00,000</b></div>
-            <div><span>PLAYERS</span><b>0</b></div>
-            <div><span>GROUPS</span><b>0</b></div>
-          </div>
-          <div class="waiting-spent"><span>Spent</span><b>₹0</b></div>
-          <div class="waiting-sold-title"><span>●</span> SOLD PLAYERS</div>
-          <div class="waiting-sales-list">
-            <div class="waiting-empty">No players sold yet</div>
-          </div>
-        </article>
-        <article class="waiting-team-card">
-          <div class="waiting-team-head">
-            <div class="waiting-team-logo"><img src="./MPL Season 2 — Live Auction_files/Tallvalasa+Titans.jpeg"
-                alt="Tallavalasa Titans" onerror="this.remove();this.parentElement.textContent=&#39;TT&#39;"></div>
-            <div class="waiting-team-title">
-              <h3>Tallavalasa Titans</h3>
-              <div class="waiting-owner"><span class="waiting-owner-avatar">DR</span><span>DAN Raju</span></div>
-            </div>
-          </div>
-          <div class="waiting-stats">
-            <div><span>REMAINING</span><b>₹1,00,000</b></div>
-            <div><span>PLAYERS</span><b>0</b></div>
-            <div><span>GROUPS</span><b>0</b></div>
-          </div>
-          <div class="waiting-spent"><span>Spent</span><b>₹0</b></div>
-          <div class="waiting-sold-title"><span>●</span> SOLD PLAYERS</div>
-          <div class="waiting-sales-list">
-            <div class="waiting-empty">No players sold yet</div>
-          </div>
-        </article>
-      </div>
+      <div id="waitingTeams" class="waiting-teams" aria-live="polite"></div>
     </div>
   </div>
   <div id="paused" class="overlay">
@@ -5730,7 +5725,7 @@ img.player-photo {
       <div class="complete-sub">MPL SEASON 2 • THANK YOU</div>
     </div>
   </div>
-  <div id="lastSaleText" class="last-sale-text" aria-live="polite">Koushik Varma • ₹1,500 • Dangerous XI</div>
+  <div id="lastSaleText" class="last-sale-text" aria-live="polite"></div>
   <div id="sold" class="overlay sold-overlay">
     <div class="overlay-inner">
       <header id="soldBiddingHeader" class="header" aria-label="MPL Season 2 live player auction">
@@ -5749,27 +5744,23 @@ img.player-photo {
           <div class="sponsor"><span>SPONSOR</span></div>
         </div>
       </header><div class="sold-title">SOLD</div>
-      <div id="soldPhotos" class="sold-photos">
-        <div class="sold-card">
-          <div class="sold-photo"><img src="./MPL Season 2 — Live Auction_files/1783483827154_koushik_varma.jpg"
-              alt="Koushik Varma" onerror="this.style.display=&#39;none&#39;"></div>
-          <div class="sold-name">Koushik Varma</div>
-        </div>
-      </div>
-      <div id="soldPrice" class="sold-price">₹1,500</div>
-      <div id="soldTeam" class="sold-team">Dangerous XI</div>
+      <div id="soldPhotos" class="sold-photos"></div>
+      <div id="soldPrice" class="sold-price">₹0</div>
+      <div id="soldTeam" class="sold-team">—</div>
       <div id="justSold" class="just-sold">✓ JUST SOLD</div>
       <div class="sold-summary-title">TEAM SQUADS • UPDATED</div>
-      <div id="soldSquad" class="sold-squad">
-        <div class="sold-team-mini"><strong>Panthers XI</strong><span>No players yet</span></div>
-        <div class="sold-team-mini"><strong>Tallavalasa Kings XI</strong><span>No players yet</span></div>
-        <div class="sold-team-mini"><strong>Dangerous XI</strong><span>Kalidindi Karthik • Ramesh varma • Gottimukkala
-            Prabhas Varma • Koushik Varma</span></div>
-        <div class="sold-team-mini"><strong>Garuda XI</strong><span>No players yet</span></div>
-        <div class="sold-team-mini"><strong>Tallavalasa Titans</strong><span>No players yet</span></div>
-      </div>
+      <div id="soldSquad" class="sold-squad"></div>
     </div>
   </div>
+  <!-- #soldFlash is a sibling of #sold (not nested inside its scrollable
+       .overlay-inner) so it always covers the actual screen, even when the
+       sold summary content is tall enough to scroll. The stamp itself now
+       renders per-photo (see renderSold()/.sold-card-stamp) instead of as
+       one big centered image, so it sits beside each sold player's photo
+       rather than covering it. -->
+  <div id="soldFlash" class="sold-flash" aria-hidden="true"></div>
+  <div id="soundUnlockHint" class="sound-unlock-hint">🔊 Tap anywhere to enable sound</div>
+  <audio id="soldAudio" src="/static/media/sold/sold_sound.mp3" preload="auto"></audio>
   <div id="lost" class="overlay">
     <div class="overlay-inner">
       <div class="paused-title" style="color:#f87171">CONNECTION LOST</div>
@@ -5784,6 +5775,62 @@ img.player-photo {
       const money = n => '₹' + Number(n || 0).toLocaleString('en-IN');
       let lastSaleKey = "", soldUntil = 0, busy = false, firstLoad = true, viewerMedia = {};
 
+      /* =========================================================
+         SOLD CELEBRATION: plays static/media/sold/sold_sound.mp3
+         + one-shot entrance animation retrigger.
+         ========================================================= */
+      let audioUnlocked = false;
+      function updateSoundHint() {
+        const hint = $("soundUnlockHint");
+        if (!hint) return;
+        hint.classList.toggle("hidden", audioUnlocked);
+      }
+      function unlockAudio() {
+        if (audioUnlocked) return;
+        const audio = $("soldAudio");
+        if (!audio) { audioUnlocked = true; updateSoundHint(); return; }
+        // Prime the element with a muted play+pause so the browser records a
+        // real user gesture against it. Muted so there's no audible blip
+        // even on browsers that allow this immediately.
+        const wasMuted = audio.muted;
+        audio.muted = true;
+        const finish = ok => {
+          audio.pause();
+          audio.currentTime = 0;
+          audio.muted = wasMuted;
+          if (ok) { audioUnlocked = true; updateSoundHint(); }
+        };
+        const p = audio.play();
+        if (p && typeof p.then === "function") {
+          p.then(() => finish(true)).catch(() => finish(false));
+        } else {
+          finish(true);
+        }
+      }
+      // Many mobile (and some desktop) browsers block audio until the page
+      // has seen a real user gesture. Show a small hint until that happens,
+      // and unlock on the first interaction so every SOLD after that point
+      // can actually play sound.
+      document.addEventListener("click", unlockAudio, { passive: true });
+      document.addEventListener("touchstart", unlockAudio, { passive: true });
+      unlockAudio(); // in case this browser already allows audio with no gesture
+
+      function playSoldSound() {
+        const audio = $("soldAudio");
+        if (!audio) return;
+        try {
+          audio.currentTime = 0;
+          audio.play().catch(() => {}); // silently skip if still locked
+        } catch (e) {}
+      }
+      function triggerSoldAnimation() {
+        const el = $("sold");
+        if (!el) return;
+        el.classList.remove("sold-anim-in");
+        void el.offsetWidth; // force reflow so the animation replays every time
+        el.classList.add("sold-anim-in");
+      }
+
       function show(id) { ["waiting", "paused", "completed", "sold"].forEach(x => $(x).classList.remove("active")); if (id) $(id).classList.add("active"); }
       function setOnline(ok) { $("connection").textContent = ok ? "ONLINE" : "RECONNECTING"; $("connection").className = "connection " + (ok ? "" : "offline"); $("lost").classList.toggle("active", !ok); }
       function renderSponsors(media) {
@@ -5792,7 +5839,7 @@ img.player-photo {
         const mark = $("mplLogo");
         if (mark) {
           mark.innerHTML = logo
-            ? `<img src="${esc(logo)}" alt="MPL" onerror="this.replaceWith(document.getElementById("mplLogoFallback"))">`
+            ? `<img src="${esc(logo)}" alt="MPL" onerror="this.parentElement.textContent='MPL';">`
             : `<span id="mplLogoFallback">MPL</span>`;
         }
         const s = (media?.sponsors || []).filter(x => x && (x.logo_url || x.logo || x.image_url));
@@ -5806,7 +5853,7 @@ img.player-photo {
         const mark = $("soldMplLogo");
         if (mark) {
           mark.innerHTML = logo
-            ? `<img src="${esc(logo)}" alt="MPL" onerror="this.replaceWith(document.getElementById("soldMplLogoFallback"))">`
+            ? `<img src="${esc(logo)}" alt="MPL" onerror="this.parentElement.textContent='MPL';">`
             : `<span id="soldMplLogoFallback">MPL</span>`;
         }
         const s = (media?.sponsors || []).filter(x => x && (x.logo_url || x.logo || x.image_url));
@@ -5904,7 +5951,7 @@ img.player-photo {
           const logo = t.logo || t.team_logo || t.logo_url || "";
           const purse = Number(t.purse || 0), defaultPurse = Number(t.default_purse || 100000);
           const spent = Math.max(0, defaultPurse - purse);
-          return `<article class="waiting-team-card"><div class="waiting-team-head"><div class="waiting-team-logo">${logo ? `<img src="${esc(logo)}" alt="${esc(t.team_name)}" onerror="this.remove();this.parentElement.textContent='${teamInitials}'">` : teamInitials}</div><div class="waiting-team-title"><h3>${esc(t.team_name || "Team")}</h3><div class="waiting-owner"><span class="waiting-owner-avatar">${initials}</span><span>${esc(owner)}</span></div></div></div><div class="waiting-stats"><div><span>REMAINING</span><b>${money(purse)}</b></div><div><span>PLAYERS</span><b>${playerCount}</b></div><div><span>GROUPS</span><b>${groupCount}</b></div></div><div class="waiting-spent"><span>Spent</span><b>${money(spent)}</b></div><div class="waiting-sold-title"><span>●</span> SOLD PLAYERS</div><div class="waiting-sales-list">${soldRows}</div></article>`;
+          return `<article class="waiting-team-card"><div class="waiting-team-head"><div class="waiting-team-logo">${logo ? `<img src="${esc(logo)}" alt="${esc(t.team_name)}" onerror="this.parentElement.textContent='${teamInitials}'">` : teamInitials}</div><div class="waiting-team-title"><h3>${esc(t.team_name || "Team")}</h3><div class="waiting-owner"><span class="waiting-owner-avatar">${initials}</span><span>${esc(owner)}</span></div></div></div><div class="waiting-stats"><div><span>REMAINING</span><b>${money(purse)}</b></div><div><span>PLAYERS</span><b>${playerCount}</b></div><div><span>GROUPS</span><b>${groupCount}</b></div></div><div class="waiting-spent"><span>Spent</span><b>${money(spent)}</b></div><div class="waiting-sold-title"><span>●</span> SOLD PLAYERS</div><div class="waiting-sales-list">${soldRows}</div></article>`;
         }).join("");
       }
       function renderLive(data) {
@@ -5986,7 +6033,7 @@ img.player-photo {
           const logo = lead.logo || lead.team_logo || lead.logo_url || "";
           const teamInitials = teamName.trim().split(/\s+/).map(x => x[0]).slice(0, 2).join("").toUpperCase() || "T";
           const ownerInitials = owner.trim().split(/\s+/).map(x => x[0]).slice(0, 2).join("").toUpperCase() || "O";
-          if (bidLogo) bidLogo.innerHTML = logo ? `<img src="${esc(logo)}" alt="${esc(teamName)}" onerror="this.remove();this.parentElement.textContent='${teamInitials}'">` : teamInitials;
+          if (bidLogo) bidLogo.innerHTML = logo ? `<img src="${esc(logo)}" alt="${esc(teamName)}" onerror="this.parentElement.textContent='${teamInitials}'">` : teamInitials;
           if (bidOwner) bidOwner.textContent = ownerInitials;
           $("bidTeamName").textContent = teamName; $("bidOwnerName").textContent = owner;
         } else {
@@ -6008,7 +6055,7 @@ img.player-photo {
         const team = teams.find(t => String(t.id) === String(sale.team_id));
         $("soldTeam").textContent = team ? team.team_name : "—";
         const justSold = document.getElementById("justSold"); if (justSold) justSold.textContent = "✓ JUST SOLD";
-        $("soldPhotos").innerHTML = sold.map(p => `<div class="sold-card"><div class="sold-photo"><img src="${esc(p.photo_url || "")}" alt="${esc(p.name)}" onerror="this.style.display='none'"></div><div class="sold-name">${esc(p.name)}</div></div>`).join("");
+        $("soldPhotos").innerHTML = sold.map(p => `<div class="sold-card"><div class="sold-photo-row"><div class="sold-photo"><img src="${esc(p.photo_url || "")}" alt="${esc(p.name)}" onerror="this.style.display='none'"></div><img class="sold-card-stamp" src="/static/media/sold/sold_stamp.png" alt="" aria-hidden="true"></div><div class="sold-name">${esc(p.name)}</div></div>`).join("");
         const lastSale = $("lastSaleText"); if (lastSale) lastSale.textContent = `${sold.map(p => p.name).join(" • ") || "Lot"}  •  ${money(sale.amount)}  •  ${team ? team.team_name : "Winning Team"}`;
         const playerById = new Map(players.map(p => [String(p.id), p]));
         const soldGroups = (data.groups || []).filter(g => String(g.status || "").toLowerCase() === "sold");
@@ -6026,6 +6073,8 @@ img.player-photo {
           return `<div class="sold-team-mini"><strong>${esc(t.team_name)}</strong>${playerCards ? `<div class="sold-player-grid">${playerCards}</div>` : `<div class="sold-team-empty">No players yet</div>`}</div>`;
         }).join("");
         show("sold");
+        triggerSoldAnimation();
+        playSoldSound();
       }
       async function poll() {
         if (busy) return; busy = true;
@@ -6058,7 +6107,7 @@ img.player-photo {
         } catch (e) { setOnline(false); }
         finally { busy = false; firstLoad = false; }
       }
-      loadMedia(); poll(); setInterval(poll, 500);
+      loadMedia(); poll(); setInterval(poll, 1000);
     })();
   </script>
 

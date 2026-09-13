@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MPL Season 2 — Auctioneer Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet">
+  <style>
+    body{min-height:100vh;background:#020617 url('/static/media/backgrounds/stadium_night.svg') center/cover fixed no-repeat;color:white}
+    .veil{min-height:100vh;background:linear-gradient(90deg,rgba(2,6,23,.92),rgba(2,6,23,.55),rgba(2,6,23,.88));display:grid;place-items:center}
+    .cardx{width:min(460px,92vw);border:1px solid rgba(255,255,255,.12);background:rgba(2,6,23,.82);backdrop-filter:blur(18px);border-radius:28px;box-shadow:0 30px 100px #0008}
+    .logo{width:86px;height:86px;border-radius:24px;display:grid;place-items:center;background:linear-gradient(135deg,#f59e0b,#ef4444);font-weight:1000;font-size:25px;box-shadow:0 0 60px #f59e0b33}
+  </style>
+</head>
+<body><div class="veil"><div class="cardx p-8 sm:p-10">
+  <div class="flex flex-col items-center text-center">
+    <div class="logo">MPL</div>
+    <div class="mt-5 text-xs font-black tracking-[.3em] text-amber-300">MANA OORU PREMIER LEAGUE</div>
+    <h1 class="mt-1 text-4xl font-black">SEASON 2</h1>
+    <p class="mt-2 text-white/50">Auctioneer Control Room</p>
+  </div>
+  <form id="loginForm" class="mt-8 space-y-4">
+    <input id="username" class="input input-bordered w-full bg-white/5" autocomplete="username" placeholder="Username" required>
+    <input id="password" class="input input-bordered w-full bg-white/5" type="password" autocomplete="current-password" placeholder="Password" required>
+    <button class="btn btn-warning w-full font-black">ENTER AUCTION CONTROL</button>
+    <div id="error" class="text-center text-sm text-red-300"></div>
+  </form>
+</div></div>
+<script>
+document.getElementById('loginForm').addEventListener('submit', async e=>{
+ e.preventDefault(); document.getElementById('error').textContent='';
+ const r=await fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:username.value,password:password.value})});
+ const d=await r.json(); if(d.success) location.href='/auctioneer'; else document.getElementById('error').textContent=d.message||'Login failed.';
+});
+</script></body></html>
