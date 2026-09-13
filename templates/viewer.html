@@ -3927,6 +3927,21 @@
       z-index: 1
     }
 
+    .single-brand-logo {
+      position: relative;
+      z-index: 1;
+      width: clamp(48px, 6vw, 96px);
+      margin: .6vh 0
+    }
+
+    .single-brand-logo img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      object-fit: contain
+    }
+
     .single-brand-mark {
       font-size: clamp(36px, 5.3vw, 96px);
       line-height: .8;
@@ -5999,10 +6014,11 @@ img.player-photo {
             const hand = esc(p.handedness || p.batting_style || "—");
             grid.innerHTML = `<article class="player single-hero">
           <div class="single-brand-panel">
-            <div ><img src= 'https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/DIVASMA.jpg'></div>
+            <div class="single-brand-logo"><img src= 'https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/DIVASMA.jpg' onerror="this.parentElement.style.display='none'"></div>
             <div class="single-brand-mark">MPL</div>
             <div class="single-brand-season">SEASON 2</div>
             <div class="single-brand-live">LIVE AUCTION</div>
+             <div class="single-brand-logo"><img src= 'https://mpl-players-images.s3.ap-south-2.amazonaws.com/players/arudra.jpeg' onerror="this.parentElement.style.display='none'"></div>
           </div>
           <div class="single-photo-wrap">
             <img class="single-player-photo" src="${esc(p.photo_url)}" alt="${esc(p.name)}" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
