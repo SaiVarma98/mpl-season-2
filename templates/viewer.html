@@ -5583,8 +5583,8 @@ img.player-photo {
   flex-wrap: wrap; /* safety net: the stamp widens each card a bit, let multi-player lots wrap instead of overflow */
 }
 .sold-card {
-  width: auto; /* let it grow to fit the photo + stamp side by side */
-  min-width: 11vw;
+  width: auto !important; /* let it grow to fit the photo + stamp side by side */
+  min-width: 11vw !important;
 }
 .sold-photo-row {
   display: flex;
@@ -5592,8 +5592,20 @@ img.player-photo {
   justify-content: center;
   gap: 24px;
 }
+/* Override the various width:100%/max-height rules elsewhere in this file -
+   those were tuned for a photo alone in its card; now that the stamp sits
+   beside it in a flex row, give the photo an explicit, larger, predictable
+   size instead of letting it get flex-shrunk down to fit next to the stamp. */
+.sold-photo-row .sold-photo {
+  width: clamp(160px, 18vw, 300px) !important;
+  height: auto !important;
+  aspect-ratio: 3 / 4 !important;
+  max-height: none !important;
+  min-width: 0 !important;
+  flex-shrink: 0 !important;
+}
 .sold-card-stamp {
-  width: clamp(20px, 3vw, 46px);
+  width: clamp(28px, 4vw, 60px);
   height: auto;
   flex-shrink: 0;
   pointer-events: none;
@@ -5627,7 +5639,8 @@ img.player-photo {
 
 @media (max-width:520px) {
   .sold-photo-row { gap: 14px; }
-  .sold-card-stamp { width: clamp(16px, 2.6vw, 32px); }
+  .sold-photo-row .sold-photo { width: clamp(110px, 34vw, 190px) !important; }
+  .sold-card-stamp { width: clamp(22px, 7vw, 40px); }
   .sound-unlock-hint { font-size: 11px; padding: 6px 12px; bottom: 8px; right: 8px; }
 }
 </style>
