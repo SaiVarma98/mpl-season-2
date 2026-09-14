@@ -31,9 +31,9 @@ ALLOWED_INCREMENTS = {50, 100, 200, 500, 1000}
 def tiered_increment(amount):
     """Default bid increment based on the current bid amount.
 
-    ₹1 – ₹5,000   → ₹250
-    ₹5,001 – ₹10,000 → ₹500
-    above ₹10,000  → ₹1,000
+    ₹1 – <₹5,000    → ₹250
+    ₹5,000 – <₹10,000 → ₹500
+    ₹10,000 and above → ₹1,000
 
     This is only the AUTO default. An auctioneer can still pin a custom
     increment at any time via set_increment(); that pin sticks until the
@@ -41,9 +41,9 @@ def tiered_increment(amount):
     auto via set_auto_increment().
     """
     amount = int(amount or 0)
-    if amount <= 5000:
+    if amount < 5000:
         return 250
-    if amount <= 10000:
+    if amount < 10000:
         return 500
     return 1000
 
