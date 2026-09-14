@@ -89,6 +89,12 @@ def set_increment():
     return handle(lambda: success(service_from_app().set_increment(increment)))
 
 
+@api_bp.post("/auction/increment/auto")
+@auctioneer_required
+def set_auto_increment():
+    return handle(lambda: success(service_from_app().set_auto_increment()))
+
+
 @api_bp.post("/auction/bid")
 @auctioneer_required
 def bid():

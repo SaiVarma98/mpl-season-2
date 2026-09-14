@@ -220,15 +220,28 @@ function renderBid() {
 
   const increment =
     Number(s.bid_increment || state.bidIncrement || 1000);
+  const incrementMode = s.increment_mode === "custom" ? "custom" : "auto";
 
   state.bidIncrement = increment;
 
   const incrementBadge = $("incrementBadge");
+  const incrementModeBadge = $("incrementModeBadge");
   const customIncrement = $("customIncrement");
   const openingBidHint = $("openingBidHint");
+  const autoIncrementBtn = $("autoIncrementBtn");
 
   if (incrementBadge) {
     incrementBadge.textContent = `+ ${money(increment)}`;
+  }
+
+  if (incrementModeBadge) {
+    incrementModeBadge.textContent = incrementMode === "auto" ? "AUTO" : "CUSTOM";
+    incrementModeBadge.classList.toggle("badge-success", incrementMode === "auto");
+    incrementModeBadge.classList.toggle("badge-warning", incrementMode === "custom");
+  }
+
+  if (autoIncrementBtn) {
+    autoIncrementBtn.classList.toggle("btn-warning", incrementMode === "auto");
   }
 
   if (customIncrement) {
@@ -237,7 +250,7 @@ function renderBid() {
 
   if (openingBidHint) {
     openingBidHint.textContent = team
-      ? `NEXT BID • + ${money(increment)}`
+      ? `NEXT BID • + ${money(increment)} (${incrementMode.toUpperCase()})`
       : "OPENING BID • BASE PRICE";
   }
 }
@@ -410,6 +423,32 @@ async function setBidIncrement(value) {
 
     toast(e.message, false);
 
+    return false;
+  }
+}
+
+async function setAutoIncrement() {
+  try {
+    const result = await api("/api/auction/increment/auto", {
+      method: "POST"
+    });
+
+    const n = Number(result?.data?.state?.bid_increment || 0);
+    state.bidIncrement = n;
+
+    const customIncrement = $("customIncrement");
+    if (customIncrement) customIncrement.value = n;
+
+    const incrementBadge = $("incrementBadge");
+    if (incrementBadge) incrementBadge.textContent = `+ ${money(n)}`;
+
+    document
+      .querySelectorAll(".increment-btn")
+      .forEach(b => b.classList.remove("btn-warning"));
+
+    return true;
+  } catch (e) {
+    toast(e.message, false);
     return false;
   }
 }
@@ -957,6 +996,17 @@ document
     );
 
   });
+
+const autoIncrementBtn = $("autoIncrementBtn");
+
+if (autoIncrementBtn) {
+  autoIncrementBtn.addEventListener(
+    "click",
+    async () => {
+      await setAutoIncrement();
+    }
+  );
+}
 
 const customIncrement =
   $("customIncrement");

@@ -83,6 +83,14 @@ class APIService:
             self.repository.save_state(result["data"]["state"])
             return result
 
+    def set_auto_increment(self):
+        with transaction():
+            engine = self._engine()
+            result = engine.set_auto_increment()
+            # Only auction_state.json changes.
+            self.repository.save_state(result["data"]["state"])
+            return result
+
     def bid(self, team_id):
         # A bid only mutates live auction state and the current group's bid.
         # Players and team purses do not change until SELL, so avoid rewriting

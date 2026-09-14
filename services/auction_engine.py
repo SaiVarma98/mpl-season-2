@@ -28,6 +28,26 @@ class AuctionError(ValueError):
 ALLOWED_INCREMENTS = {50, 100, 200, 500, 1000}
 
 
+def tiered_increment(amount):
+    """Default bid increment based on the current bid amount.
+
+    ₹1 – ₹5,000   → ₹250
+    ₹5,001 – ₹10,000 → ₹500
+    above ₹10,000  → ₹1,000
+
+    This is only the AUTO default. An auctioneer can still pin a custom
+    increment at any time via set_increment(); that pin sticks until the
+    next lot is selected/restarted or the auctioneer explicitly reverts to
+    auto via set_auto_increment().
+    """
+    amount = int(amount or 0)
+    if amount <= 5000:
+        return 250
+    if amount <= 10000:
+        return 500
+    return 1000
+
+
 class AuctionEngine:
     def __init__(self, players, teams, groups, state):
         self.players = deepcopy(players)
@@ -95,7 +115,10 @@ class AuctionEngine:
             "amount": base_price,
             "team_id": None,
         }
-        self.state["bid_increment"] = int(self.state.get("bid_increment", 1000) or 1000)
+        # Each new lot starts in auto (tiered) increment mode, regardless of
+        # whatever was pinned for the previous lot.
+        self.state["increment_mode"] = "auto"
+        self.state["bid_increment"] = tiered_increment(base_price)
 
         # Keep the group's own current_bid/winner_team_id in sync with the
         # freshly-opened lot so the raw documents never show a stale bid
@@ -126,6 +149,8 @@ class AuctionEngine:
             raise AuctionError("A sold lot cannot be restarted.")
         base_price = int(group.get("base_price", 0))
         self.state["current_bid"] = {"amount": base_price, "team_id": None}
+        self.state["increment_mode"] = "auto"
+        self.state["bid_increment"] = tiered_increment(base_price)
         group["current_bid"] = base_price
         group["winner_team_id"] = None
         self._event("CURRENT_LOT_RESTARTED", group_id=group_id, base_price=base_price)
@@ -140,8 +165,20 @@ class AuctionEngine:
         if increment < 50 or increment % 50 != 0:
             raise AuctionError("Bid increment must be a multiple of ₹50.")
         self.state["bid_increment"] = increment
-        self._event("BID_INCREMENT_CHANGED", increment=increment)
-        return self.result(f"Bid increment set to ₹{increment:,}.")
+        # Manually setting an increment pins it: it stays fixed at this
+        # value (ignoring the auto tiers) until the next lot is selected,
+        # or until the auctioneer explicitly reverts to auto.
+        self.state["increment_mode"] = "custom"
+        self._event("BID_INCREMENT_CHANGED", increment=increment, mode="custom")
+        return self.result(f"Bid increment set to ₹{increment:,} (custom).")
+
+    def set_auto_increment(self):
+        current = int(self.state.get("current_bid", {}).get("amount", 0))
+        increment = tiered_increment(current)
+        self.state["bid_increment"] = increment
+        self.state["increment_mode"] = "auto"
+        self._event("BID_INCREMENT_CHANGED", increment=increment, mode="auto")
+        return self.result(f"Bid increment reverted to auto (₹{increment:,}).")
 
     def bid(self, team_id):
         if not team_id:
@@ -192,6 +229,13 @@ class AuctionEngine:
 
         # Keep the group-side current bid synchronized with the live state.
         group["current_bid"] = new_bid
+
+        # In auto mode, the increment for the *next* bid is re-tiered off
+        # the amount we just reached (e.g. crossing ₹5,000 bumps the next
+        # increment from ₹250 to ₹500). A custom/pinned increment is left
+        # untouched until the auctioneer reverts to auto or a new lot opens.
+        if self.state.get("increment_mode", "auto") == "auto":
+            self.state["bid_increment"] = tiered_increment(new_bid)
 
         self._event(
             "BID",
